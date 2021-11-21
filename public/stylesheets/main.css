@@ -1,0 +1,240 @@
+body{
+    font-family: "Helvetica Neue", sans-serif;
+}
+.navbar.navbar-expand {
+    padding: 25px 0;
+    background: #ffffff;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+}
+.navbar > .container{
+    justify-content: center;
+}
+.navbar-brand img{
+    height: 48px;
+}
+#banner{
+    height: 300px;
+    background-color: #176dc4;
+    padding-top: 70px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    color: #f9f9f9;
+}
+#banner .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+#banner .pre-heading{
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 0;
+}
+#banner .heading{
+    font-size: 24px;
+    font-weight: bold;
+}
+#banner .meta{
+    width: fit-content;
+    border-top: 1px solid white;
+    padding: 10px 0;
+}
+#banner .meta .report-meta {
+    display: flex;
+    flex-direction: column;
+}
+#banner .meta div:not(.report-meta) {
+    padding: 3px 20px 0 0;
+    display: flex;
+    align-items: center;
+}
+#banner .meta h5{
+    font-size: 14px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-stretch: extra-expanded;
+    font-variant: all-petite-caps;
+}
+.survey-dimensions h1, .job-categories h1{
+    font-weight: bold;
+}
+.dimension h4, .category h4, .job h4{
+    font-weight: bold;
+    font-stretch: extra-expanded;
+    font-variant: all-petite-caps;
+    font-style: italic;
+}
+.to-survey .btn-danger {
+    border-radius: 0;
+    padding: 10px 16px;
+    font-weight: bold;
+}
+.to-survey{
+    background-color: #282f3c;
+    color: white;
+}
+.to-survey .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#userForm{
+    width: 100%;
+    max-width: 385px;
+}
+.extra-info{
+    font-style: italic;
+    font-size: 12px;
+    line-height: 1;
+}
+#surveyForm .form-group{
+    padding-bottom: 1rem;
+    border: 1px solid rgba(0,0,0,.125);
+}
+#surveyForm .form-group > label{
+    color: #282f3c;
+    font-size: 20px;
+    font-weight: 600;
+    min-height: 70px;
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: .5rem 1rem;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    display: flex;
+    align-items: center;
+}
+#surveyForm .form-check{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.5rem 3rem;
+}
+#surveyForm .form-check:not(:last-child){
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+#surveyForm .form-check .form-check-input{
+    cursor: pointer;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin: 0 1rem 0.2rem 0;
+}
+#surveyForm .form-check-label {
+    font-weight: 600;
+    color: #727272;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.page-link{
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    height: 100%;
+}
+
+#feedbackForm button{
+    border-radius: 0;
+    height: 50px;
+}
+
+.footer-border{
+height: 7px;
+background-image: linear-gradient(to right, #176dc4 48%, #29b6ff 91%);
+}
+footer {
+font-weight: 300;
+display: flex;
+justify-content: space-evenly;
+padding: 2rem;
+background-color: #f9f9f9;
+}
+
+footer > p {
+margin: 2rem;
+}
+
+footer i {
+vertical-align: middle;
+}
+@media (min-width: 576px) {
+    #surveyForm .form-group{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: baseline;
+        padding-bottom: 3rem;
+    }
+    #surveyForm .form-group > label{
+        margin-bottom: 3rem;
+    }
+    #surveyForm .form-check{
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+    }
+    #surveyForm .form-check:not(:last-child){
+        border-bottom: none;
+    }
+    #surveyForm .form-check .form-check-input{
+        margin: 0 0 0.8rem 0;
+    }
+    #surveyForm .form-check-label {
+        max-width: 60px;
+        font-size: 11px;
+    }
+}
+@media (min-width: 768px) {
+    .navbar > .container{
+        justify-content: space-between;
+    }
+    #banner{
+        text-align: left;
+        padding-top: 20px;
+    }
+    #banner .container{
+        align-items: start;
+    }
+    #banner .heading{
+        font-size: 34px;
+    }
+    #banner .meta h5{
+        font-size: 16px;
+    }
+    #surveyForm .form-group > label{
+        font-size: 16px;
+    }
+    #surveyForm .form-check-label {
+        max-width: none;
+    }
+}
+@media (min-width: 992px) {
+#banner{
+    background-image: linear-gradient(to right, #176dc4 65%, #29b6ff 91%);
+}
+    .container{
+        max-width: 720px;
+    }
+}
+@media (min-width: 1200px) {
+#banner{
+    background-image: linear-gradient(to right, #176dc4 48%, #29b6ff 91%);
+}
+.container{
+    max-width: 960px;
+}
+    #surveyForm .form-check{
+        padding: 0.5rem 2rem;
+    }
+
+}
+@media (min-width: 1400px) {
+.container{
+    max-width: 960px;
+}
+}
