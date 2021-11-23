@@ -11,6 +11,7 @@ GET            /resources/{api}        Application.resource                    #
 
 # Home page
 GET            /                       Application.index
+GET            /login                  Application.login
 
 # Ignore favicon requests
 GET            /favicon.ico                            404
@@ -22,7 +23,7 @@ GET            /favicon.png            staticFile:/public/images/favicon-32     
 GET            /favicon.ico            staticFile:/public/images/favicon.ico
 
 # Map static resources from the /app/public folder to the /public path
-GET            /public/                staticDir:        public
+GET            /public/                staticDir:public
 
 # CORS
 #OPTIONS        /transactions           APIHelpers.options

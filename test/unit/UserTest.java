@@ -22,7 +22,7 @@ public class UserTest extends UnitTest {
         user = new User.Builder("jamaicaballangan")
                 .name("Jamaica Ballangan")
                 .password("maicanotfound")
-                .status(User.Status.ACTIVE)
+                .status(User.Status.Active)
                 .build();
     }
 
@@ -36,12 +36,12 @@ public class UserTest extends UnitTest {
     @Test
     public void stage01_saveUser() throws Exception {
         user.validateAndCreate();
-        assertTrue(User.findById(user.getUsername()) != null);
+        assertTrue(User.findById(user.getId()) != null);
     }
 
     @Test
     public void stage02_removeUser() throws Exception {
         user.delete();
-        assertFalse(User.findById(user.getUsername()) != null);
+        assertFalse(User.findById(user.getId()) != null);
     }
 }

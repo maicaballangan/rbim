@@ -3,38 +3,49 @@ package controllers;
 import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-import constants.Config;
-import constants.Constants;
-import enums.APIErrorCode;
-import enums.APIField;
-import exceptions.HttpException;
-import extensions.Version;
+
 import org.apache.commons.lang.StringUtils;
 import org.jboss.netty.handler.codec.http.HttpMethod;
-import play.Logger;
-import play.Play;
-import play.data.validation.Validation;
-import play.libs.Codec;
-import play.libs.WS;
-import play.mvc.*;
-import play.utils.Utils;
-import utils.DateUtils;
-import utils.SerializationUtils;
-import utils.StringExtensions;
 
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
+
+import enums.APIErrorCode;
+import enums.APIField;
+import exceptions.HttpException;
+import play.Logger;
+import play.Play;
+import play.data.validation.Validation;
+import play.libs.Codec;
+import play.libs.WS;
+import play.mvc.Before;
+import play.mvc.Catch;
+import play.mvc.Controller;
+import play.mvc.Finally;
+import play.mvc.Http;
+import play.mvc.Util;
+import play.utils.Utils;
+import utils.DateUtils;
+import utils.SerializationUtils;
+import utils.StringExtensions;
 
 /**
  * APIHelpers
@@ -57,14 +68,12 @@ public class APIHelpers extends Controller {
     public static final String EXPOSED_HEADERS = "set-cookie";
     public static final String ALLOWED_METHODS = "PUT,GET,POST,DELETE,OPTIONS";
     public static final String MAX_AGE_LIMIT = "3628800";
-    public static final String ERROR_CODES = "error-codes";
     public static final String EXTERNAL_IP_PROVIDER = Play.configuration.getProperty("externalip.host");
     public static final String EXTERNAL_IP_HEADER = Play.configuration.getProperty("externalip.header");
     public static final String DEFAULT_EXTERNAL_IP = Play.configuration.getProperty("externalip.default");
     private static final String DNS_IP = Play.configuration.getProperty("externaldns.ip");
     private static final int DNS_IP_PORT = Integer.parseInt(Play.configuration.getProperty("externaldns.port"));
     private static final String JSON_EXPRESSION = "{\"%s\":\"%s\"}";
-    public static final String GET_ALL_TEMPLATE = "Application/getAll.json";
 
     enum BodyHttpMethod {
         POST,
@@ -151,28 +160,6 @@ public class APIHelpers extends Controller {
             }
         } catch (IllegalArgumentException e) {
             Logger.trace("%s using %s and content-type = %s", request.method, request.querystring, request.contentType);
-        }
-    }
-
-    @Before(priority = 4)
-    protected static void annotationCheck() throws HttpException {
-        Method actionMethod = request.invokedMethod;
-        if (actionMethod.isAnnotationPresent(Version.class)) {
-            Version version = actionMethod.getAnnotation(Version.class);
-            String[] appVersion = StringUtils.split(Config.API_VERSION, Constants.DELIMITER_DOT);
-            String[] reqVersion = StringUtils.split(version.value(), Constants.DELIMITER_DOT);
-            String[] environments = version.env();
-            if (Arrays.stream(environments).anyMatch(Play.id::startsWith)) {
-                for (int i = 0; i < reqVersion.length; i++) {
-                    if (Integer.parseInt(reqVersion[i]) > Integer.parseInt(appVersion[i])) {
-                        throw new HttpException(APIErrorCode.VERSION_INVALID, "This feature is not available in version " + Config.API_VERSION + " but will be released in version " + version.value());
-                    }
-                }
-            }
-        }
-
-        if (actionMethod.getParameterCount() > 0) {
-            validate();
         }
     }
 

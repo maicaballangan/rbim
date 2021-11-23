@@ -9,7 +9,7 @@ The minimum requirements are as follows:
 
 * Git >= 1.9
 * JDK >= 11 
-* Play Framework = 1.5.x https://www.playframework.com/download#older-versions
+* Play Framework = 1.6.0 https://www.playframework.com/releases
 * RAM >= 512MB (1GB preferred) for Play
 * RAM >= 4GB (8GB preferred) for Docker
 
@@ -35,7 +35,7 @@ You should now have the following non-empty files and folders:
 
 GETTING STARTED
 ---------------
-Clone project: `git clone --recursive -j11 https://github.com/scm/ac/rbim.git rbim` 
+Clone project: `git clone -j11 https://github.com/scm/ac/rbim.git rbim` 
 Go to directory and run: `play dependencies` to install dependencies
 Run application: `play start`
 Open browser link: `http://localhost:9009/v1`
@@ -61,6 +61,10 @@ You can run code coverage with `play autotest`
 DEPENDENCY CHECK 
 ----------------
 You can run a dependency check with `./bin/dependency-check.sh`
+
+PLAY 1 FRAMEWORK DOCUMENTATION
+----------------
+https://www.playframework.com/documentation/1.5.x/home
 
 PROBLEMS?
 ---------

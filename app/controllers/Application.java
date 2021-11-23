@@ -57,8 +57,14 @@ public class Application extends Controller {
      * GET /
      */
     public static void index() {
-        String discoveryURL = Config.BASE_URL_SCHEME + "/resources.json";
-        render(discoveryURL);
+        render();
+    }
+
+    /**
+     * GET /login
+     */
+    public static void login() {
+        render();
     }
 
     /**

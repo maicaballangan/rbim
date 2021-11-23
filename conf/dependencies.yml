@@ -1,7 +1,7 @@
 # Application dependencies
 
 require:
-  - play [1.5,)
+  - play [1.6,)
   - play -> crud
   - io.github.bit-man -> javagit 0.2.0
   - com.google.guava -> guava 30.0-jre:

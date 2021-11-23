@@ -1,18 +1,16 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import constants.Constants;
 import interfaces.Retainable;
 import play.data.validation.Check;
+import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.Model;
 import utils.EncryptionUtils;
 import utils.RegexMatcher;
 import utils.SerializationUtils;
@@ -27,20 +25,25 @@ import utils.SerializationUtils;
 public class User extends GenericModel implements Retainable {
 
     public enum Status {
-        ACTIVE,
-        INACTIVE,
-        SUSPENDED,
-        REMOVED
+        Active,
+        Inactive,
+        Suspended,
+        Removed
     }
 
     @Id
-    private String username;
+    @Required
+    @MinSize(8)
+    private String id;
 
     @Required
     private String name;
 
     @Required
+    @MinSize(8)
     private String password;
+
+    @Required
     private Status status;
 
     // TODO: v2
@@ -55,8 +58,8 @@ public class User extends GenericModel implements Retainable {
         // Required for polymorphism, default constructor for deserializers
     }
 
-    public User(final String username) {
-        this.username = username.trim().toLowerCase();
+    public User(final String id) {
+        this.id = id.trim().toLowerCase();
     }
 
     /**
@@ -73,8 +76,8 @@ public class User extends GenericModel implements Retainable {
         //this.mobile = builder.mobile;
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
     public boolean cannotLogin() {
@@ -82,24 +85,24 @@ public class User extends GenericModel implements Retainable {
     }
 
     public boolean isActive() {
-        return getStatus() == Status.ACTIVE;
+        return getStatus() == Status.Active;
     }
 
     public boolean isInActive() {
-        return getStatus() == Status.INACTIVE;
+        return getStatus() == Status.Inactive;
     }
 
     public boolean isRemoved() {
-        return getStatus() == Status.REMOVED;
+        return getStatus() == Status.Removed;
     }
 
     public boolean isSuspended() {
-        return getStatus() == Status.SUSPENDED;
+        return getStatus() == Status.Suspended;
     }
 
     @Override
     public Status getRemoveStatus() {
-        return Status.REMOVED;
+        return Status.Removed;
     }
 
     public String getPassword() {
@@ -165,7 +168,7 @@ public class User extends GenericModel implements Retainable {
         private String password;
 
         public Builder(final User user) {
-            this.username = user.username;
+            this.username = user.id;
             this.name = user.name;
             this.password = user.password;
             this.status = user.status;
