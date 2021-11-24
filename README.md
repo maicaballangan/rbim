@@ -1,6 +1,6 @@
 INTRODUCTION
 ------------
-This is the API for Academy.
+This is the API for RBIM
 
 REQUIREMENTS
 ------------
@@ -10,7 +10,7 @@ The minimum requirements are as follows:
 * Git >= 1.9
 * JDK >= 11 
 * Play Framework = 1.6.0 https://www.playframework.com/releases
-* RAM >= 512MB (1GB preferred) for Play
+* Docker
 * RAM >= 4GB (8GB preferred) for Docker
 
 REPO CONTENTS
@@ -35,10 +35,11 @@ You should now have the following non-empty files and folders:
 
 GETTING STARTED
 ---------------
-Clone project: `git clone -j11 https://github.com/scm/ac/rbim.git rbim` 
-Go to directory and run: `play dependencies` to install dependencies
-Run application: `play start`
-Open browser link: `http://localhost:9009/v1`
+* Clone project `git clone -j11 https://github.com/scm/ac/rbim.git rbim` 
+* Run `play dependencies` on project dir to install dependencies
+* Run application `play start`
+* Open app on browser `http://localhost:9009/v1`
+
 
 If you are asked for a Basic HTTP Authentication, enter:
 username: rbim  
@@ -48,11 +49,26 @@ Make sure you have enough RAM!!
 
 ENJOY :-)
 
+DOCKER INSTALLATION
+----------------
+* Install Docker
+* Pull mssql image
+``
+sudo docker pull mcr.microsoft.com/mssql/server:2019-latest
+``
+
+* Run mssql docker image
+``
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=popcom@123" \
+-p 1433:1433 --name sql1 -h sql1 \
+-d mcr.microsoft.com/mssql/server:2019-latest
+``
+
 IDE INSTALLATION
 ----------------
-Go to repository directory and run: `play idea`
-Choose 'Open' and open the generated `rbim.ipr` file. 
-Make sure JDK 11 has been added. Select JDK 11 as the project JDK.
+* Run `play idea` on project dir
+* Choose 'Open' and open the generated `rbim.ipr` file. 
+* Make sure JDK 11 has been added. Select JDK 11 as the project JDK.
 
 TESTING
 --------------
