@@ -9,9 +9,14 @@ GET            /ping                   Application.ping                        #
 GET            /resources.json         Application.resources                   # Anonymous - resources
 GET            /resources/{api}        Application.resource                    # Anonymous - resource
 
+
+### START OF RESOURCES ###
+*               /admin                 module:crud
+
 # Home page
 GET            /                       Application.index
 GET            /login                  Application.login
+POST           /import                 Application.importFile
 
 # Ignore favicon requests
 GET            /favicon.ico                            404
@@ -27,9 +32,6 @@ GET            /public/                staticDir:public
 
 # CORS
 #OPTIONS        /transactions           APIHelpers.options
-
-### START OF RESOURCES ###
-*               /admin                 module:crud
 
 # Catch all
 *       /.*                            Application.notFound

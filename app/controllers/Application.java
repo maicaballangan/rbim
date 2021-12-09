@@ -1,14 +1,24 @@
 package controllers;
 
+import com.google.common.collect.Maps;
 import com.google.common.net.MediaType;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Iterator;
 
 import constants.Config;
 import enums.APIErrorCode;
 import exceptions.HttpException;
+import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Finally;
-import play.mvc.Util;
 
 /**
  * Main application entry point - used to define basic authentication and documentation interface
@@ -35,12 +45,15 @@ public class Application extends Controller {
 
     @Finally
     protected static void removeCookies() {
-        APIHelpers.adjustCookies();
-    }
-
-    @Util
-    public static String getServiceRegistryUrl() {
-        return APIHelpers.getLocalIP() + "_" + Config.API_PORT;
+        boolean cookiesEnabled = Boolean.parseBoolean(Play.configuration.getProperty("cookies.enabled"));
+        if (!cookiesEnabled) {
+            response.cookies = Maps.newHashMap();
+        } else {
+            // Remove play cookies
+            response.cookies.remove("PLAY_ERRORS");
+            response.cookies.remove("PLAY_FLASH");
+            response.cookies.remove("PLAY_SESSION");
+        }
     }
 
     /**
@@ -88,5 +101,40 @@ public class Application extends Controller {
      */
     public static void ping() {
         ok();
+    }
+
+    /**
+     * POST     /import
+     */
+    public static void importFile(final File file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            XSSFWorkbook wb = new XSSFWorkbook(fis);
+            XSSFSheet sheet = wb.getSheetAt(0);
+            Iterator<Row> itr = sheet.iterator();
+            while (itr.hasNext()) {
+                Row row = itr.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getCellType()) {
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.print(cell.getStringCellValue() + "\t");
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.print(cell.getNumericCellValue() + "\t");
+                            break;
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.print(cell.getBooleanCellValue() + "\t");
+                            break;
+                        default :
+                    }
+                }
+
+                // TODO
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
