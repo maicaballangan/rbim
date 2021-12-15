@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.Where;
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -9,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -26,73 +23,166 @@ import play.db.jpa.Model;
 public class Resident extends Model {
 
     enum Relation {
-        Head,
-        Spouse,
-        Son,
-        Daughter,
-        Stepson,
-        Stepdaughter,
-        SonInLaw,
-        DaughterInLaw,
-        Grandson,
-        Granddaughter,
-        Father,
-        Mother,
-        Brother,
-        Sister,
-        Uncle,
-        Aunt,
-        Nephew,
-        Niece,
-        OtherRelative,
-        NonRelative,
-        Boarder,
-        DomesticHelper
+        Head(1),
+        Spouse(2),
+        Son(3),
+        Daughter(4),
+        Stepson(5),
+        Stepdaughter(6),
+        Son_In_Law(7),
+        Daughter_In_Law(8),
+        Grandson(9),
+        Granddaughter(10),
+        Father(11),
+        Mother(12),
+        Brother(13),
+        Sister(14),
+        Uncle(15),
+        Aunt(16),
+        Nephew(17),
+        Niece(18),
+        Other_Relative(19),
+        NonRelative(20),
+        Boarder(21),
+        Domestic_Helper(22);
+
+        private final int code;
+
+        Relation(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Sex {
-        // TODO Q3
-        test
+        Male(1),
+        Female(2);
+
+        private final int code;
+
+        Sex(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Nationality {
-        // TODO Q7
-        test
+        Filipino(1),
+        Non_Filipino(2);
+
+        private final int code;
+
+        Nationality(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum MaritalStatus {
-        // TODO Q8
-        test
+        Single(1),
+        Married(2),
+        LivingIn(3),
+        Widowed(4),
+        Separated(5),
+        Divorced(6),
+        Unknown(7);
+
+        private final int code;
+
+        MaritalStatus(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Education {
-        // TODO Q11
-        test
+        None(00),
+        PreSchool(1),
+        Elementary(2),
+        Elementary_Graduate(3),
+        HighSchool(4),
+        HighSchool_Graduate(5),
+        Junior_HS(6),
+        Junior_HS_graduate(7),
+        Senior_HS(8),
+        Senior_HS_graduate(9),
+        Vocational_or_Tech(10),
+        College(11),
+        College_Graduate(12),
+        Post_Graduate(13);
+
+        private final int code;
+
+        Education(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Enrollment {
-        ub("Public"), priv("Private"), unenrolled("Unenrolled");
+        PUBLIC(1),
+        PRIVATE(2),
+        UNENROLLED(3);
 
-        private String description;
+        private final int code;
 
-        Enrollment(String description) {
-            this.description = description;
+        Enrollment(int code) {
+            this.code = code;
         }
 
-        @Override
-        public String toString() {
-            return description;
+        public int getCode() {
+            return code;
         }
     }
 
     enum SchoolLevel {
-        // TODO Q13
-        test
+        Pre_School(0),
+        Elementary(1),
+        Junior_HS(2),
+        Senior_HS(3),
+        Vocational_or_Technical(4),
+        College_or_University(5);
+
+        private final int code;
+
+        SchoolLevel(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum ParentalStatus {
-        // TODO Q30
-        test
+        Registered_Solo_Parent(1),
+        Non_Solo_Parent(2),
+        Unregistered_Solo_Parent(3);
+
+        private final int code;
+
+        ParentalStatus(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     @Required

@@ -16,17 +16,23 @@ import play.db.jpa.Model;
 public class House extends Model {
 
     private enum Type {
-        Single("Single"),
-        Duplex("Duplex"),
-        MultiUnitResidential("Multi-unit Residential"),
-        CommercialIndustrialAgricultural("Commercial/Unit/Agricultural"),
-        InstitutionalLivingQuarter("Institutional Living Quarter (Hotel, Hospital)"),
-        Other("Other housing units (boat, cave, others)");
+        Single(1, "Single"),
+        Duplex(2, "Duplex"),
+        MultiUnitResidential(3, "Multi-unit Residential"),
+        CommercialIndustrialAgricultural(4, "Commercial/Unit/Agricultural"),
+        InstitutionalLivingQuarter(5, "Institutional Living Quarter (Hotel, Hospital)"),
+        Other(6, "Other housing units (boat, cave, others)");
 
-        private String description;
+        private final int code;
+        private final String description;
 
-        Type(String description) {
+        Type(int code, String description) {
+            this.code = code;
             this.description = description;
+        }
+
+        public int getCode() {
+            return code;
         }
 
         @Override
@@ -36,21 +42,27 @@ public class House extends Model {
     }
 
     private enum Material {
-        NoWalls("No walls"),
-        MakeshiftSalvagedImprovised("Makeshift/Salvaged/Improvised"),
-        Glass("Glass"),
-        Asbestos("Asbestos"),
-        BambooSawaliCogonNipa("Bamboo/Sawali/Cogon/Nipa"),
-        GalvanizedIronAluminum("Galvanized Iron/Aluminum"),
-        HalfConcreteBrickStoneHalfWood("Half Concrete/Brick/Stone and Half Wood"),
-        Wood("Wood"),
-        ConcreteBrickStone("Concrete/Brick/Stone"),
-        Other("Other");
+        NoWalls(0, "No walls"),
+        MakeshiftSalvagedImprovised(1, "Makeshift/Salvaged/Improvised"),
+        Glass(2, "Glass"),
+        Asbestos(3, "Asbestos"),
+        BambooSawaliCogonNipa(4, "Bamboo/Sawali/Cogon/Nipa"),
+        GalvanizedIronAluminum(5, "Galvanized Iron/Aluminum"),
+        HalfConcreteBrickStoneHalfWood(6, "Half Concrete/Brick/Stone and Half Wood"),
+        Wood(7, "Wood"),
+        ConcreteBrickStone(8, "Concrete/Brick/Stone"),
+        Other(9, "Other");
 
-        private String description;
+        private final int code;
+        private final String description;
 
-        Material(String description) {
+        Material(int code, String description) {
+            this.code = code;
             this.description = description;
+        }
+
+        public int getCode() {
+            return code;
         }
 
         @Override

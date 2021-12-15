@@ -7,14 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import play.data.validation.Required;
-import play.db.jpa.GenericModel;
 import play.db.jpa.Model;
 
 /**
@@ -27,46 +22,132 @@ import play.db.jpa.Model;
 })*/
 public class Household extends Model {
 
-    enum HouseOwnership {
-        // TODO Q45
-        test
-    }
+    enum Ownership {
+        Rent_free_without_consent_of_owner(1),
+        Rent_free_with_consent_of_owner(2),
+        Rented(3),
+        Owned_or_being_Amortized(4);
 
-    enum LotOwnership {
-        // TODO Q46
-        test
+        private final int code;
+
+        Ownership(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Lighting {
-        // TODO Q47
-        test
+        None(0),
+        Oil_from_animals_or_vegetables (1),
+        LPG(2),
+        Kerosene(3),
+        Electricity(4),
+        Others(5);
+
+        private final int code;
+
+        Lighting(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum CookingFuel {
-        // TODO Q48
-        test
+        None(0),
+        Wood(1),
+        Charcoal(2),
+        LPG(3),
+        Kerosene(4),
+        Electricity(5),
+        Others(6);
+
+        private final int code;
+
+        CookingFuel(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum WaterSource {
-        // TODO Q49
-        test
+        Lake_river_rain_others(1),
+        Dug_well(2),
+        Unprotected_spring(3),
+        Protected_Spring(4),
+        Peddler(5),
+        Tubed_or_Piped_Shallow_Well(6),
+        Shared_Tubed_or_Piped_Deep_Well(7),
+        Own_Use_Tubed_or_Piped_Deep_Well(8),
+        Shared_Use_Faucet_Community_Water_System(9),
+        Own_Use_Faucet_Community_Water_System(10),
+        Bottled_Water(11),
+        Others(12);
+
+        private final int code;
+
+        WaterSource(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum GarbageDisposal {
-        // TODO Q50a
-        test
+        Feeding_to_animals(1),
+        Burying(2),
+        Composting(3),
+        Burning(4),
+        Dumping_individual_pit(5),
+        Picked_up_by_garbage_truck(6);
+
+        private final int code;
+
+        GarbageDisposal(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum ToiletFacility {
-        // TODO Q50c
-        test
+        None(0),
+        Open_pit(1),
+        Close_pit(2),
+        Water_sealed_shared_depository(3),
+        Water_sealed_exclusive_depository(4),
+        Water_sealed_shared_sewer_septic_tank(5),
+        Water_sealed_exclusive_sewer_septic_tank(6),
+        Others(7);
+
+        private final int code;
+
+        ToiletFacility(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     @Enumerated(EnumType.STRING)
-    private HouseOwnership houseOwnership;
+    private Ownership houseOwnership;
 
     @Enumerated(EnumType.STRING)
-    private LotOwnership lotOwnership;
+    private Ownership lotOwnership;
 
     @Enumerated(EnumType.STRING)
     private Lighting lighting;
@@ -94,19 +175,19 @@ public class Household extends Model {
     @OneToOne(cascade= CascadeType.PERSIST, fetch = FetchType.EAGER)
     private House house;
 
-    public HouseOwnership getHouseOwnership() {
+    public Ownership getHouseOwnership() {
         return houseOwnership;
     }
 
-    public void setHouseOwnership(HouseOwnership houseOwnership) {
+    public void setHouseOwnership(Ownership houseOwnership) {
         this.houseOwnership = houseOwnership;
     }
 
-    public LotOwnership getLotOwnership() {
+    public Ownership getLotOwnership() {
         return lotOwnership;
     }
 
-    public void setLotOwnership(LotOwnership lotOwnership) {
+    public void setLotOwnership(Ownership lotOwnership) {
         this.lotOwnership = lotOwnership;
     }
 

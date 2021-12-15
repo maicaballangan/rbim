@@ -26,15 +26,65 @@ public class Residency extends Model {
     }
 
     enum Type {
-        // TODO Q36
+        NonMigrant(1),
+        Migrant(2),
+        Transient(3);
+
+        private final int code;
+
+        Type(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum ReasonForLeaving {
-        // TODO Q38
+        Lack_of_Employment(1),
+        Perception_of_better_income_in_other_place(2),
+        Schooling(3),
+        Presence_of_relatives_and_friends_in_other_place(4),
+        Employment_or_Job_Relocation(5),
+        Disaster_related_Relocation(6),
+        Retirement(7),
+        To_live_with_parents(8),
+        To_live_with_children(9),
+        Marriage(10),
+        Annulment_Divorce_Separation(11),
+        Commuting_related_Reasons(12),
+        Health_related_Reasons(13),
+        Peacde_and_Security(14),
+        Others(15);
+
+        private final int code;
+
+        ReasonForLeaving(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum ReasonForTransfer {
-        // TODO Q40
+        Availability_of_Jobs(1),
+        Higher_wage(2),
+        Presence_of_schools_or_Universities(3),
+        Presence_of_relatives_and_friends_in_other_place(4),
+        Housing(5);
+
+        private final int code;
+
+        ReasonForTransfer(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     @Required

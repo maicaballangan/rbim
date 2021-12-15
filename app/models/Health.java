@@ -17,31 +17,139 @@ import play.db.jpa.Model;
 public class Health extends Model {
 
     enum HealthInsurance {
-        // TODO Q26
+        Philhealth_Paying_Member(1),
+        Philhealth_Dependent_of_Paying_Member(2),
+        Philhealth_Indigent_Member(3),
+        Philhealth_Dependent_of_Indigent_Member(4),
+        GSIS(5),
+        SSS(6),
+        Private_or_HMO(7);
+
+        private final int code;
+
+        HealthInsurance(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum DeliveryPlace {
-        // TODO Q19
+        Public_Hospital(1),
+        Private_Hospital(2),
+        Lying_in_Clinic(3),
+        Home(4);
+
+        private final int code;
+
+        DeliveryPlace(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Attendant {
-        // TODO Q20
+        Doctor(1),
+        Nurse(2),
+        Midwife(3),
+        Hilot(4);
+
+        private final int code;
+
+        Attendant(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum FamilyPlanningMethod {
-        // TODO Q23/25
+        Female_Sterilization_or_Ligation(1),
+        Male_Sterilization_or_Vasectomy(2),
+        IUD(3),
+        InjectAbles(4),
+        Implants(5),
+        Pill(6),
+        Condom(7),
+        Modern_Natural_FP(8),
+        Lactational_Amenorrhea_Method(9),
+        Traditional(10),
+        None(00);
+
+        private final int code;
+
+        FamilyPlanningMethod(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum SourceOfFP {
-        // TODO Q24
+        Government_Hospital(1),
+        RHU_or_Health_Center(2),
+        Brgy_Health_Station(3),
+        Private_Hospital(4),
+        Pharmacy(5);
+
+        private final int code;
+
+        SourceOfFP(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum Facility {
-        // TODO Q27
+        Government_Hospital(1),
+        RHU_or_Health_Center(2),
+        Brgy_Health_Station(3),
+        Private_Hospital(4),
+        Private_Clinic(5),
+        Pharmacy(6),
+        Hilot_or_Herbalist(7);
+
+        private final int code;
+
+        Facility(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     enum ReasonOfVisit {
-        // TODO Q28
+        Sick_or_Injured(1),
+        Prenatal_or_Postnatal(2),
+        Gave_Birth(3),
+        Dental(4),
+        Medical_Checkup(5),
+        Medical_Requirement(6),
+        NHTS_CCT_4Ps_Requirement(7);
+
+        private final int code;
+
+        ReasonOfVisit(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
     private String healthInsurance;
