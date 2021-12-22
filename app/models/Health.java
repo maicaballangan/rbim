@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import enums.DeliveryPlace;
@@ -18,7 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
+import play.db.jpa.GenericModel;
 
 /**
  * @author Maica Ballangan
@@ -28,14 +30,19 @@ import play.db.jpa.Model;
 @Builder
 @Getter
 @Setter
-public class Health extends Model {
+public class Health extends GenericModel {
 
     public enum Status {
         Alive, Deceased, Missing
     }
 
+    @Id
+    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "resident_id")
+    private Resident resident;
+
     @Required
-    private Status status;
+    private Status status = Status.Alive;
 
     @Enumerated(EnumType.STRING)
     private HealthInsurance healthInsurance;
@@ -67,7 +74,4 @@ public class Health extends Model {
 
     @Enumerated(EnumType.STRING)
     private ReasonOfVisit reasonOfVisit;
-
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
-    private Resident resident;
 }

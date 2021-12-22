@@ -23,7 +23,7 @@ public enum HealthInsurance {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static HealthInsurance getByCode(int code) {
+    public static HealthInsurance getByCode(Integer code) {
         return map.get(code);
     };
 

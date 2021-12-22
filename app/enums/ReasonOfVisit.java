@@ -23,7 +23,7 @@ public enum ReasonOfVisit {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static ReasonOfVisit getByCode(int code) {
+    public static ReasonOfVisit getByCode(Integer code) {
         return map.get(code);
     }
 

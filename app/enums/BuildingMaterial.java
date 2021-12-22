@@ -25,7 +25,7 @@ public enum BuildingMaterial {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static BuildingMaterial getByCode(int code) {
+    public static BuildingMaterial getByCode(Integer code) {
         return map.get(code);
     };
 

@@ -17,7 +17,7 @@ public enum Sex {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Sex getByCode(int code) {
+    public static Sex getByCode(Integer code) {
         return map.get(code);
     };
 

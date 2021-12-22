@@ -20,7 +20,7 @@ public enum GarbageDisposal {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static GarbageDisposal getByCode(int code) {
+    public static GarbageDisposal getByCode(Integer code) {
         return map.get(code);
     };
 

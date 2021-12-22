@@ -21,7 +21,7 @@ public enum Lighting {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Lighting getByCode(int code) {
+    public static Lighting getByCode(Integer code) {
     return map.get(code);
 };
 

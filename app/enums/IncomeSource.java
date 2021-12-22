@@ -21,7 +21,7 @@ public enum IncomeSource {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static IncomeSource getByCode(int code) {
+    public static IncomeSource getByCode(Integer code) {
     return map.get(code);
     }
 

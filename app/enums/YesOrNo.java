@@ -18,7 +18,7 @@ public enum YesOrNo {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static YesOrNo getByCode(int code) {
+    public static YesOrNo getByCode(Integer code) {
         return map.get(code);
     }
 

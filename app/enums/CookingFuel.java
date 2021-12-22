@@ -21,7 +21,7 @@ public enum CookingFuel {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static CookingFuel getByCode(int code) {
+    public static CookingFuel getByCode(Integer code) {
         return map.get(code);
     };
 

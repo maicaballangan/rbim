@@ -34,7 +34,7 @@ public enum Skill {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Skill getByCode(int code) {
+    public static Skill getByCode(Integer code) {
         return map.get(code);
     };
 

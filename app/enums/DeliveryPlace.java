@@ -20,7 +20,7 @@ public enum DeliveryPlace {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static DeliveryPlace getByCode(int code) {
+    public static DeliveryPlace getByCode(Integer code) {
         return map.get(code);
     };
 

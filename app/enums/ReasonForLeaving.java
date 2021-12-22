@@ -31,7 +31,7 @@ public enum ReasonForLeaving {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static ReasonForLeaving getByCode(int code) {
+    public static ReasonForLeaving getByCode(Integer code) {
         return map.get(code);
     }
 

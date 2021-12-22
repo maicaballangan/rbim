@@ -21,7 +21,7 @@ public enum SourceOfFP {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static SourceOfFP getByCode(int code) {
+    public static SourceOfFP getByCode(Integer code) {
         return map.get(code);
     }
 

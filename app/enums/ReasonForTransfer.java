@@ -21,7 +21,7 @@ public enum ReasonForTransfer {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static ReasonForTransfer getByCode(int code) {
+    public static ReasonForTransfer getByCode(Integer code) {
         return map.get(code);
     }
 
