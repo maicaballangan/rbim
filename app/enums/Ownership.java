@@ -19,7 +19,7 @@ public enum Ownership {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Ownership getByCode(int code) {
+    public static Ownership getByCode(Integer code) {
         return map.get(code);
     };
 

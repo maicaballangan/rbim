@@ -22,7 +22,7 @@ public enum CivilStatus {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static CivilStatus getByCode(int code) {
+    public static CivilStatus getByCode(Integer code) {
         return map.get(code);
     }
 

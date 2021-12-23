@@ -18,7 +18,7 @@ public enum Enrollment {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Enrollment getByCode(int code) {
+    public static Enrollment getByCode(Integer code) {
         return map.get(code);
     }
 

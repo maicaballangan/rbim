@@ -18,7 +18,7 @@ public enum ResidentType {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static ResidentType getByCode(int code) {
+    public static ResidentType getByCode(Integer code) {
         return map.get(code);
     }
 

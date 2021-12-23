@@ -37,7 +37,7 @@ public enum Relation {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Relation getByCode(int code) {
+    public static Relation getByCode(Integer code) {
         return map.get(code);
     }
 

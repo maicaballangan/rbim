@@ -19,7 +19,7 @@ public enum ParentalStatus {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static ParentalStatus getByCode(int code) {
+    public static ParentalStatus getByCode(Integer code) {
         return map.get(code);
     }
 

@@ -17,7 +17,7 @@ public enum Nationality {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Nationality getByCode(int code) {
+    public static Nationality getByCode(Integer code) {
         return map.get(code);
     }
 

@@ -22,7 +22,7 @@ public enum SchoolLevel {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static SchoolLevel getByCode(int code) {
+    public static SchoolLevel getByCode(Integer code) {
         return map.get(code);
     }
 

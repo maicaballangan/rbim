@@ -27,7 +27,7 @@ public enum WaterSource {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static WaterSource getByCode(int code) {
+    public static WaterSource getByCode(Integer code) {
         return map.get(code);
     };
 

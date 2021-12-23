@@ -21,7 +21,7 @@ public enum BuildingType {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static BuildingType getByCode(int code) {
+    public static BuildingType getByCode(Integer code) {
         return map.get(code);
     };
 

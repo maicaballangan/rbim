@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import enums.DeliveryPlace;
 import enums.FPMethod;
@@ -18,12 +21,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
 
 /**
  * @author Maica Ballangan
  * @since v1
  */
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"resident_id"})
+)
 @Entity
 @Builder
 @Getter
@@ -35,7 +41,7 @@ public class Health extends Model {
     }
 
     @Required
-    private Status status;
+    private Status status = Status.Alive;
 
     @Enumerated(EnumType.STRING)
     private HealthInsurance healthInsurance;
@@ -69,5 +75,7 @@ public class Health extends Model {
     private ReasonOfVisit reasonOfVisit;
 
     @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn
+    @Required
     private Resident resident;
 }

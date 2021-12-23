@@ -23,7 +23,7 @@ public enum Facility {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Facility getByCode(int code) {
+    public static Facility getByCode(Integer code) {
         return map.get(code);
     }
 

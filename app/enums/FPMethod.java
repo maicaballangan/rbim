@@ -27,7 +27,7 @@ public enum FPMethod {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static FPMethod getByCode(int code) {
+    public static FPMethod getByCode(Integer code) {
         return map.get(code);
     }
 

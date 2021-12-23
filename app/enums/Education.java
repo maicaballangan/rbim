@@ -29,7 +29,7 @@ public enum Education {
             .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Education getByCode(int code) {
+    public static Education getByCode(Integer code) {
     return map.get(code);
     }
 

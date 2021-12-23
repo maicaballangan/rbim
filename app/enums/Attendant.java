@@ -20,7 +20,7 @@ public enum Attendant {
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
     }
 
-    public static Attendant getByCode(int code) {
+    public static Attendant getByCode(Integer code) {
         return map.get(code);
     }
 

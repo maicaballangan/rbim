@@ -2,12 +2,11 @@ package models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import enums.IncomeSource;
@@ -18,25 +17,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
 
 /**
  * @author Maica Ballangan
  * @since v1
  */
+/*@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"resident_id"})
+)*/
 @Entity
 @Builder
 @Getter
 @Setter
 public class EconomicActivity extends Model {
 
-    @Required
     private Double monthlyIncome;
-
-    @Required
     private IncomeSource sourceOfIncome;
-
-    @Required
     private WorkStatus workStatus;
     private String placeOfWork;
     private YesOrNo hasCTC;
@@ -46,6 +43,8 @@ public class EconomicActivity extends Model {
     @Enumerated(EnumType.STRING)
     private List<Skill> skills;
 
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn
+    @Required
     private Resident resident;
 }
