@@ -1,8 +1,12 @@
 package models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import enums.Barangay;
 import enums.BuildingMaterial;
@@ -14,7 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
 
 /**
  * @author Maica Ballangan
@@ -32,10 +35,8 @@ public class Residency extends Model {
     @Required
     private String street;
 
-    @Required
     private BuildingType type;
 
-    @Required
     @Enumerated(EnumType.STRING)
     private BuildingMaterial material;
 
@@ -71,4 +72,9 @@ public class Residency extends Model {
     private ReasonForTransfer reasonForTransferC;
     private boolean intentOfReturning;
     private Integer durationOfStay;
+
+    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn
+    @Required
+    private Resident resident;
 }

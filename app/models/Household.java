@@ -1,13 +1,8 @@
 package models;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 
 import enums.BuildingMaterial;
 import enums.BuildingType;
@@ -57,19 +52,38 @@ public class Household extends Model {
 
     private YesOrNo hasTrashSegregation;
 
+    @Required
+    private String head;
+
     @Enumerated(EnumType.STRING)
     private BuildingType buildingType;
 
     @Enumerated(EnumType.STRING)
     private BuildingMaterial buildingMaterial;
 
-    @Required
+    /*@Required
     @OneToMany(cascade= CascadeType.PERSIST, fetch = FetchType.EAGER)
-    //@Where(clause = "relationshipToHead == Head")
-    private List<Resident> resident;
+    private List<Resident> resident;*/
 
     @Override
     public String toString() {
-        return super.toString();//head.toString();
+        return id + ": " + head.toString();
+    }
+
+    public static Household lookup(String head, String placeOfBirthBrgy, String barangay) {
+        return Household.find(
+                "select h " +
+                        "from Household h " +
+                        "join Resident r on h.id = r.household " +
+                        "join Residency ry on r.id = ry.resident" +
+                        " where h.head = ?1 and r.placeOfBirthBrgy = ?2 and ry.barangay = ?3",
+                        head, placeOfBirthBrgy, barangay)
+                .first();
+        /*return JPA.em().createQuery("select h.* " +
+                "from Household h " +
+                "join Resident r on h.resident_id = r.id " +
+                "where h.head = ? " +
+                "and r.placeOfBirthBrgy = ? " +
+                "and ")*/
     }
 }

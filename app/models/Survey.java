@@ -7,7 +7,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,8 @@ public class Survey extends Model {
     @Required
     private String encoderSupervisor;
 
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @Required
+    @ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
     private Household household;
 }
