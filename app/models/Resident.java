@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.Where;
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -10,90 +8,41 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import enums.Barangay;
-import enums.Municipality;
+import enums.CivilStatus;
+import enums.Education;
+import enums.Enrollment;
+import enums.Nationality;
+import enums.ParentalStatus;
+import enums.Relation;
+import enums.SchoolLevel;
+import enums.Sex;
+import enums.YesOrNo;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
 
 /**
  * @author Maica Ballangan
  * @since v1
  */
+@Table(
+    uniqueConstraints=
+    @UniqueConstraint(columnNames={"lastName", "firstName", "middleName", "placeOfBirthBrgy", "dateOfBirth"})
+)
 @Entity
+@SequenceGenerator(initialValue = 10000000, name = "idgen", sequenceName = "residentSeq")
+@Builder
+@Getter
+@Setter
 public class Resident extends Model {
-
-    enum Relation {
-        Head,
-        Spouse,
-        Son,
-        Daughter,
-        Stepson,
-        Stepdaughter,
-        SonInLaw,
-        DaughterInLaw,
-        Grandson,
-        Granddaughter,
-        Father,
-        Mother,
-        Brother,
-        Sister,
-        Uncle,
-        Aunt,
-        Nephew,
-        Niece,
-        OtherRelative,
-        NonRelative,
-        Boarder,
-        DomesticHelper
-    }
-
-    enum Sex {
-        // TODO Q3
-        test
-    }
-
-    enum Nationality {
-        // TODO Q7
-        test
-    }
-
-    enum MaritalStatus {
-        // TODO Q8
-        test
-    }
-
-    enum Education {
-        // TODO Q11
-        test
-    }
-
-    enum Enrollment {
-        ub("Public"), priv("Private"), unenrolled("Unenrolled");
-
-        private String description;
-
-        Enrollment(String description) {
-            this.description = description;
-        }
-
-        @Override
-        public String toString() {
-            return description;
-        }
-    }
-
-    enum SchoolLevel {
-        // TODO Q13
-        test
-    }
-
-    enum ParentalStatus {
-        // TODO Q30
-        test
-    }
 
     @Required
     private String lastName;
@@ -113,11 +62,16 @@ public class Resident extends Model {
     private Sex sex;
 
     @Required
+    private int age;
+
+    @Required
     private Date dateOfBirth;
 
     @Required
-    @Enumerated(EnumType.STRING)
-    private Municipality placeOfBirth;
+    private String placeOfBirthBrgy;
+
+    @Required
+    private String placeOfBirthMunicipality;
 
     @Required
     @Enumerated(EnumType.STRING)
@@ -125,7 +79,7 @@ public class Resident extends Model {
 
     @Required
     @Enumerated(EnumType.STRING)
-    private MaritalStatus maritalStatus;
+    private CivilStatus civilStatus;
 
     @Required
     private String religion;
@@ -138,7 +92,8 @@ public class Resident extends Model {
     private ParentalStatus parentalStatus;
 
     @Required
-    private boolean registeredSeniorCitizen;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo registeredSeniorCitizen;
 
     @Required
     @Enumerated(EnumType.STRING)
@@ -161,172 +116,29 @@ public class Resident extends Model {
     private String email;
 
     @OneToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "id")
-    @PrimaryKeyJoinColumn
+    @JoinColumn
+    private EconomicActivity economicActivity;
+
+    @OneToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Health health;
+
+    @OneToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Residency residency;
+
+    @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn
     private Household household;
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public Relation getRelationshipToHead() {
-        return relationshipToHead;
-    }
-
-    public void setRelationshipToHead(Relation relationshipToHead) {
-        this.relationshipToHead = relationshipToHead;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Municipality getPlaceOfBirth() {
-        return placeOfBirth;
-    }
-
-    public void setPlaceOfBirth(Municipality placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
-    }
-
-    public Nationality getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(Nationality nationality) {
-        this.nationality = nationality;
-    }
-
-    public MaritalStatus getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(MaritalStatus maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public String getReligion() {
-        return religion;
-    }
-
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    public String getEthnicity() {
-        return ethnicity;
-    }
-
-    public void setEthnicity(String ethnicity) {
-        this.ethnicity = ethnicity;
-    }
-
-    public ParentalStatus getParentalStatus() {
-        return parentalStatus;
-    }
-
-    public void setParentalStatus(ParentalStatus parentalStatus) {
-        this.parentalStatus = parentalStatus;
-    }
-
-    public boolean isRegisteredSeniorCitizen() {
-        return registeredSeniorCitizen;
-    }
-
-    public void setRegisteredSeniorCitizen(boolean registeredSeniorCitizen) {
-        this.registeredSeniorCitizen = registeredSeniorCitizen;
-    }
-
-    public Education getEducationalAttainment() {
-        return educationalAttainment;
-    }
-
-    public void setEducationalAttainment(Education educationalAttainment) {
-        this.educationalAttainment = educationalAttainment;
-    }
-
-    public Enrollment getEnrollmentStatus() {
-        return enrollmentStatus;
-    }
-
-    public void setEnrollmentStatus(Enrollment enrollmentStatus) {
-        this.enrollmentStatus = enrollmentStatus;
-    }
-
-    public SchoolLevel getSchoolLevel() {
-        return schoolLevel;
-    }
-
-    public void setSchoolLevel(SchoolLevel schoolLevel) {
-        this.schoolLevel = schoolLevel;
-    }
-
-    public String getPlaceOfSchool() {
-        return placeOfSchool;
-    }
-
-    public void setPlaceOfSchool(String placeOfSchool) {
-        this.placeOfSchool = placeOfSchool;
-    }
-
-    public Barangay getVotingArea() {
-        return votingArea;
-    }
-
-    public void setVotingArea(Barangay votingArea) {
-        this.votingArea = votingArea;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Household getHousehold() {
-        return household;
-    }
-
-    public void setHousehold(Household household) {
-        this.household = household;
-    }
 
     @Override
     public String toString() {
         return lastName + ", " + firstName + " " + middleName;
+    }
+
+    public void findByName() {
+        /*Criteria criteria = session.createCriteria(this);
+        String head = cellIterator.next().getStringCellValue();
+        List<Resident> list = criteria.add(Restrictions.eq("yourField", yourFieldValue)).list();*/
     }
 }

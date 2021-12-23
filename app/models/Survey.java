@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -17,37 +20,26 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
+@Builder
+@Getter
+@Setter
 public class Survey extends Model {
 
     private Date interviewDate;
     private LocalTime interviewStart;
     private LocalTime interviewEnd;
     private Date encodeDate;
+    private String respondent;
 
     @Required
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    private Staff interviewer;
-
+    private String interviewer;
     @Required
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    private Staff interviewerSupervisor;
-
+    private String interviewerSupervisor;
     @Required
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    private Staff encoder;
-
+    private String encoder;
     @Required
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    private Staff encoderSupervisor;
+    private String encoderSupervisor;
 
     @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     private Household household;
-
-    public Date getInterviewDate() {
-        return interviewDate;
-    }
-
-    public void setInterviewDate(Date interviewDate) {
-        this.interviewDate = interviewDate;
-    }
 }

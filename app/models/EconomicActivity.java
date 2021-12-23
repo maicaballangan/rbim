@@ -10,6 +10,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+import enums.IncomeSource;
+import enums.Skill;
+import enums.WorkStatus;
+import enums.YesOrNo;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -18,22 +25,13 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
+@Builder
+@Getter
+@Setter
 public class EconomicActivity extends Model {
 
-    enum IncomeSource {
-        // TODO q16
-    }
-
-    enum WorkStatus {
-        // TODO q17
-    }
-
-    enum Skill {
-        // TODO q44
-    }
-
     @Required
-    private String monthlyIncome;
+    private Double monthlyIncome;
 
     @Required
     private IncomeSource sourceOfIncome;
@@ -41,21 +39,13 @@ public class EconomicActivity extends Model {
     @Required
     private WorkStatus workStatus;
     private String placeOfWork;
-    private boolean hasCTC;
-    private boolean CTCIssuedInBarangay;
+    private YesOrNo hasCTC;
+    private YesOrNo CTCIssuedInBarangay;
 
-    @ElementCollection(targetClass=Skill.class)
+    @ElementCollection(targetClass= Skill.class)
     @Enumerated(EnumType.STRING)
     private List<Skill> skills;
 
-    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
     private Resident resident;
-
-    public String getMonthlyIncome() {
-        return monthlyIncome;
-    }
-
-    public void setMonthlyIncome(String monthlyIncome) {
-        this.monthlyIncome = monthlyIncome;
-    }
 }

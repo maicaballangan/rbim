@@ -1,16 +1,18 @@
 package models;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 
 import enums.Barangay;
+import enums.BuildingMaterial;
+import enums.BuildingType;
+import enums.ReasonForLeaving;
+import enums.ReasonForTransfer;
+import enums.ResidentType;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -19,58 +21,54 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
+@Builder
+@Getter
+@Setter
 public class Residency extends Model {
 
-    enum Status {
-        Current, Previous
-    }
+    @Required
+    private String address;
 
-    enum Type {
-        // TODO Q36
-    }
+    @Required
+    private String street;
 
-    enum ReasonForLeaving {
-        // TODO Q38
-    }
-
-    enum ReasonForTransfer {
-        // TODO Q40
-    }
+    @Required
+    private BuildingType type;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @Required
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    private BuildingMaterial material;
 
     @Required
     @Enumerated(EnumType.STRING)
     private Barangay barangay;
 
     @Required
-    private int yearsOfStay;
+    @Enumerated(EnumType.STRING)
+    private ResidentType residentType;
 
-    @Required
-    private int monthsOfStay;
+    //@Enumerated(EnumType.STRING)
+    private String previousBarangayFiveYr;
 
-    @ElementCollection(targetClass= ReasonForLeaving.class)
-    private List<ReasonForLeaving> reasonForLeaving;
+    //@Enumerated(EnumType.STRING)
+    private String previousMunicipalityFiveYr;
+
+    //@Enumerated(EnumType.STRING)
+    private String previousBarangaySixMo;
+
+    //@Enumerated(EnumType.STRING)
+    private String previousMunicipalitySixMo;
+
+    private Integer yearsOfStay;
+    private Integer monthsOfStay;
+    private Integer monthOfTransfer;
+    private Integer yearOfTransfer;
+    private ReasonForLeaving reasonForLeavingA;
+    private ReasonForLeaving reasonForLeavingB;
+    private ReasonForLeaving reasonForLeavingC;
+    private ReasonForTransfer reasonForTransferA;
+    private ReasonForTransfer reasonForTransferB;
+    private ReasonForTransfer reasonForTransferC;
     private boolean intentOfReturning;
-
-    @ElementCollection(targetClass= ReasonForTransfer.class)
-    private List<ReasonForTransfer> reasonForTransfer;
-    private int durationOfStay;
-
-    @ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    private Resident resident;
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+    private Integer durationOfStay;
 }

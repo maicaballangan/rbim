@@ -49,7 +49,7 @@ Make sure you have enough RAM!!
 
 ENJOY :-)
 
-DOCKER INSTALLATION
+DOCKER INSTALLATION FOR LOCAL DB SETUP 
 ----------------
 * Install Docker
 * Pull mssql image
@@ -60,7 +60,7 @@ sudo docker pull mcr.microsoft.com/mssql/server:2019-latest
 * Run mssql docker image
 ``
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=popcom@123" \
--p 1433:1433 --name sql1 -h sql1 \
+-p 1433:1433 --name rbim -h rbim \
 -d mcr.microsoft.com/mssql/server:2019-latest
 ``
 

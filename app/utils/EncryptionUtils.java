@@ -87,7 +87,7 @@ public class EncryptionUtils {
      * @param keystoreFile keystore file to read
      * @param password     password for the keystore file
      * @return the keystore object
-     * @throws KeyStoreException         if the type of KeyStore could not be created
+     * @throws KeyStoreException         if the buildingType of KeyStore could not be created
      * @throws IOException               if the keystore could not be loaded
      * @throws NoSuchAlgorithmException  if the algorithm used to check the integrity of the keystore
      *                                   cannot be found

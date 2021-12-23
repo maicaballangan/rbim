@@ -7,6 +7,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
@@ -17,6 +20,9 @@ import utils.EncryptionUtils;
  * @since v1
  */
 @Entity
+@Builder
+@Getter
+@Setter
 public class Staff extends GenericModel {
 
     public enum Status {
@@ -25,6 +31,7 @@ public class Staff extends GenericModel {
         Suspended,
         Removed
     }
+
     private enum Role {
         Encoder,
         Supervisor,
@@ -49,42 +56,6 @@ public class Staff extends GenericModel {
     @Required
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(EncryptionUtils.hash(password), BCrypt.gensalt());
