@@ -2,7 +2,6 @@ package utils;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.WordUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -49,11 +48,8 @@ import enums.ToiletFacility;
 import enums.WaterSource;
 import enums.WorkStatus;
 import enums.YesOrNo;
-import models.EconomicActivity;
-import models.Health;
 import models.Household;
 import models.Record;
-import models.Residency;
 import models.Resident;
 import models.Survey;
 import play.Logger;
@@ -84,10 +80,7 @@ public class ExcelUtils {
                 try {
                     Household.HouseholdBuilder hhb = Household.builder();
                     Survey.SurveyBuilder sb = Survey.builder();
-                    Residency.ResidencyBuilder reb = Residency.builder();
                     Resident.ResidentBuilder rb = Resident.builder();
-                    EconomicActivity.EconomicActivityBuilder eb = EconomicActivity.builder();
-                    Health.HealthBuilder heb = Health.builder();
 
                     Relation relation = Relation.getByCode(getIntCellValue(row, 30));
                     hhb.barangay(Barangay.getByDescription(getStringCellValue(row, 6))); //7
@@ -160,12 +153,12 @@ public class ExcelUtils {
                     rb.votingArea(Barangay.getByDescription(getStringCellValue(row, 64)));
 
                     // Economic Activity
-                    eb.monthlyIncome(getStringCellValue(row, 45));
-                    eb.sourceOfIncome(IncomeSource.getByCode(getIntCellValue(row, 46)));
-                    eb.workStatus(WorkStatus.getByCode(getIntCellValue(row, 47)));
-                    eb.placeOfWork(getStringCellValue(row, 48)); //50
-                    eb.CTCIssuedYear(getIntCellValue(row, 83)); //85
-                    eb.CTCIssuedInBarangay(YesOrNo.getByCode(getIntCellValue(row, 84)));
+                    rb.monthlyIncome(getStringCellValue(row, 45));
+                    rb.sourceOfIncome(IncomeSource.getByCode(getIntCellValue(row, 46)));
+                    rb.workStatus(WorkStatus.getByCode(getIntCellValue(row, 47)));
+                    rb.placeOfWork(getStringCellValue(row, 48)); //50
+                    rb.CTCIssued(YesOrNo.getByCode(getIntCellValue(row, 83))); //85
+                    rb.CTCIssuedBarangay(getStringCellValue(row, 84));
                     //row, ; // "Q43-skill development training
                     Cell skills = row.getCell(85, RETURN_BLANK_AS_NULL);
                     if (isUndefined(skills)) {
@@ -176,45 +169,45 @@ public class ExcelUtils {
                         }
                     } else if (CellType.STRING.equals(skills.getCellTypeEnum())) {
                         String value = getStringCellValue(row, 85);
-                        eb.skills(Arrays.stream(value.split("&|,|\\.|\\*"))
+                        rb.skills(Arrays.stream(value.split("&|,|\\.|\\*"))
                                 .map(r -> Skill.getByCode(parseInt(r)))
                                 .collect(Collectors.toList()));
                     }
 
                     // Health Record
-                    heb.placeOfDelivery(DeliveryPlace.getByCode(getIntCellValue(row, 49)));
-                    heb.birthAttendant(getStringCellValue(row, 50));
-                    heb.immunization(getStringCellValue(row, 51));
-                    heb.livingChildren(getIntCellValue(row, 52));
-                    heb.livingChildrenSub(getIntCellValue(row, 53)); //55
-                    heb.FPMethod(FPMethod.getByCode(getIntCellFirstValue(row, 54)));
-                    heb.sourceOfFP(SourceOfFP.getByCode(getIntCellFirstValue(row, 55)));
-                    heb.intentToUseFP(YesOrNo.getByCode(getIntCellFirstValue(row, 56)));
-                    heb.intentToUseFPSub(FPMethod.getByCode(getIntCellFirstValue(row, 57)));
-                    heb.healthInsurance(HealthInsurance.getByCode(getIntCellFirstValue(row, 58))); //60
-                    heb.facility(Facility.getByCode(getIntCellFirstValue(row, 59)));
-                    heb.reasonOfVisit(ReasonOfVisit.getByCode(getIntCellFirstValue(row, 60))); // If non-numeric catch exception and set 99
-                    heb.disability(getStringCellValue(row, 61));
+                    rb.placeOfDelivery(DeliveryPlace.getByCode(getIntCellValue(row, 49)));
+                    rb.birthAttendant(getStringCellValue(row, 50));
+                    rb.immunization(getStringCellValue(row, 51));
+                    rb.livingChildren(getIntCellValue(row, 52));
+                    rb.livingChildrenSub(getIntCellValue(row, 53)); //55
+                    rb.FPMethod(FPMethod.getByCode(getIntCellFirstValue(row, 54)));
+                    rb.sourceOfFP(SourceOfFP.getByCode(getIntCellFirstValue(row, 55)));
+                    rb.intentToUseFP(YesOrNo.getByCode(getIntCellFirstValue(row, 56)));
+                    rb.intentToUseFPSub(FPMethod.getByCode(getIntCellFirstValue(row, 57)));
+                    rb.healthInsurance(HealthInsurance.getByCode(getIntCellFirstValue(row, 58))); //60
+                    rb.facility(Facility.getByCode(getIntCellFirstValue(row, 59)));
+                    rb.reasonOfVisit(ReasonOfVisit.getByCode(getIntCellFirstValue(row, 60))); // If non-numeric catch exception and set 99
+                    rb.disability(getStringCellValue(row, 61));
 
                     // Residency Info
-                    reb.previousBarangayFiveYr(getStringCellValue(row, 65));
-                    reb.previousMunicipalityFiveYr(getStringCellValue(row, 66));
-                    reb.previousBarangaySixMo(getStringCellValue(row, 67));
-                    reb.previousMunicipalitySixMo(getStringCellValue(row, 68)); //70
-                    reb.yearsOfStay(getIntCellValueRemoveString(row, 69));
-                    reb.monthsOfStay(getIntCellValueRemoveString(row, 70));
-                    reb.residentType(ResidentType.getByCode(getIntCellValue(row, 71)));
-                    reb.monthOfTransfer(getMonthCellValue(row, 72));
-                    reb.yearOfTransfer(getIntCellValue(row, 73)); //75
-                    reb.reasonForLeavingA(ReasonForLeaving.getByCode(getIntCellValue(row, 74)));
-                    reb.reasonForLeavingB(ReasonForLeaving.getByCode(getIntCellValue(row, 75)));
-                    reb.reasonForLeavingC(ReasonForLeaving.getByCode(getIntCellValue(row, 76)));
+                    rb.previousBarangayFiveYr(getStringCellValue(row, 65));
+                    rb.previousMunicipalityFiveYr(getStringCellValue(row, 66));
+                    rb.previousBarangaySixMo(getStringCellValue(row, 67));
+                    rb.previousMunicipalitySixMo(getStringCellValue(row, 68)); //70
+                    rb.yearsOfStay(getIntCellValueRemoveString(row, 69));
+                    rb.monthsOfStay(getIntCellValueRemoveString(row, 70));
+                    rb.residentType(ResidentType.getByCode(getIntCellValue(row, 71)));
+                    rb.monthOfTransfer(getMonthCellValue(row, 72));
+                    rb.yearOfTransfer(getIntCellValue(row, 73)); //75
+                    rb.reasonForLeavingA(ReasonForLeaving.getByCode(getIntCellValue(row, 74)));
+                    rb.reasonForLeavingB(ReasonForLeaving.getByCode(getIntCellValue(row, 75)));
+                    rb.reasonForLeavingC(ReasonForLeaving.getByCode(getIntCellValue(row, 76)));
                     //row, ; // Q39-returntopreviousresident
                     //row, ; // Q39-returntopreviousresident-Response  //80
-                    reb.reasonForTransferA(ReasonForTransfer.getByCode(getIntCellValue(row, 79)));
-                    reb.reasonForTransferB(ReasonForTransfer.getByCode(getIntCellValue(row, 80)));
-                    reb.reasonForTransferC(ReasonForTransfer.getByCode(getIntCellValue(row, 81)));
-                    reb.durationOfStay(getIntCellValue(row, 82));
+                    rb.reasonForTransferA(ReasonForTransfer.getByCode(getIntCellValue(row, 79)));
+                    rb.reasonForTransferB(ReasonForTransfer.getByCode(getIntCellValue(row, 80)));
+                    rb.reasonForTransferC(ReasonForTransfer.getByCode(getIntCellValue(row, 81)));
+                    rb.durationOfStay(getIntCellValue(row, 82));
 
                     // Extra info
                     //cellIterator.next(); //Q54-age //99
@@ -237,9 +230,6 @@ public class ExcelUtils {
                     builder.survey(sb.build());
                     builder.household(hhb.build());
                     builder.resident(rb.build());
-                    builder.health(heb.build());
-                    builder.economicActivity(eb.build());
-                    builder.residency(reb.build());
                     records.add(builder.build());
                 } catch(Exception e) {
                     Logger.error("Failed to parse row %s [Error: %s]", row.getRowNum()+1, e.getMessage());
