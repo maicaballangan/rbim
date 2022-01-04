@@ -1,6 +1,12 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+
+# CRUD
+crud.title=Registry of Barangay Inhabitants and Migrants
+crud.index.title=Browse Records
+crud.index.objectType=Records
+
 id=ID
 lastName=Last Name
 firstName=First Name

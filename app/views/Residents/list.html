@@ -10,8 +10,13 @@
     </div>
 
     <div id="crudListTable">
-        #{crud.table fields:['id', 'lastName', 'firstName', 'middleName', 'sex', 'age', 'relationshipToHead'],
-                     sort: ['id', 'lastName'] /}
+        #{crud.table fields:['id', 'lastName', 'firstName', 'sex', 'age', 'household'],
+                     sort: ['id', 'lastName', 'household'] }
+
+            #{crud.custom 'household'}
+                <a href="@{Households.show(object.household.id)}">${object.household}</a>
+            #{/crud.custom}
+         #{/crud.table}
     </div>
 
     <div id="crudListPagination">
