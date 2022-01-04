@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReasonForLeaving {
+    Undefined(99),
     Lack_of_Employment(1),
     Perception_of_better_income_in_other_place(2),
     Schooling(3),
@@ -19,9 +20,8 @@ public enum ReasonForLeaving {
     Annulment_Divorce_Separation(11),
     Commuting_related_Reasons(12),
     Health_related_Reasons(13),
-    Peacde_and_Security(14),
-    Others(15),
-    Undefined(99);
+    Peace_and_Security(14),
+    Others(15);
 
     private static final Map<Integer, ReasonForLeaving> map;
 
@@ -29,9 +29,11 @@ public enum ReasonForLeaving {
         map = Arrays
                 .stream(ReasonForLeaving.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static ReasonForLeaving getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

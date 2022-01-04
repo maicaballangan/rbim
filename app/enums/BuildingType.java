@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 public enum BuildingType {
     Single(1, "Single"),
     Duplex(2, "Duplex"),
-    MultiUnitResidential(3, "Multi-unit Residential"),
-    CommercialIndustrialAgricultural(4, "Commercial/Unit/Agricultural"),
-    InstitutionalLivingQuarter(5, "Institutional Living Quarter (Hotel, Hospital)"),
-    Other(6, "Other housing units (boat, cave, others)");
+    MultiUnit_Residential(3, "Multi-unit Residential"),
+    Commercial_Industrial_Agricultural(4, "Commercial/Unit/Agricultural"),
+    Institutional_Living_Quarter(5, "Institutional Living Quarter (Hotel, Hospital)"),
+    Others(6, "Other housing units (boat, cave, others)");
 
     private static final Map<Integer, BuildingType> map;
 
@@ -19,11 +19,13 @@ public enum BuildingType {
         map = Arrays
                 .stream(BuildingType.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static BuildingType getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
-    };
+    }
 
     private final int code;
     private final String description;

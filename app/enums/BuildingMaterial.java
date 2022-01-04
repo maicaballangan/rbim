@@ -6,16 +6,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum BuildingMaterial {
-    NoWalls(0, "No walls"),
-    MakeshiftSalvagedImprovised(1, "Makeshift/Salvaged/Improvised"),
+    No_Walls(0, "No walls"),
+    Makeshift_Salvaged_Improvised(1, "Makeshift/Salvaged/Improvised"),
     Glass(2, "Glass"),
     Asbestos(3, "Asbestos"),
-    BambooSawaliCogonNipa(4, "Bamboo/Sawali/Cogon/Nipa"),
-    GalvanizedIronAluminum(5, "Galvanized Iron/Aluminum"),
-    HalfConcreteBrickStoneHalfWood(6, "Half Concrete/Brick/Stone and Half Wood"),
+    Bamboo_Sawali_Cogon_Nipa(4, "Bamboo/Sawali/Cogon/Nipa"),
+    GalvanizedIron_Aluminum(5, "Galvanized Iron/Aluminum"),
+    HalfConcrete_Brick_StoneAndHalfWood(6, "Half Concrete/Brick/Stone and Half Wood"),
     Wood(7, "Wood"),
-    ConcreteBrickStone(8, "Concrete/Brick/Stone"),
-    Other(9, "Other");
+    Concrete_Brick_Stone(8, "Concrete/Brick/Stone"),
+    Others(9, "Other");
 
     private static final Map<Integer, BuildingMaterial> map;
 
@@ -23,11 +23,13 @@ public enum BuildingMaterial {
         map = Arrays
                 .stream(BuildingMaterial.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static BuildingMaterial getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
-    };
+    }
 
     private final int code;
     private final String description;

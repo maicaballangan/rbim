@@ -43,6 +43,7 @@ public enum Street {
     }
 
     public static Street getByDescription(String description) {
+        if (description == null) return null;
         return map.get(description);
     }
 }

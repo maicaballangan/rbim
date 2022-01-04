@@ -23,8 +23,8 @@ public class SerializationUtils {
     private SerializationUtils() {
     }
 
-    public static  <T> T deserialize(final String json, Type buildingType) {
-        return SERIALIZER.fromJson(json, buildingType);
+    public static  <T> T deserialize(final String json, Type type) {
+        return SERIALIZER.fromJson(json, type);
     }
 
     public static String serialize(final Object obj) {

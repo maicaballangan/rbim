@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Education {
+    Undefined(99),
     None(00),
     PreSchool(1),
     Elementary(2),
@@ -24,13 +25,15 @@ public enum Education {
     private static final Map<Integer, Education> map;
 
     static {
-    map = Arrays
-            .stream(Education.values())
-            .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map = Arrays
+                .stream(Education.values())
+                .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Undefined);
     }
 
     public static Education getByCode(Integer code) {
-    return map.get(code);
+        if (code == null) return null;
+        return map.get(code);
     }
 
     private final int code;

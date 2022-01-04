@@ -19,6 +19,7 @@ public enum ResidentType {
     }
 
     public static ResidentType getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

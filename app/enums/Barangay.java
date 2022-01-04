@@ -1,7 +1,5 @@
 package enums;
 
-import com.google.common.collect.Maps;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
@@ -12,20 +10,19 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Barangay {
-    Undefined98("98"),
-    Agbannawag("Agbannawag"),
-    Appas("Appas"),
-    Balong("Balong"),
-    Cabaruan("Cabaruan"),
-    Casigayan("Casigayan"),
-    Dagupan_Centro("Dagupan Centro"),
-    Dagupan_Weste("Dagupan Weste"),
-    Dilag("Dilag"),
-    Ipil("Ipil"),
-    Laya_East("Laya East"),
-    Laya_West("Laya West"),
-    Magsaysay("Magsaysay"),
-    Undefined("99");
+    Undefined("98"),
+    Agbannawag("AGBANNAWAG"),
+    Appas("APPAS"),
+    Balong("BALONG"),
+    Cabaruan("CABARUAN"),
+    Casigayan("CASIGAYAN"),
+    Dagupan_Centro("DAGUPAN CENTRO"),
+    Dagupan_Weste("DAGUPAN WESTE"),
+    Dilag("DILAG"),
+    Ipil("IPIL"),
+    Laya_East("LAYA EAST"),
+    Laya_West("LAYA WEST"),
+    Magsaysay("MAGSAYSAY");
 
     private static final Map<String, Barangay> map;
 
@@ -33,9 +30,13 @@ public enum Barangay {
         map = Arrays.stream(Barangay
                 .values())
                 .collect(Collectors.toMap(e -> e.description, Function.identity()));
+
+        map.put("99", Undefined);
+        map.put("DC", Barangay.Dagupan_Centro);
     }
 
     public static Barangay getByDescription(String description) {
+        if (description == null) return null;
         return map.get(description);
     }
 

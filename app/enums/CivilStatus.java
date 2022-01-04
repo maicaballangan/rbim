@@ -20,9 +20,11 @@ public enum CivilStatus {
         map = Arrays
                 .stream(CivilStatus.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Undefined);
     }
 
     public static CivilStatus getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

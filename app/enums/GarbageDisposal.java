@@ -11,16 +11,20 @@ public enum GarbageDisposal {
     Composting(3),
     Burning(4),
     Dumping_individual_pit(5),
-    Picked_up_by_garbage_truck(6);
+    Picked_up_by_garbage_truck(6),
+    Others(7);
+
     private static final Map<Integer, GarbageDisposal> map;
 
     static {
         map = Arrays
                 .stream(GarbageDisposal.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static GarbageDisposal getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     };
 

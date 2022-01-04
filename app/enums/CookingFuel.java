@@ -13,17 +13,20 @@ public enum CookingFuel {
     Kerosene(4),
     Electricity(5),
     Others(6);
+
     private static final Map<Integer, CookingFuel> map;
 
     static {
         map = Arrays
                 .stream(CookingFuel.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static CookingFuel getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
-    };
+    }
 
     private final int code;
 

@@ -19,10 +19,12 @@ public enum Lighting {
         map = Arrays
                 .stream(Lighting.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static Lighting getByCode(Integer code) {
-    return map.get(code);
+        if (code == null) return null;
+        return map.get(code);
 };
 
     private final int code;

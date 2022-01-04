@@ -18,6 +18,7 @@ public enum Nationality {
     }
 
     public static Nationality getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 
