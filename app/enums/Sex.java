@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public enum Sex {
     Male(1),
-    Female(2);
+    Female(2),
+    Others(3);
 
     private static final Map<Integer, Sex> map;
 
@@ -15,9 +16,11 @@ public enum Sex {
         map = Arrays
                 .stream(Sex.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static Sex getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     };
 

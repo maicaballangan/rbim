@@ -6,13 +6,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum WorkStatus {
+    Undefined(99),
     Permanent(1),
     Casual(2),
     Contractual(3),
     Individually_Owned_Business(4),
     Shared_or_Partnership_Business(5),
-    Corporate_Business(6),
-    Undefined(99);
+    Corporate_Business(6);
 
     private static final Map<Integer, WorkStatus> map;
 
@@ -20,9 +20,11 @@ public enum WorkStatus {
         map = Arrays
                 .stream(WorkStatus.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Undefined);
     }
 
     public static WorkStatus getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

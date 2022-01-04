@@ -38,6 +38,7 @@ public enum Relation {
     }
 
     public static Relation getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

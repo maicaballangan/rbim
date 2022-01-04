@@ -6,11 +6,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum DeliveryPlace {
+    Undefined(99),
     Public_Hospital(1),
     Private_Hospital(2),
     Lying_in_Clinic(3),
     Home(4),
-    Undefined(99);
+    Others(5);
 
     private static final Map<Integer, DeliveryPlace> map;
 
@@ -18,11 +19,13 @@ public enum DeliveryPlace {
         map = Arrays
                 .stream(DeliveryPlace.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static DeliveryPlace getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
-    };
+    }
 
     private final int code;
 

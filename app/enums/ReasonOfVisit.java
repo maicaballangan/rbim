@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReasonOfVisit {
+    Undefined(99),
     Sick_or_Injured(1),
     Prenatal_or_Postnatal(2),
     Gave_Birth(3),
@@ -13,7 +14,7 @@ public enum ReasonOfVisit {
     Medical_Checkup(5),
     Medical_Requirement(6),
     NHTS_CCT_4Ps_Requirement(7),
-    Undefined(99);
+    Others(8);
 
     private static final Map<Integer, ReasonOfVisit> map;
 
@@ -21,9 +22,11 @@ public enum ReasonOfVisit {
         map = Arrays
                 .stream(ReasonOfVisit.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static ReasonOfVisit getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

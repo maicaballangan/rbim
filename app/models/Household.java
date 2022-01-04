@@ -1,9 +1,11 @@
 package models;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import enums.Barangay;
 import enums.BuildingMaterial;
 import enums.BuildingType;
 import enums.CookingFuel;
@@ -24,10 +26,29 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
+@Cacheable
 @Builder
 @Getter
 @Setter
 public class Household extends Model {
+
+    private Integer houseNo;
+
+    @Required
+    private String address;
+
+    @Required
+    private String street;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Barangay barangay;
+
+    @Enumerated(EnumType.STRING)
+    private BuildingType type;
+
+    @Enumerated(EnumType.STRING)
+    private BuildingMaterial material;
 
     @Enumerated(EnumType.STRING)
     private Ownership houseOwnership;
@@ -50,10 +71,13 @@ public class Household extends Model {
     @Enumerated(EnumType.STRING)
     private ToiletFacility toiletFacility;
 
+    @Enumerated(EnumType.STRING)
     private YesOrNo hasTrashSegregation;
 
     @Required
     private String head;
+
+    private Integer totalNumber;
 
     @Enumerated(EnumType.STRING)
     private BuildingType buildingType;
@@ -61,29 +85,24 @@ public class Household extends Model {
     @Enumerated(EnumType.STRING)
     private BuildingMaterial buildingMaterial;
 
-    /*@Required
-    @OneToMany(cascade= CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Resident> resident;*/
-
     @Override
     public String toString() {
-        return id + ": " + head.toString();
+        return id + ": " + head;
     }
 
-    public static Household lookup(String head, String placeOfBirthBrgy, String barangay) {
-        return Household.find(
-                "select h " +
-                        "from Household h " +
-                        "join Resident r on h.id = r.household " +
-                        "join Residency ry on r.id = ry.resident" +
-                        " where h.head = ?1 and r.placeOfBirthBrgy = ?2 and ry.barangay = ?3",
-                        head, placeOfBirthBrgy, barangay)
-                .first();
-        /*return JPA.em().createQuery("select h.* " +
-                "from Household h " +
-                "join Resident r on h.resident_id = r.id " +
-                "where h.head = ? " +
-                "and r.placeOfBirthBrgy = ? " +
-                "and ")*/
+    public Household getExisting() {
+        StringBuilder sb = new StringBuilder("head = :head and barangay = :barangay");
+        if (address != null) sb.append(" and address = :address");
+        if (street != null) sb.append(" and street = :street");
+        if (houseNo != null) sb.append(" and houseNo = :houseNo");
+
+        JPAQuery query = Household.find(sb.toString())
+                .setParameter("head", head)
+                .setParameter("barangay", barangay);
+
+        if (address != null) query.setParameter("address", address);
+        if (street != null) query.setParameter("street", street);
+        if (houseNo != null) query.setParameter("houseNo", houseNo);
+        return query.first();
     }
 }

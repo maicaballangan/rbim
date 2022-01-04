@@ -3,22 +3,21 @@ package controllers;
 import com.google.common.collect.Maps;
 import com.google.common.net.MediaType;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.Iterator;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.List;
 
-import constants.Config;
 import enums.APIErrorCode;
+import enums.Relation;
 import exceptions.HttpException;
+import models.Record;
+import play.Logger;
 import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Finally;
+import utils.ExcelUtils;
 
 /**
  * Main application entry point - used to define basic authentication and documentation interface
@@ -28,19 +27,21 @@ import play.mvc.Finally;
  */
 public class Application extends Controller {
 
+    //default time zone
+    public static final ZoneId zoneId = ZoneId.systemDefault();
     public static final String ERROR_PAGE = "Application/error.json";
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
     private static final String REALM = "Basic realm=\"Popcom\"";
 
     @Before(unless = {"notFound", "ping", "heartbeat", "info"})
     static void authenticate() {
-        if (!(Config.AUTH_ID.equals(request.user) && Config.AUTH_PASS.equals(request.password))) {
+        /*if (!(Config.AUTH_ID.equals(request.user) && Config.AUTH_PASS.equals(request.password))) {
             response.setHeader(WWW_AUTHENTICATE, REALM);
             request.format = MediaType.JSON_UTF_8.toString();
             HttpException e = new HttpException(APIErrorCode.BASIC_AUTHENTICATION_FAILED);
             response.status = e.getHttpStatusCode();
             render(ERROR_PAGE, e);
-        }
+        }*/
     }
 
     @Finally
@@ -106,35 +107,20 @@ public class Application extends Controller {
     /**
      * POST     /import
      */
-    public static void importFile(final File file) {
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            XSSFWorkbook wb = new XSSFWorkbook(fis);
-            XSSFSheet sheet = wb.getSheetAt(0);
-            Iterator<Row> itr = sheet.iterator();
-            while (itr.hasNext()) {
-                Row row = itr.next();
-                Iterator<Cell> cellIterator = row.cellIterator();
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    switch (cell.getCellType()) {
-                        case Cell.CELL_TYPE_STRING:
-                            System.out.print(cell.getStringCellValue() + "\t");
-                            break;
-                        case Cell.CELL_TYPE_NUMERIC:
-                            System.out.print(cell.getNumericCellValue() + "\t");
-                            break;
-                        case Cell.CELL_TYPE_BOOLEAN:
-                            System.out.print(cell.getBooleanCellValue() + "\t");
-                            break;
-                        default :
-                    }
-                }
+    public static void importFile(final File file) throws IOException {
+        Logger.info("============Start Import process=============");
+        Logger.info("File name: %s", file.getName());
 
-                // TODO
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        List<Record> records = ExcelUtils.importExcel(file);
+
+        // Save head residents first
+        records.stream()
+                .filter(r -> Relation.Head.equals(r.getResident().getRelationshipToHead()))
+                .forEach(Record::create);
+
+        records.stream()
+                .filter(r -> !Relation.Head.equals(r.getResident().getRelationshipToHead()))
+                .forEach(Record::create);
+        Logger.info("============End Import process===============");
     }
 }

@@ -6,13 +6,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum SchoolLevel {
+    Undefined(99),
     Pre_School(0),
     Elementary(1),
     Junior_HS(2),
     Senior_HS(3),
     Vocational_or_Technical(4),
-    College_or_University(5),
-    Undefined(99);
+    College_or_University(5);
 
     private static final Map<Integer, SchoolLevel> map;
 
@@ -23,6 +23,7 @@ public enum SchoolLevel {
     }
 
     public static SchoolLevel getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     }
 

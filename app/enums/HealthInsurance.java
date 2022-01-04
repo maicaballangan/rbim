@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum HealthInsurance {
+    Undefined(99),
     Philhealth_Paying_Member(1),
     Philhealth_Dependent_of_Paying_Member(2),
     Philhealth_Indigent_Member(3),
@@ -13,7 +14,7 @@ public enum HealthInsurance {
     GSIS(5),
     SSS(6),
     Private_or_HMO(7),
-    Undefined(99);
+    Others(8);
 
     private static final Map<Integer, HealthInsurance> map;
 
@@ -21,9 +22,11 @@ public enum HealthInsurance {
         map = Arrays
                 .stream(HealthInsurance.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static HealthInsurance getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     };
 

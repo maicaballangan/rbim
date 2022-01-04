@@ -21,9 +21,11 @@ public enum ToiletFacility {
         map = Arrays
                 .stream(ToiletFacility.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(-1, Others);
     }
 
     public static ToiletFacility getByCode(Integer code) {
+        if (code == null) return null;
         return map.get(code);
     };
 
