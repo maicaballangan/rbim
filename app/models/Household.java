@@ -1,9 +1,18 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package models;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import enums.Barangay;
 import enums.BuildingMaterial;
@@ -19,6 +28,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
+import play.db.jpa.GenericModel;
 import play.db.jpa.Model;
 
 /**
@@ -27,10 +37,15 @@ import play.db.jpa.Model;
  */
 @Entity
 @Cacheable
+@SequenceGenerator(initialValue = 100000, name = "household", sequenceName = "houeholdSeq")
 @Builder
 @Getter
 @Setter
-public class Household extends Model {
+public class Household extends GenericModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "household")
+    public Long id;
 
     private Integer houseNo;
 

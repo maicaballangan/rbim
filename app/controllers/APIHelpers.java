@@ -1,3 +1,8 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package controllers;
 
 import com.google.common.collect.Maps;
@@ -293,32 +298,6 @@ public class APIHelpers extends Controller {
             response.cookies.remove("PLAY_ERRORS");
             response.cookies.remove("PLAY_FLASH");
             response.cookies.remove("PLAY_SESSION");
-        }
-    }
-
-    @Util
-    public static String getPublicIP() {
-        if (request != null && request.headers.containsKey(EXTERNAL_IP_HEADER)) {
-            return request.headers.get(EXTERNAL_IP_HEADER).value();
-        } else {
-            try {
-                WS.HttpResponse res = WS.url(EXTERNAL_IP_PROVIDER).get();
-                return res.getString().replaceAll("\\n", StringUtils.EMPTY).split(",")[0];
-            } catch (Exception e) {
-                Logger.error("Could not retrieve public IP so defaulting to %s: %s", DEFAULT_EXTERNAL_IP, e.getMessage());
-                return DEFAULT_EXTERNAL_IP;
-            }
-        }
-    }
-
-    @Util
-    public static String getLocalIP() {
-        try (final DatagramSocket socket = new DatagramSocket()) {
-            socket.connect(InetAddress.getByName(DNS_IP), DNS_IP_PORT);
-            return socket.getLocalAddress().getHostAddress();
-        } catch (SocketException | UnknownHostException e) {
-            Logger.error("Could not retrieve local IP so defaulting to %s: %s", DEFAULT_EXTERNAL_IP, e.getMessage());
-            return DEFAULT_EXTERNAL_IP;
         }
     }
 

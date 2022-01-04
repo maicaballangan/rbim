@@ -1,3 +1,8 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package models;
 
 import java.time.Month;
@@ -55,14 +60,14 @@ import play.db.jpa.GenericModel;
 )*/
 @Entity
 @Cacheable
-@SequenceGenerator(initialValue = 1000000, name = "idgen", sequenceName = "residentSeq")
+@SequenceGenerator(initialValue = 1000000, name = "resident", sequenceName = "residentSeq")
 @Builder
 @Getter
 @Setter
 public class Resident extends GenericModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident")
     public Long id;
 
     @Required
