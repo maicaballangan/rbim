@@ -4,6 +4,7 @@ package models;
 import java.time.LocalTime;
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,25 +22,14 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
+@Cacheable
 @Builder
 @Getter
 @Setter
 public class Survey extends Model {
 
     private Date interviewDate;
-    private LocalTime interviewStart;
-    private LocalTime interviewEnd;
-    private Date encodeDate;
     private String respondent;
-
-    @Required
-    private String interviewer;
-    @Required
-    private String interviewerSupervisor;
-    @Required
-    private String encoder;
-    @Required
-    private String encoderSupervisor;
 
     @Required
     @ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)

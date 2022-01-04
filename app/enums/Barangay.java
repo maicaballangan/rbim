@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Barangay {
-    Undefined("98"),
+    Undefined("Undefined"),
     Agbannawag("AGBANNAWAG"),
     Appas("APPAS"),
     Balong("BALONG"),
@@ -31,6 +31,7 @@ public enum Barangay {
                 .values())
                 .collect(Collectors.toMap(e -> e.description, Function.identity()));
 
+        map.put("98", Undefined);
         map.put("99", Undefined);
         map.put("DC", Barangay.Dagupan_Centro);
     }

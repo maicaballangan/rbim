@@ -2,6 +2,7 @@ package models;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import play.libs.Crypto;
 import utils.EncryptionUtils;
 
 /**
@@ -20,6 +22,7 @@ import utils.EncryptionUtils;
  * @since v1
  */
 @Entity
+@Cacheable
 @Builder
 @Getter
 @Setter
@@ -58,7 +61,7 @@ public class Staff extends GenericModel {
     private Role role;
 
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(EncryptionUtils.hash(password), BCrypt.gensalt());
+        this.password = encrypt(password);
     }
 
     @Override
@@ -66,7 +69,15 @@ public class Staff extends GenericModel {
         return name;
     }
 
+    public static final String encrypt(String password) {
+        return BCrypt.hashpw(EncryptionUtils.hash(password), BCrypt.gensalt());
+    }
+
     public final boolean checkPassword(final String compare) {
         return BCrypt.checkpw(EncryptionUtils.hash(compare), this.password);
+    }
+
+    public static Staff findByIdAndPassword(String id, String password) {
+        return Staff.find("byIdAndPassword", id, encrypt(password)).first();
     }
 }
