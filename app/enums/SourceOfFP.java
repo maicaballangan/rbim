@@ -11,13 +11,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum SourceOfFP {
-    Undefined(99),
-    Government_Hospital(1),
-    RHU_or_Health_Center(2),
-    Brgy_Health_Station(3),
-    Private_Hospital(4),
-    Pharmacy(5),
-    Others(6);
+    GOVERNMENT_HOSPITAL(1),
+    RHU_OR_HEALTH_CENTER(2),
+    BRGY_HEALTH_STATION(3),
+    PRIVATE_HOSPITAL(4),
+    PHARMACY(5),
+    OTHERS(6);
 
     private static final Map<Integer, SourceOfFP> map;
 
@@ -25,21 +24,26 @@ public enum SourceOfFP {
         map = Arrays
                 .stream(SourceOfFP.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static SourceOfFP getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    SourceOfFP(int code) {
+    SourceOfFP(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

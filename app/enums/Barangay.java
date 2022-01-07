@@ -15,19 +15,18 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Barangay {
-    Undefined("Undefined"),
-    Agbannawag("AGBANNAWAG"),
-    Appas("APPAS"),
-    Balong("BALONG"),
-    Cabaruan("CABARUAN"),
-    Casigayan("CASIGAYAN"),
-    Dagupan_Centro("DAGUPAN CENTRO"),
-    Dagupan_Weste("DAGUPAN WESTE"),
-    Dilag("DILAG"),
-    Ipil("IPIL"),
-    Laya_East("LAYA EAST"),
-    Laya_West("LAYA WEST"),
-    Magsaysay("MAGSAYSAY");
+    AGBANNAWAG("AGBANNAWAG"),
+    APPAS("APPAS"),
+    BALONG("BALONG"),
+    CABARUAN("CABARUAN"),
+    CASIGAYAN("CASIGAYAN"),
+    DAGUPAN_CENTRO("DAGUPAN CENTRO"),
+    DAGUPAN_WESTE("DAGUPAN WESTE"),
+    DILAG("DILAG"),
+    IPIL("IPIL"),
+    LAYA_EAST("LAYA EAST"),
+    LAYA_WEST("LAYA WEST"),
+    MAGSAYSAY("MAGSAYSAY");;
 
     private static final Map<String, Barangay> map;
 
@@ -35,14 +34,11 @@ public enum Barangay {
         map = Arrays.stream(Barangay
                 .values())
                 .collect(Collectors.toMap(e -> e.description, Function.identity()));
-
-        map.put("98", Undefined);
-        map.put("99", Undefined);
-        map.put("DC", Barangay.Dagupan_Centro);
+        map.put("DC", Barangay.DAGUPAN_CENTRO);
     }
 
     public static Barangay getByDescription(String description) {
-        if (description == null) return null;
+        if (description == null || "99".equals(description) || "98".equals(description)) return null;
         return map.get(description);
     }
 

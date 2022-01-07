@@ -15,15 +15,14 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Municipality {
-    UNDEFINED(null),
-    BALBALAN("Balbalan"),
-    PASIL("Pasil"),
-    LUBUAGAN("Lubuagan"),
-    PINUKPUK("Pinukpuk"),
-    RIZAL("Rizal"),
-    TABUK_CITY("Tabuk City"),
-    TANUDAN("Tanudan"),
-    TINGLAYAN("Tinglayan");
+    BALBALAN("BALBALAN"),
+    PASIL("PASIL"),
+    LUBUAGAN("LUBUAGAN"),
+    PINUKPUK("PINUKPUK"),
+    RIZAL("RIZAL"),
+    TABUK_CITY("TABUK CITY"),
+    TANUDAN("TANUDAN"),
+    TINGLAYAN("TINGLAYAN");
 
     private static final Map<String, Municipality> map;
 
@@ -34,8 +33,7 @@ public enum Municipality {
     }
 
     public static Municipality getByDescription(String description) {
-        if (description == null) return null;
-        if ("99".equals(description)) return UNDEFINED;
+        if (description == null || "99".equals(description)) return null;
         return Municipality.valueOf(description);
     }
 

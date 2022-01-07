@@ -11,15 +11,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReasonOfVisit {
-    Undefined(99),
-    Sick_or_Injured(1),
-    Prenatal_or_Postnatal(2),
-    Gave_Birth(3),
-    Dental(4),
-    Medical_Checkup(5),
-    Medical_Requirement(6),
-    NHTS_CCT_4Ps_Requirement(7),
-    Others(8);
+    SICK_OR_INJURED(1),
+    PRENATAL_OR_POSTNATAL(2),
+    GAVE_BIRTH(3),
+    DENTAL(4),
+    MEDICAL_CHECKUP(5),
+    MEDICAL_REQUIREMENT(6),
+    NHTS_CCT_4PS_REQUIREMENT(7),
+    OTHERS(8);
 
     private static final Map<Integer, ReasonOfVisit> map;
 
@@ -27,21 +26,26 @@ public enum ReasonOfVisit {
         map = Arrays
                 .stream(ReasonOfVisit.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static ReasonOfVisit getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    ReasonOfVisit(int code) {
+    ReasonOfVisit(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

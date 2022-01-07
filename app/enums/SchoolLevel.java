@@ -11,13 +11,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum SchoolLevel {
-    Undefined(99),
-    Pre_School(0),
-    Elementary(1),
-    Junior_HS(2),
-    Senior_HS(3),
-    Vocational_or_Technical(4),
-    College_or_University(5);
+    PRE_SCHOOL(0),
+    ELEMENTARY(1),
+    JUNIOR_HS(2),
+    SENIOR_HS(3),
+    VOCATIONAL_OR_TECHNICAL(4),
+    COLLEGE_OR_UNIVERSITY(5);
 
     private static final Map<Integer, SchoolLevel> map;
 
@@ -28,17 +27,22 @@ public enum SchoolLevel {
     }
 
     public static SchoolLevel getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    SchoolLevel(int code) {
+    SchoolLevel(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

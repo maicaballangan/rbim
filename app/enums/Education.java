@@ -11,21 +11,20 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Education {
-    Undefined(99),
-    None(00),
-    PreSchool(1),
-    Elementary(2),
-    Elementary_Graduate(3),
-    HighSchool(4),
-    HighSchool_Graduate(5),
-    Junior_HS(6),
-    Junior_HS_graduate(7),
-    Senior_HS(8),
-    Senior_HS_graduate(9),
-    Vocational_or_Tech(10),
-    College(11),
-    College_Graduate(12),
-    Post_Graduate(13);
+    NONE(00),
+    PRESCHOOL(1),
+    ELEMENTARY(2),
+    ELEMENTARY_GRADUATE(3),
+    HIGHSCHOOL(4),
+    HIGHSCHOOL_GRADUATE(5),
+    JUNIOR_HS(6),
+    JUNIOR_HS_GRADUATE(7),
+    SENIOR_HS(8),
+    SENIOR_HS_GRADUATE(9),
+    VOCATIONAL_OR_TECH(10),
+    COLLEGE(11),
+    COLLEGE_GRADUATE(12),
+    POST_GRADUATE(13);
 
     private static final Map<Integer, Education> map;
 
@@ -33,21 +32,26 @@ public enum Education {
         map = Arrays
                 .stream(Education.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Undefined);
+        map.put(-1, null);
     }
 
     public static Education getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    Education(int code) {
+    Education(Integer code) {
     this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
             return code;
         }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
+    }
 }

@@ -11,13 +11,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum GarbageDisposal {
-    Feeding_to_animals(1),
-    Burying(2),
-    Composting(3),
-    Burning(4),
-    Dumping_individual_pit(5),
-    Picked_up_by_garbage_truck(6),
-    Others(7);
+    FEEDING_TO_ANIMALS(1),
+    BURYING(2),
+    COMPOSTING(3),
+    BURNING(4),
+    DUMPING_INDIVIDUAL_PIT(5),
+    PICKED_UP_BY_GARBAGE_TRUCK(6),
+    OTHERS(7);
 
     private static final Map<Integer, GarbageDisposal> map;
 
@@ -25,21 +25,26 @@ public enum GarbageDisposal {
         map = Arrays
                 .stream(GarbageDisposal.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static GarbageDisposal getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
-    private final int code;
+    private final Integer code;
 
-    GarbageDisposal(int code) {
+    GarbageDisposal(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

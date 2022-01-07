@@ -11,9 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Sex {
-    Male(1),
-    Female(2),
-    Others(3);
+    MALE(1),
+    FEMALE(2),
+    OTHERS(3);
 
     private static final Map<Integer, Sex> map;
 
@@ -21,21 +21,26 @@ public enum Sex {
         map = Arrays
                 .stream(Sex.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static Sex getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
-    private final int code;
+    private final Integer code;
 
-    Sex(int code) {
+    Sex(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

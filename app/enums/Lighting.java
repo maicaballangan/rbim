@@ -11,12 +11,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Lighting {
-    None(0),
-    Oil_from_animals_or_vegetables (1),
+    NONE(0),
+    OIL_FROM_ANIMALS_OR_VEGETABLES (1),
     LPG(2),
-    Kerosene(3),
-    Electricity(4),
-    Others(5);
+    KEROSENE(3),
+    ELECTRICITY(4),
+    OTHERS(5);
 
     private static final Map<Integer, Lighting> map;
 
@@ -24,21 +24,26 @@ public enum Lighting {
         map = Arrays
                 .stream(Lighting.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static Lighting getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-};
+    }
 
-    private final int code;
+    private final Integer code;
 
-    Lighting(int code) {
+    Lighting(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

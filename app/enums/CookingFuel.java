@@ -11,13 +11,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum CookingFuel {
-    None(0),
-    Wood(1),
-    Charcoal(2),
+    NONE(0),
+    WOOD(1),
+    CHARCOAL(2),
     LPG(3),
-    Kerosene(4),
-    Electricity(5),
-    Others(6);
+    KEROSENE(4),
+    ELECTRICITY(5),
+    OTHERS(6);
 
     private static final Map<Integer, CookingFuel> map;
 
@@ -25,21 +25,26 @@ public enum CookingFuel {
         map = Arrays
                 .stream(CookingFuel.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static CookingFuel getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    CookingFuel(int code) {
+    CookingFuel(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

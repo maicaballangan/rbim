@@ -11,18 +11,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum WaterSource {
-    Lake_river_rain_others(1),
-    Dug_well(2),
-    Unprotected_spring(3),
-    Protected_Spring(4),
-    Peddler(5),
-    Tubed_or_Piped_Shallow_Well(6),
-    Shared_Tubed_or_Piped_Deep_Well(7),
-    Own_Use_Tubed_or_Piped_Deep_Well(8),
-    Shared_Use_Faucet_Community_Water_System(9),
-    Own_Use_Faucet_Community_Water_System(10),
-    Bottled_Water(11),
-    Others(12);
+    LAKE_RIVER_RAIN_OTHERS(1),
+    DUG_WELL(2),
+    UNPROTECTED_SPRING(3),
+    PROTECTED_SPRING(4),
+    PEDDLER(5),
+    TUBED_OR_PIPED_SHALLOW_WELL(6),
+    SHARED_TUBED_OR_PIPED_DEEP_WELL(7),
+    OWN_USE_TUBED_OR_PIPED_DEEP_WELL(8),
+    SHARED_USE_FAUCET_COMMUNITY_WATER_SYSTEM(9),
+    OWN_USE_FAUCET_COMMUNITY_WATER_SYSTEM(10),
+    BOTTLED_WATER(11),
+    OTHERS(12);
 
     private static final Map<Integer, WaterSource> map;
 
@@ -30,21 +30,26 @@ public enum WaterSource {
         map = Arrays
                 .stream(WaterSource.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static WaterSource getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
-    private final int code;
+    private final Integer code;
 
-    WaterSource(int code) {
+    WaterSource(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
     return code;
 }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
+    }
 }
