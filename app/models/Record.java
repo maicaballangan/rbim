@@ -20,7 +20,6 @@ public class Record {
     private int row;
     private Resident resident;
     private Household household;
-    private Survey survey;
 
     public void create() {
         try {
@@ -34,8 +33,6 @@ public class Record {
             // Save household, and survey information
             if (Relation.Head.equals(resident.getRelationshipToHead())) {
                 household.create();
-                survey.setHousehold(household);
-                survey.create();
             } else {
                 String head = household.getHead();
                 household = household.getExisting();
