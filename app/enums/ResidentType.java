@@ -11,9 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ResidentType {
-    NonMigrant(1),
-    Migrant(2),
-    Transient(3);
+    NONMIGRANT(1),
+    MIGRANT(2),
+    TRANSIENT(3);
 
     private static final Map<Integer, ResidentType> map;
 
@@ -24,17 +24,22 @@ public enum ResidentType {
     }
 
     public static ResidentType getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    ResidentType(int code) {
+    ResidentType(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

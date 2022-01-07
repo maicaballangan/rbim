@@ -11,14 +11,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ToiletFacility {
-    None(0),
-    Open_pit(1),
-    Close_pit(2),
-    Water_sealed_shared_depository(3),
-    Water_sealed_exclusive_depository(4),
-    Water_sealed_shared_sewer_septic_tank(5),
-    Water_sealed_exclusive_sewer_septic_tank(6),
-    Others(7);
+    NONE(0),
+    OPEN_PIT(1),
+    CLOSE_PIT(2),
+    WATER_SEALED_SHARED_DEPOSITORY(3),
+    WATER_SEALED_EXCLUSIVE_DEPOSITORY(4),
+    WATER_SEALED_SHARED_SEWER_SEPTIC_TANK(5),
+    WATER_SEALED_EXCLUSIVE_SEWER_SEPTIC_TANK(6),
+    OTHERS(7);
 
     private static final Map<Integer, ToiletFacility> map;
 
@@ -26,21 +26,26 @@ public enum ToiletFacility {
         map = Arrays
                 .stream(ToiletFacility.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static ToiletFacility getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
-    private final int code;
+    private final Integer code;
 
-    ToiletFacility(int code) {
+    ToiletFacility(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

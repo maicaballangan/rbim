@@ -242,6 +242,7 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private Skill skillC;
 
+    @Required
     @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn
     private Household household;

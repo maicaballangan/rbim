@@ -11,10 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ParentalStatus {
-    Undefined(99),
-    Registered_Solo_Parent(1),
-    Non_Solo_Parent(2),
-    Unregistered_Solo_Parent(3);
+    REGISTERED_SOLO_PARENT(1),
+    NON_SOLO_PARENT(2),
+    UNREGISTERED_SOLO_PARENT(3);
 
     private static final Map<Integer, ParentalStatus> map;
 
@@ -22,21 +21,26 @@ public enum ParentalStatus {
         map = Arrays
                 .stream(ParentalStatus.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Undefined);
+        map.put(-1, null);
     }
 
     public static ParentalStatus getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    ParentalStatus(int code) {
+    ParentalStatus(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

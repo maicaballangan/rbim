@@ -11,13 +11,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum WorkStatus {
-    Undefined(99),
-    Permanent(1),
-    Casual(2),
-    Contractual(3),
-    Individually_Owned_Business(4),
-    Shared_or_Partnership_Business(5),
-    Corporate_Business(6);
+    PERMANENT(1),
+    CASUAL(2),
+    CONTRACTUAL(3),
+    INDIVIDUALLY_OWNED_BUSINESS(4),
+    SHARED_OR_PARTNERSHIP_BUSINESS(5),
+    CORPORATE_BUSINESS(6);
 
     private static final Map<Integer, WorkStatus> map;
 
@@ -25,21 +24,26 @@ public enum WorkStatus {
         map = Arrays
                 .stream(WorkStatus.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Undefined);
+        map.put(-1, null);
     }
 
     public static WorkStatus getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    WorkStatus(int code) {
+    WorkStatus(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

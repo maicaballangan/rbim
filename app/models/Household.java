@@ -5,6 +5,8 @@
  */
 package models;
 
+import java.util.Date;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -108,6 +110,10 @@ public class Household extends GenericModel {
     private Integer totalNumber;
 
     private Status status;
+
+    private Date interviewDate;
+
+    private String respondent;
 
     @Override
     public String toString() {

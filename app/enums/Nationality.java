@@ -11,8 +11,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Nationality {
-    Filipino(1),
-    Non_Filipino(2);
+    FILIPINO(1),
+    NON_FILIPINO(2);
 
     private static final Map<Integer, Nationality> map;
 
@@ -23,17 +23,22 @@ public enum Nationality {
     }
 
     public static Nationality getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    Nationality(int code) {
+    Nationality(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

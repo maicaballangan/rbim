@@ -11,14 +11,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Facility {
-    Undefined(99),
-    Government_Hospital(1),
-    RHU_or_Health_Center(2),
-    Brgy_Health_Station(3),
-    Private_Hospital(4),
-    Private_Clinic(5),
-    Pharmacy(6),
-    Hilot_or_Herbalist(7);
+    GOVERNMENT_HOSPITAL(1),
+    RHU_OR_HEALTH_CENTER(2),
+    BRGY_HEALTH_STATION(3),
+    PRIVATE_HOSPITAL(4),
+    PRIVATE_CLINIC(5),
+    PHARMACY(6),
+    HILOT_OR_HERBALIST(7);
 
     private static final Map<Integer, Facility> map;
 
@@ -26,21 +25,26 @@ public enum Facility {
         map = Arrays
                 .stream(Facility.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Undefined);
+        map.put(-1, null);
     }
 
     public static Facility getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    Facility(int code) {
+    Facility(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

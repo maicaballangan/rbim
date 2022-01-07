@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Street {
-    Centro_West("Centro West", "App Centro", Barangay.Appas),
-    Centro_East("Centro East", "App Centro", Barangay.Appas),
-    Sur("Sur", "App Sur", Barangay.Appas),
-    Anabel("Anabel", "App Anabel", Barangay.Appas),
-    Nasgueban_1("Nasgueban BLCK-1", "App Nas.BLCK 1", Barangay.Appas),
-    Nasgueban_2("Nasgueban BLCK-2", "App Nas.BLCK 2", Barangay.Appas),
-    Nasgueban_3("Nasgueban BLCK-3", "App Nas.BLCK 3", Barangay.Appas),
-    Norte("Norte", "App Norte", Barangay.Appas);
+    Centro_West("Centro West", "App Centro", Barangay.APPAS),
+    Centro_East("Centro East", "App Centro", Barangay.APPAS),
+    Sur("Sur", "App Sur", Barangay.APPAS),
+    Anabel("Anabel", "App Anabel", Barangay.APPAS),
+    Nasgueban_1("Nasgueban BLCK-1", "App Nas.BLCK 1", Barangay.APPAS),
+    Nasgueban_2("Nasgueban BLCK-2", "App Nas.BLCK 2", Barangay.APPAS),
+    Nasgueban_3("Nasgueban BLCK-3", "App Nas.BLCK 3", Barangay.APPAS),
+    Norte("Norte", "App Norte", Barangay.APPAS);
 
     private static final Map<String, Street> map;
 

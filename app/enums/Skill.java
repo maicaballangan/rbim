@@ -11,25 +11,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Skill {
-    Undefined(null),
-    Refrigeration_and_Airconditioning(1),
-    Automotive_or_Heavy_Equipment_Servicing(2),
-    Metal_Worker(3),
-    Building_Wiring_Installation(4),
-    Heavy_Equipment_Operation(5),
-    Plumbing(6),
-    Welding(7),
-    Carpentry(8),
-    Baking(9),
-    Dressmaking(10),
-    Linguist(11),
-    Computer_Graphics(12),
-    Painting(13),
-    Beauty_Care(14),
-    Commercial_Cooking(15),
-    Housekeeping(16),
-    Massage_Therapy(17),
-    Others(18);
+    REFRIGERATION_AND_AIRCONDITIONING(1),
+    AUTOMOTIVE_OR_HEAVY_EQUIPMENT_SERVICING(2),
+    METAL_WORKER(3),
+    BUILDING_WIRING_INSTALLATION(4),
+    HEAVY_EQUIPMENT_OPERATION(5),
+    PLUMBING(6),
+    WELDING(7),
+    CARPENTRY(8),
+    BAKING(9),
+    DRESSMAKING(10),
+    LINGUIST(11),
+    COMPUTER_GRAPHICS(12),
+    PAINTING(13),
+    BEAUTY_CARE(14),
+    COMMERCIAL_COOKING(15),
+    HOUSEKEEPING(16),
+    MASSAGE_THERAPY(17),
+    OTHERS(18);
 
     private static final Map<Integer, Skill> map;
 
@@ -37,14 +36,13 @@ public enum Skill {
         map = Arrays
                 .stream(Skill.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(99, Undefined);
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static Skill getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
     private final Integer code;
 
@@ -55,4 +53,9 @@ public enum Skill {
     public Integer getCode() {
             return code;
         }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
+    }
 }

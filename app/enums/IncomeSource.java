@@ -11,12 +11,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum IncomeSource {
-    Undefined(99),
-    Employment(1),
-    Business(2),
-    Remittance(3),
-    Investments(4),
-    Others(5);
+    EMPLOYMENT(1),
+    BUSINESS(2),
+    REMITTANCE(3),
+    INVESTMENTS(4),
+    OTHERS(5);
 
     private static final Map<Integer, IncomeSource> map;
 
@@ -24,21 +23,26 @@ public enum IncomeSource {
         map = Arrays
                 .stream(IncomeSource.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static IncomeSource getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    IncomeSource(int code) {
+    IncomeSource(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

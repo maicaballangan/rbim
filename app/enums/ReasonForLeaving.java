@@ -11,22 +11,21 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReasonForLeaving {
-    Undefined(99),
-    Lack_of_Employment(1),
-    Perception_of_better_income_in_other_place(2),
-    Schooling(3),
-    Presence_of_relatives_and_friends_in_other_place(4),
-    Employment_or_Job_Relocation(5),
-    Disaster_related_Relocation(6),
-    Retirement(7),
-    To_live_with_parents(8),
-    To_live_with_children(9),
-    Marriage(10),
-    Annulment_Divorce_Separation(11),
-    Commuting_related_Reasons(12),
-    Health_related_Reasons(13),
-    Peace_and_Security(14),
-    Others(15);
+    LACK_OF_EMPLOYMENT(1),
+    PERCEPTION_OF_BETTER_INCOME_IN_OTHER_PLACE(2),
+    SCHOOLING(3),
+    PRESENCE_OF_RELATIVES_AND_FRIENDS_IN_OTHER_PLACE(4),
+    EMPLOYMENT_OR_JOB_RELOCATION(5),
+    DISASTER_RELATED_RELOCATION(6),
+    RETIREMENT(7),
+    TO_LIVE_WITH_PARENTS(8),
+    TO_LIVE_WITH_CHILDREN(9),
+    MARRIAGE(10),
+    ANNULMENT_DIVORCE_SEPARATION(11),
+    COMMUTING_RELATED_REASONS(12),
+    HEALTH_RELATED_REASONS(13),
+    PEACE_AND_SECURITY(14),
+    OTHERS(15);
 
     private static final Map<Integer, ReasonForLeaving> map;
 
@@ -34,21 +33,26 @@ public enum ReasonForLeaving {
         map = Arrays
                 .stream(ReasonForLeaving.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static ReasonForLeaving getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    ReasonForLeaving(int code) {
+    ReasonForLeaving(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

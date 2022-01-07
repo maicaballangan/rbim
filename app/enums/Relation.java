@@ -11,28 +11,28 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Relation {
-    Head(1),
-    Spouse(2),
-    Son(3),
-    Daughter(4),
-    Stepson(5),
-    Stepdaughter(6),
-    Son_In_Law(7),
-    Daughter_In_Law(8),
-    Grandson(9),
-    Granddaughter(10),
-    Father(11),
-    Mother(12),
-    Brother(13),
-    Sister(14),
-    Uncle(15),
-    Aunt(16),
-    Nephew(17),
-    Niece(18),
-    Other_Relative(19),
-    NonRelative(20),
-    Boarder(21),
-    Domestic_Helper(22);
+    HEAD(1),
+    SPOUSE(2),
+    SON(3),
+    DAUGHTER(4),
+    STEPSON(5),
+    STEPDAUGHTER(6),
+    SON_IN_LAW(7),
+    DAUGHTER_IN_LAW(8),
+    GRANDSON(9),
+    GRANDDAUGHTER(10),
+    FATHER(11),
+    MOTHER(12),
+    BROTHER(13),
+    SISTER(14),
+    UNCLE(15),
+    AUNT(16),
+    NEPHEW(17),
+    NIECE(18),
+    OTHER_RELATIVE(19),
+    NONRELATIVE(20),
+    BOARDER(21),
+    DOMESTIC_HELPER(22);
 
     private static final Map<Integer, Relation> map;
 
@@ -43,17 +43,22 @@ public enum Relation {
     }
 
     public static Relation getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    Relation(int code) {
+    Relation(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

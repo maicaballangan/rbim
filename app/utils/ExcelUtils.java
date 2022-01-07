@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import enums.Barangay;
 import enums.BuildingMaterial;
@@ -56,7 +55,6 @@ import enums.YesOrNo;
 import models.Household;
 import models.Record;
 import models.Resident;
-import models.Survey;
 import play.Logger;
 
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
@@ -88,7 +86,6 @@ public class ExcelUtils {
                         continue;
                     }
                     Household.HouseholdBuilder hhb = Household.builder();
-                    Survey.SurveyBuilder sb = Survey.builder();
                     Resident.ResidentBuilder rb = Resident.builder();
 
                     Relation relation = Relation.getByCode(getIntCellValue(row, 30));
@@ -127,14 +124,14 @@ public class ExcelUtils {
                         hhb.buildingMaterial(BuildingMaterial.getByCode(getIntCellFirstValue(row, 96)));
 
                         // Survey Info
-                        sb.respondent(getStringCellValue(row, 13)); //14
-                        //sb.visit(getIntCellValueRemoveString(row, 16)); //17 visit (should be computed)
-                        sb.interviewDate(getDateCellValue(row, 17)); //18
-                        //sb.interviewer(getStringCellValue(row, 22)); //23
-                        //sb.interviewerSupervisor(getStringCellValue(row, 23)); //24
-                        //sb.encodeDate(getDateCellValue(row, 24)); //25
-                        //sb.encoder(getStringCellValue(row, 25)); //26
-                        //sb.encoderSupervisor(getStringCellValue(row, 26)); //27
+                        hhb.respondent(getStringCellValue(row, 13)); //14
+                        //hhb.visit(getIntCellValueRemoveString(row, 16)); //17 visit (should be computed)
+                        hhb.interviewDate(getDateCellValue(row, 17)); //18
+                        //hhb.interviewer(getStringCellValue(row, 22)); //23
+                        //hhb.interviewerSupervisor(getStringCellValue(row, 23)); //24
+                        //hhb.encodeDate(getDateCellValue(row, 24)); //25
+                        //hhb.encoder(getStringCellValue(row, 25)); //26
+                        //hhb.encoderSupervisor(getStringCellValue(row, 26)); //27
                     }
 
                     // Resident info
@@ -241,7 +238,6 @@ public class ExcelUtils {
 
                     Record.RecordBuilder builder = Record.builder();
                     builder.row(row.getRowNum()+1);
-                    builder.survey(sb.build());
                     builder.household(hhb.build());
                     builder.resident(rb.build());
                     records.add(builder.build());

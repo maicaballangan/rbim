@@ -11,13 +11,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReasonForTransfer {
-    Undefined(99),
-    Availability_of_Jobs(1),
-    Higher_wage(2),
-    Presence_of_schools_or_Universities(3),
-    Presence_of_relatives_and_friends_in_other_place(4),
-    Housing(5),
-    Others(6);
+    AVAILABILITY_OF_JOBS(1),
+    HIGHER_WAGE(2),
+    PRESENCE_OF_SCHOOLS_OR_UNIVERSITIES(3),
+    PRESENCE_OF_RELATIVES_AND_FRIENDS_IN_OTHER_PLACE(4),
+    HOUSING(5),
+    OTHERS(6);
 
     private static final Map<Integer, ReasonForTransfer> map;
 
@@ -25,22 +24,26 @@ public enum ReasonForTransfer {
         map = Arrays
                 .stream(ReasonForTransfer.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static ReasonForTransfer getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
+    private final Integer code;
 
-    private final int code;
-
-    ReasonForTransfer(int code) {
+    ReasonForTransfer(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }

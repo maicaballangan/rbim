@@ -11,16 +11,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum BuildingMaterial {
-    No_Walls(0, "No walls"),
-    Makeshift_Salvaged_Improvised(1, "Makeshift/Salvaged/Improvised"),
-    Glass(2, "Glass"),
-    Asbestos(3, "Asbestos"),
-    Bamboo_Sawali_Cogon_Nipa(4, "Bamboo/Sawali/Cogon/Nipa"),
-    GalvanizedIron_Aluminum(5, "Galvanized Iron/Aluminum"),
-    HalfConcrete_Brick_StoneAndHalfWood(6, "Half Concrete/Brick/Stone and Half Wood"),
-    Wood(7, "Wood"),
-    Concrete_Brick_Stone(8, "Concrete/Brick/Stone"),
-    Others(9, "Other");
+    NO_WALLS(0, "NO WALLS"),
+    MAKESHIFT_SALVAGED_IMPROVISED(1, "MAKESHIFT/SALVAGED/IMPROVISED"),
+    GLASS(2, "GLASS"),
+    ASBESTOS(3, "ASBESTOS"),
+    BAMBOO_SAWALI_COGON_NIPA(4, "BAMBOO/SAWALI/COGON/NIPA"),
+    GALVANIZEDIRON_ALUMINUM(5, "GALVANIZED IRON/ALUMINUM"),
+    HALFCONCRETE_BRICK_STONEANDHALFWOOD(6, "HALF CONCRETE/BRICK/STONE AND HALF WOOD"),
+    WOOD(7, "WOOD"),
+    CONCRETE_BRICK_STONE(8, "CONCRETE/BRICK/STONE"),
+    OTHERS(9, "OTHER");;
 
     private static final Map<Integer, BuildingMaterial> map;
 
@@ -28,28 +28,28 @@ public enum BuildingMaterial {
         map = Arrays
                 .stream(BuildingMaterial.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Others);
+        map.put(-1, OTHERS);
     }
 
     public static BuildingMaterial getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
     private final String description;
 
-    BuildingMaterial(int code, String description) {
+    BuildingMaterial(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
     @Override
     public String toString() {
-        return description;
+        return code + " - " + description;
     }
 }

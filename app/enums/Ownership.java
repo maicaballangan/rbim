@@ -11,11 +11,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Ownership {
-    Undefined(99),
-    Rent_free_without_consent_of_owner(1),
-    Rent_free_with_consent_of_owner(2),
-    Rented(3),
-    Owned_or_being_Amortized(4);
+    RENT_FREE_WITHOUT_CONSENT_OF_OWNER(1),
+    RENT_FREE_WITH_CONSENT_OF_OWNER(2),
+    RENTED(3),
+    OWNED_OR_BEING_AMORTIZED(4);
 
     private static final Map<Integer, Ownership> map;
 
@@ -23,21 +22,26 @@ public enum Ownership {
         map = Arrays
                 .stream(Ownership.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
-        map.put(-1, Undefined);
+        map.put(-1, null);
     }
 
     public static Ownership getByCode(Integer code) {
-        if (code == null) return null;
+        if (code == null || code == 99) return null;
         return map.get(code);
-    };
+    }
 
-    private final int code;
+    private final Integer code;
 
-    Ownership(int code) {
+    Ownership(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return code + " - " + name().replaceAll("_", " ");
     }
 }
