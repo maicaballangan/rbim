@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Municipality {
-    UNDEFINED("99"),
+    UNDEFINED(null),
     BALBALAN("Balbalan"),
     PASIL("Pasil"),
     LUBUAGAN("Lubuagan"),
     PINUKPUK("Pinukpuk"),
     RIZAL("Rizal"),
-    TABUK("Tabuk"),
+    TABUK_CITY("Tabuk City"),
     TANUDAN("Tanudan"),
     TINGLAYAN("Tinglayan");
 

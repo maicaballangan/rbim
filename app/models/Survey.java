@@ -7,7 +7,6 @@ package models;
 
 import java.util.Date;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +24,6 @@ import play.db.jpa.Model;
  * @since v1
  */
 @Entity
-@Cacheable
 @Builder
 @Getter
 @Setter

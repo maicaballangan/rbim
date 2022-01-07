@@ -20,7 +20,9 @@ import enums.BuildingType;
 import enums.CookingFuel;
 import enums.GarbageDisposal;
 import enums.Lighting;
+import enums.Municipality;
 import enums.Ownership;
+import enums.Province;
 import enums.ToiletFacility;
 import enums.WaterSource;
 import enums.YesOrNo;
@@ -29,7 +31,6 @@ import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.Model;
 
 /**
  * @author Maica Ballangan
@@ -43,9 +44,25 @@ import play.db.jpa.Model;
 @Setter
 public class Household extends GenericModel {
 
+    public enum Status {
+        ACTIVE, INACTIVE, DELETED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "household")
     public Long id;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Province province=Province.KALINGA;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Municipality municipality=Municipality.TABUK_CITY;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Barangay barangay;
 
     private Integer houseNo;
 
@@ -56,14 +73,13 @@ public class Household extends GenericModel {
     private String street;
 
     @Required
-    @Enumerated(EnumType.STRING)
-    private Barangay barangay;
+    private String head;
 
     @Enumerated(EnumType.STRING)
-    private BuildingType type;
+    private BuildingType buildingType;
 
     @Enumerated(EnumType.STRING)
-    private BuildingMaterial material;
+    private BuildingMaterial buildingMaterial;
 
     @Enumerated(EnumType.STRING)
     private Ownership houseOwnership;
@@ -89,16 +105,9 @@ public class Household extends GenericModel {
     @Enumerated(EnumType.STRING)
     private YesOrNo hasTrashSegregation;
 
-    @Required
-    private String head;
-
     private Integer totalNumber;
 
-    @Enumerated(EnumType.STRING)
-    private BuildingType buildingType;
-
-    @Enumerated(EnumType.STRING)
-    private BuildingMaterial buildingMaterial;
+    private Status status;
 
     @Override
     public String toString() {

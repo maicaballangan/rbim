@@ -11,7 +11,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Skill {
-    Undefined(99),
+    Undefined(null),
     Refrigeration_and_Airconditioning(1),
     Automotive_or_Heavy_Equipment_Servicing(2),
     Metal_Worker(3),
@@ -37,6 +37,7 @@ public enum Skill {
         map = Arrays
                 .stream(Skill.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(99, Undefined);
         map.put(-1, Others);
     }
 
@@ -45,13 +46,13 @@ public enum Skill {
         return map.get(code);
     };
 
-    private final int code;
+    private final Integer code;
 
-    Skill(int code) {
+    Skill(Integer code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public Integer getCode() {
             return code;
         }
 }

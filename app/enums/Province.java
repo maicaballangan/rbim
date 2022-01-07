@@ -10,6 +10,5 @@ package enums;
  * @since v1
  */
 public enum Province {
-
-
+    KALINGA
 }

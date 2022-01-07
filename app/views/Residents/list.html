@@ -6,7 +6,7 @@
     <h2 id="crudListTitle">&{'crud.list.title', type.name}</h2>
 
     <div id="crudListSearch">
-        #{crud.search /}
+        #{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}
     </div>
 
     <div id="crudListTable">
@@ -23,8 +23,8 @@
         #{crud.pagination /}
     </div>
 
-    *{<p id="crudListAdd">
+    {<p id="crudListAdd">
         <a href="@{blank()}">&{'crud.add', type.modelName}</a>
-    </p>}*
+    </p>}
 
 </div>
