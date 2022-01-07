@@ -6,6 +6,7 @@
 crud.title=Registry of Barangay Inhabitants and Migrants
 crud.index.title=Browse Records
 crud.index.objectType=Records
+crud.upload=Upload
 
 # Resident
 id=ID
@@ -92,7 +93,8 @@ garbageDisposal=Garbage Disposal
 toiletFacility=Toilet Facility
 hasTrashSegregation=Has trash segregation
 totalNumber=Total Number of Resident
-
+interviewDate=Interview Date
+respondent=Respondent
 password=Password
 status=Status
 role=Role

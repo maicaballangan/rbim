@@ -5,11 +5,15 @@
         <title>#{get 'title' /}</title>
         <meta charset="${_response_encoding}" />
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/crud.css'}" />
+        <script src="https://kit.fontawesome.com/cae090ad32.js" crossorigin="anonymous"></script>
     </head>
     <body id="crud">
 
         <div id="crudHeader">
             <h1><a href="@{CRUD.index()}">&{'crud.title'}</a></h1>
+            <div id="nav">
+                <a href="/v1/upload"><i class="fas fa-upload"> Import</i></a>
+            </div>
         </div>
 
 #{if request.actionMethod != 'index'}
