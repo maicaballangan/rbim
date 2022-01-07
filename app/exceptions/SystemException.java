@@ -1,8 +1,6 @@
 package exceptions;
 
 /**
- * SchemaException
- *
  * @author Maica Ballangan
  * @since v1
  */

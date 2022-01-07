@@ -1,3 +1,8 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package utils;
 
 import com.google.common.collect.Lists;
@@ -78,6 +83,10 @@ public class ExcelUtils {
                 Row row = itr.next();
 
                 try {
+                    if (row.getCell(27, RETURN_BLANK_AS_NULL) == null && row.getCell(28, RETURN_BLANK_AS_NULL) == null) {
+                        Logger.error("Failed to parse row %s [Error: First name and last name can't be empty].", row.getRowNum()+1);
+                        continue;
+                    }
                     Household.HouseholdBuilder hhb = Household.builder();
                     Survey.SurveyBuilder sb = Survey.builder();
                     Resident.ResidentBuilder rb = Resident.builder();
@@ -131,7 +140,10 @@ public class ExcelUtils {
                     // Resident info
                     rb.lastName(getStringCellValue(row, 27));
                     rb.firstName(getStringCellValue(row, 28));
-                    rb.middleName(getStringCellValue(row, 29)); //30
+                    String middleName = getStringCellValue(row, 29);
+                    if (middleName != null) {
+                        rb.middleName(middleName.replace(".", "")); //30
+                    }
                     rb.relationshipToHead(relation);
                     rb.sex(Sex.getByCode(getIntCellValue(row, 31)));
                     rb.age(getIntCellValue(row, 32));
@@ -153,7 +165,7 @@ public class ExcelUtils {
                     rb.votingArea(Barangay.getByDescription(getStringCellValue(row, 64)));
 
                     // Economic Activity
-                    rb.monthlyIncome(getStringCellValue(row, 45));
+                    rb.monthlyIncome(getIntCellValueRemoveString(row, 45));
                     rb.sourceOfIncome(IncomeSource.getByCode(getIntCellValue(row, 46)));
                     rb.workStatus(WorkStatus.getByCode(getIntCellValue(row, 47)));
                     rb.placeOfWork(getStringCellValue(row, 48)); //50
@@ -168,10 +180,12 @@ public class ExcelUtils {
                             List.of(Skill.getByCode(getIntCellValue(row, 85)));
                         }
                     } else if (CellType.STRING.equals(skills.getCellTypeEnum())) {
-                        String value = getStringCellValue(row, 85);
-                        rb.skills(Arrays.stream(value.split("&|,|\\.|\\*"))
-                                .map(r -> Skill.getByCode(parseInt(r)))
-                                .collect(Collectors.toList()));
+                        String[] values = getStringCellValue(row, 85).split("&|,|\\.|\\*");
+                        if (values != null) {
+                            if (values.length > 0) rb.skillA(Skill.getByCode(parseInt(values[0])));
+                            if (values.length > 1) rb.skillB(Skill.getByCode(parseInt(values[1])));
+                            if (values.length > 2) rb.skillC(Skill.getByCode(parseInt(values[2])));
+                        }
                     }
 
                     // Health Record
@@ -207,7 +221,7 @@ public class ExcelUtils {
                     rb.reasonForTransferA(ReasonForTransfer.getByCode(getIntCellValue(row, 79)));
                     rb.reasonForTransferB(ReasonForTransfer.getByCode(getIntCellValue(row, 80)));
                     rb.reasonForTransferC(ReasonForTransfer.getByCode(getIntCellValue(row, 81)));
-                    rb.durationOfStay(getIntCellValue(row, 82));
+                    rb.durationOfStay(getIntCellValueRemoveString(row, 82));
 
                     // Extra info
                     //cellIterator.next(); //Q54-age //99

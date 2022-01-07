@@ -1,4 +1,4 @@
-Copyright © 2020 by Popcom LGU Tabuk. All rights reserved.
+Copyright © 2022 by Jamaica Ballangan. All rights reserved.
 
 RBIM is commercial software. It is released under the following terms.
 

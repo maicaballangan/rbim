@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Enrollment {
-    Undefined(99),
+    Undefined(null),
     PUBLIC(1),
     PRIVATE(2); // TODO ask why 3 here but excel is 99
 
@@ -16,6 +16,7 @@ public enum Enrollment {
         map = Arrays
                 .stream(Enrollment.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
+        map.put(99, Undefined);
         map.put(-1, Undefined);
     }
 
@@ -24,9 +25,9 @@ public enum Enrollment {
         return map.get(code);
     }
 
-    private final int code;
+    private final Integer code;
 
-    Enrollment(int code) {
+    Enrollment(Integer code) {
         this.code = code;
     }
 

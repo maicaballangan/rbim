@@ -1,17 +1,97 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+
+# CRUD
+crud.title=Registry of Barangay Inhabitants and Migrants
+crud.index.title=Browse Records
+crud.index.objectType=Records
+
+# Resident
 id=ID
 lastName=Last Name
 firstName=First Name
 middleName=M.I.
 sex=Sex
+relationshipToHead=Relationship to Head
 age=Age
+dateOfBirth=Birth day
+yearOfBirth=Birth year
+monthOfBirth=Birth month
+placeOfBirthBrgy=Birth Place (Barangay)
+laceOfBirthMunicipality=Birth Place (Municipality)
+nationality=Nationality
+civilStatus=Civil Status
+religion=Religion
+ethnicity=Ethnicity
+educationalAttainment=Educational Attainment
+enrollmentStatus=Enrollment Status
+schoolLevel=School Level
+placeOfSchool=Place of School
+monthlyIncome=Monthly Income
+sourceOfIncome=Source of Income
+workStatus=Work Status
+placeOfWork=Work Place
+placeOfDelivery=Place of Delivery
+birthAttendant=Birth Attendant
+immunization=Immunization
+livingChildren=Living Children
+livingChildrenSub=Living Children (Sub)
+FPUsage=Family Planning (FP) Usage
+sourceOfFP=Source of FP
+FPMethod=FP Method
+intentToUseFP=Has intent to use FP
+intentToUseFPSub=FP method intended to use
+healthInsurance=Health Insurance
+facility=Facility
+reasonOfVisit=Reason of Visit
+disability=Disability
+parentalStatus=Parental Status
+registeredSeniorCitizen=Registered Senior Citizen
+votingArea=Voting Area
+previousBarangayFiveYr=Previous Barangay (Five Years)
+previousMunicipalityFiveYr=Previous Municipality (Five Years)
+previousBarangaySixMo=Previous Barangay (Six Months)
+previousMunicipalitySixMo=Previous Municipality (Six Months)
+yearsOfStay=Duration of Stay (years)
+monthsOfStay=Duration of Stay (months)
+residentType=Resident Type
+monthOfTransfer=Month of Transfer
+yearOfTransfer=Year of Transfer
+reasonForLeavingA=Reason for Leaving (A)
+reasonForLeavingB=Reason for Leaving (B)
+reasonForLeavingC=Reason for Leaving (C)
+reasonForTransferA=Reason for Transfer (A)
+reasonForTransferB=Reason for Transfer (B)
+reasonForTransferC=Reason for Transfer (C)
+intentOfReturning=Has intent to return
+durationOfStay=Duration of Stay (years)
+CTCIssued=Has CTC
+CTCIssuedBarangay=CTC Issued (Barangay)
+skillA=Skill (A)
+skillB=Skill (B)
+skillC=Skill (C)
 household=Household
 
+# Household
+province=Province
+municipality=Municipality
+houseNo=House Number
+address=Address
 head=Head
 street=Street
 barangay=Barangay
+buildingType=Building Type
+buildingMaterial=Building Material
+houseOwnership=House Ownership
+lotOwnership=Lot Ownership
+lighting=Lighting
+cookingFuel=Cooking Fuel
+waterSource=Water Source
+garbageDisposal=Garbage Disposal
+toiletFacility=Toilet Facility
+hasTrashSegregation=Has trash segregation
+totalNumber=Total Number of Resident
 
 password=Password
 status=Status

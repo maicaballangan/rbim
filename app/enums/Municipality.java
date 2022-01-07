@@ -1,3 +1,8 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package enums;
 
 import java.util.Arrays;
@@ -10,13 +15,13 @@ import java.util.stream.Collectors;
  * @since v1
  */
 public enum Municipality {
-    UNDEFINED("99"),
+    UNDEFINED(null),
     BALBALAN("Balbalan"),
     PASIL("Pasil"),
     LUBUAGAN("Lubuagan"),
     PINUKPUK("Pinukpuk"),
     RIZAL("Rizal"),
-    TABUK("Tabuk"),
+    TABUK_CITY("Tabuk City"),
     TANUDAN("Tanudan"),
     TINGLAYAN("Tinglayan");
 

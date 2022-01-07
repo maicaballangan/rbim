@@ -1,9 +1,18 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package models;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import enums.Barangay;
 import enums.BuildingMaterial;
@@ -11,7 +20,9 @@ import enums.BuildingType;
 import enums.CookingFuel;
 import enums.GarbageDisposal;
 import enums.Lighting;
+import enums.Municipality;
 import enums.Ownership;
+import enums.Province;
 import enums.ToiletFacility;
 import enums.WaterSource;
 import enums.YesOrNo;
@@ -19,7 +30,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
-import play.db.jpa.Model;
+import play.db.jpa.GenericModel;
 
 /**
  * @author Maica Ballangan
@@ -27,10 +38,31 @@ import play.db.jpa.Model;
  */
 @Entity
 @Cacheable
+@SequenceGenerator(initialValue = 100000, name = "household", sequenceName = "houeholdSeq")
 @Builder
 @Getter
 @Setter
-public class Household extends Model {
+public class Household extends GenericModel {
+
+    public enum Status {
+        ACTIVE, INACTIVE, DELETED
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "household")
+    public Long id;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Province province=Province.KALINGA;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Municipality municipality=Municipality.TABUK_CITY;
+
+    @Required
+    @Enumerated(EnumType.STRING)
+    private Barangay barangay;
 
     private Integer houseNo;
 
@@ -41,14 +73,13 @@ public class Household extends Model {
     private String street;
 
     @Required
-    @Enumerated(EnumType.STRING)
-    private Barangay barangay;
+    private String head;
 
     @Enumerated(EnumType.STRING)
-    private BuildingType type;
+    private BuildingType buildingType;
 
     @Enumerated(EnumType.STRING)
-    private BuildingMaterial material;
+    private BuildingMaterial buildingMaterial;
 
     @Enumerated(EnumType.STRING)
     private Ownership houseOwnership;
@@ -74,16 +105,9 @@ public class Household extends Model {
     @Enumerated(EnumType.STRING)
     private YesOrNo hasTrashSegregation;
 
-    @Required
-    private String head;
-
     private Integer totalNumber;
 
-    @Enumerated(EnumType.STRING)
-    private BuildingType buildingType;
-
-    @Enumerated(EnumType.STRING)
-    private BuildingMaterial buildingMaterial;
+    private Status status;
 
     @Override
     public String toString() {

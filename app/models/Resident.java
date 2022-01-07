@@ -1,11 +1,16 @@
+/* Copyright (C) 2022 Jamaica Ballangan - All Rights Reserved
+ * Clients may use and modify this code under the
+ * terms and agreement only. Selling or distribution is prohibited
+ * without the consent of the author
+ */
 package models;
 
+import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
+import java.time.Period;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import controllers.CRUD;
 import enums.Barangay;
 import enums.CivilStatus;
 import enums.DeliveryPlace;
@@ -42,6 +48,7 @@ import enums.YesOrNo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 
@@ -49,20 +56,16 @@ import play.db.jpa.GenericModel;
  * @author Maica Ballangan
  * @since v1
  */
-/*@Table(
-    uniqueConstraints=
-    @UniqueConstraint(columnNames={"lastName", "firstName", "middleName", "placeOfBirthBrgy", "dateOfBirth"})
-)*/
 @Entity
 @Cacheable
-@SequenceGenerator(initialValue = 1000000, name = "idgen", sequenceName = "residentSeq")
+@SequenceGenerator(initialValue = 1000000, name = "resident", sequenceName = "residentSeq")
 @Builder
 @Getter
 @Setter
 public class Resident extends GenericModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident")
     public Long id;
 
     @Required
@@ -72,6 +75,7 @@ public class Resident extends GenericModel {
     private String firstName;
 
     @Required
+    @MaxSize(1)
     private String middleName;
 
     @Required
@@ -82,6 +86,7 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
+    @CRUD.Hidden
     private Integer age;
 
     private Integer dateOfBirth;
@@ -122,7 +127,7 @@ public class Resident extends GenericModel {
 
     private String placeOfSchool;
 
-    private String monthlyIncome;
+    private Integer monthlyIncome;
 
     @Enumerated(EnumType.STRING)
     private IncomeSource sourceOfIncome;
@@ -196,6 +201,7 @@ public class Resident extends GenericModel {
     @Required
     @Enumerated(EnumType.STRING)
     private ResidentType residentType;
+
     @Enumerated(EnumType.STRING)
     private Month monthOfTransfer;
 
@@ -227,13 +233,24 @@ public class Resident extends GenericModel {
 
     private String CTCIssuedBarangay;
 
-    @ElementCollection(targetClass= Skill.class)
     @Enumerated(EnumType.STRING)
-    private List<Skill> skills;
+    private Skill skillA;
+
+    @Enumerated(EnumType.STRING)
+    private Skill skillB;
+
+    @Enumerated(EnumType.STRING)
+    private Skill skillC;
 
     @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn
     private Household household;
+
+    public void setAge(Integer age) {
+        this.age = Period.between(
+                LocalDate.of(yearOfBirth, monthOfBirth, dateOfBirth != null ? dateOfBirth : 1),
+                LocalDate.now()).getYears();
+    }
 
     @Override
     public String toString() {
@@ -245,7 +262,7 @@ public class Resident extends GenericModel {
         if (middleName != null) sb.append(" and middleName = :middleName");
         if (placeOfBirthBrgy != null) sb.append(" and placeOfBirthBrgy = :placeOfBirthBrgy");
         if (placeOfBirthMunicipality != null) sb.append(" and placeOfBirthMunicipality = :placeOfBirthMunicipality");
-        if (dateOfBirth != null) sb.append(" and dateOfBirth = :dateOfBirth");
+        if (yearOfBirth != null) sb.append(" and yearOfBirth = :yearOfBirth");
 
         JPAQuery query = Resident.find(sb.toString())
                 .setParameter("lastName", lastName)
@@ -254,7 +271,7 @@ public class Resident extends GenericModel {
         if (middleName != null) query.setParameter("middleName", middleName);
         if (placeOfBirthBrgy != null) query.setParameter("placeOfBirthBrgy", placeOfBirthBrgy);
         if (placeOfBirthMunicipality != null) query.setParameter("placeOfBirthMunicipality", placeOfBirthMunicipality);
-        if (dateOfBirth != null) query.setParameter("dateOfBirth", dateOfBirth);
+        if (yearOfBirth != null) query.setParameter("yearOfBirth", yearOfBirth);
         return query.first();
     }
 }

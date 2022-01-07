@@ -6,20 +6,25 @@
     <h2 id="crudListTitle">&{'crud.list.title', type.name}</h2>
 
     <div id="crudListSearch">
-        #{crud.search /}
+        #{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}
     </div>
 
     <div id="crudListTable">
-        #{crud.table fields:['id', 'lastName', 'firstName', 'middleName', 'sex', 'age', 'relationshipToHead'],
-                     sort: ['id', 'lastName'] /}
+        #{crud.table fields:['id', 'lastName', 'firstName', 'sex', 'age', 'household'],
+                     sort: ['id', 'lastName', 'household'] }
+
+            #{crud.custom 'household'}
+                <a href="@{Households.show(object.household.id)}">${object.household}</a>
+            #{/crud.custom}
+         #{/crud.table}
     </div>
 
     <div id="crudListPagination">
         #{crud.pagination /}
     </div>
 
-    *{<p id="crudListAdd">
+    {<p id="crudListAdd">
         <a href="@{blank()}">&{'crud.add', type.modelName}</a>
-    </p>}*
+    </p>}
 
 </div>
