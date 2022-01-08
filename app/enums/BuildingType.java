@@ -46,6 +46,6 @@ public enum BuildingType {
 
     @Override
     public String toString() {
-        return code + " - " + description;
+        return description;
     }
 }

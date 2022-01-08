@@ -35,6 +35,6 @@ public enum Enrollment {
 
     @Override
     public String toString() {
-        return code + " - " + name().replaceAll("_", " ").replaceAll("_", " ");
+        return name().replaceAll("_", " ").replaceAll("_", " ");
     }
 }

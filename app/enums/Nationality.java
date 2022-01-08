@@ -39,6 +39,6 @@ public enum Nationality {
 
     @Override
     public String toString() {
-        return code + " - " + name().replaceAll("_", " ");
+        return name().replaceAll("_", " ");
     }
 }
