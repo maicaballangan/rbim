@@ -25,7 +25,7 @@ public class Record {
     public void create(Validation validation) {
         // Fetch existing using resident details
         if (resident.getExisting() != null) {
-            Logger.warn("WARNING: Record on row %s with resident name %s, %s already exists",
+            Logger.warn("Record on row %s with resident name %s, %s already exists",
                     row, resident.getLastName(), resident.getFirstName());
             validation.addError(
                     ""+row,

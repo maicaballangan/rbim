@@ -64,6 +64,10 @@ import play.db.jpa.GenericModel;
 @Setter
 public class Resident extends GenericModel {
 
+    public enum Status {
+        ALIVE, DECEASED;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident")
     public Long id;
@@ -246,6 +250,8 @@ public class Resident extends GenericModel {
     @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn
     private Household household;
+
+    private Status status = Status.ALIVE;
 
     public void setAge(Integer age) {
         this.age = Period.between(

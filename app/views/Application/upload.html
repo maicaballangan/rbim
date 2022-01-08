@@ -2,7 +2,6 @@
 #{set title:messages.get('crud.title') /}
 
 <div id="crudBlank" class="upload">
-
     <h2>Import Excel</h2>
 
     <div class="objectForm">
@@ -13,29 +12,31 @@
             <input type="submit" name="_save" value="&{'crud.upload'}" />
         </p>
     #{/form}
-
-    #{if errors != null && !errors.isEmpty()}
-        <table>
-            <thead>
-            <tr>
-                <th>Row</th>
-                <th>Error</th>
-            </tr>
-            </thead>
-            <tbody>
-                #{list items:errors, as:'error'}
-                    <tr>
-                        <td>
-                            ${error.getKey()}
-                        </td>
-                        <td>
-                            ${error.toString()}
-                        </td>
-                    </tr>
-                #{/list}
-            </tbody>
-        </table>
-    #{/if}
     </div>
 
+    #{if errors != null && !errors.isEmpty()}
+        <div id="crudIndex">
+            <h3>Errors</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Error</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #{list items:errors, as:'error'}
+                    <tr>
+                        <td>
+                        ${error.getKey()}
+                        </td>
+                        <td>
+                        ${error.toString()}
+                        </td>
+                    </tr>
+                    #{/list}
+                </tbody>
+            </table>
+        </div>
+    #{/if}
 </div>

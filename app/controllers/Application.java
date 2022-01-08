@@ -131,13 +131,9 @@ public class Application extends Controller {
             List<Record> records = ExcelUtils.importExcel(file, validation);
             if (validation.hasErrors()) {
                 Logger.error("There has been errors on parsing the document, please make sure the fields are properly formatted");
-                renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
-                List<Error> errors = validation
-                        .errorsMap()
-                        .keySet()
-                        .stream()
-                        .map(key -> validation.errorsMap().get(key).stream().findFirst().get())
-                        .collect(Collectors.toList());
+                flash.error(play.i18n.Messages.get("crud.hasErrors"));
+                //renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
+                Map<String, List<Error>> errors = validation.errorsMap();
                 render(request.controller + "/upload.html", errors);
             }
 
@@ -159,8 +155,7 @@ public class Application extends Controller {
 
         if (validation.hasErrors()) {
             flash.success(play.i18n.Messages.get("Successfully imported file"));
-            renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
-
+            flash.error(play.i18n.Messages.get("crud.hasErrors"));
             Map<String, List<Error>> errors = validation.errorsMap();
             render(request.controller + "/upload.html", errors);
         }
