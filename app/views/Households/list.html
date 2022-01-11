@@ -6,7 +6,149 @@
     <h2 id="crudListTitle">&{'crud.list.title', type.name}</h2>
 
     <div id="crudListSearch">
-        #{crud.search /}
+    #{form action:@list().remove('page'), method:'GET'}
+    *{#{if _fields}
+                <input type="hidden" name="searchFields" value="${_fields.toString().substring(1, _fields.toString().length()-1).replace(',', '')}" />
+            #{/if}}*
+        <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
+
+        <input type="submit" value="&{'crud.search'}" />
+        <input id="searchBtn" type="submit" value="Export" />
+
+        <div id="searchFiltersHousehold">
+            <label>Bldg Type:
+                <select name="filter.buildingType">
+                    <option></option>
+                    #{list items:enums.BuildingType.values(), as:'buildingType'}
+                        <option name="${buildingType.name()}"
+                                value="${buildingType.name()}"
+                        ${buildingType.name() == params.'filter.buildingType' ? 'selected="true"'.raw() : '' }>
+                        ${buildingType.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Bldg Material:
+                <select name="filter.buildingMaterial">
+                    <option></option>
+                    #{list items:enums.BuildingMaterial.values(), as:'buildingMaterial'}
+                        <option name="${buildingMaterial.name()}"
+                                ord="${buildingMaterial.ordinal()}"
+                                value="${buildingMaterial.name()}"
+                        ${buildingMaterial.name() == params.'filter.buildingMaterial' ? 'selected="true"'.raw() : '' }>
+                        ${buildingMaterial.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>House Ownership:
+                <select name="filter.houseOwnership">
+                    <option></option>
+                    #{list items:enums.Ownership.values(), as:'houseOwnership'}
+                        <option name="${houseOwnership.name()}"
+                                ord="${houseOwnership.ordinal()}"
+                                value="${houseOwnership.name()}"
+                        ${houseOwnership.name() == params.'filter.houseOwnership' ? 'selected="true"'.raw() : '' }>
+                        ${houseOwnership.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Lot Ownership:
+                <select name="filter.lotOwnership">
+                    <option></option>
+                    #{list items:enums.Ownership.values(), as:'lotOwnership'}
+                        <option name="${lotOwnership.name()}"
+                                ord="${lotOwnership.ordinal()}"
+                                value="${lotOwnership.name()}"
+                        ${lotOwnership.name() == params.'filter.lotOwnership' ? 'selected="true"'.raw() : '' }>
+                        ${lotOwnership.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Lighting:
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <select name="filter.lighting">
+                    <option></option>
+                    #{list items:enums.Lighting.values(), as:'lighting'}
+                        <option name="${lighting.name()}"
+                                ord="${lighting.ordinal()}"
+                                value="${lighting.name()}"
+                        ${lighting.name() == params.'filter.lighting' ? 'selected="true"'.raw() : '' }>
+                        ${lighting.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Water Source:
+                <select name="filter.waterSource">
+                    <option></option>
+                    #{list items:enums.WaterSource.values(), as:'waterSource'}
+                        <option name="${waterSource.name()}"
+                                ord="${waterSource.ordinal()}"
+                                value="${waterSource.name()}"
+                        ${waterSource.name() == params.'filter.waterSource' ? 'selected="true"'.raw() : '' }>
+                        ${waterSource.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Garbage Disposal:
+                <select name="filter.garbageDisposal">
+                    <option></option>
+                    #{list items:enums.GarbageDisposal.values(), as:'garbageDisposal'}
+                        <option name="${garbageDisposal.name()}"
+                                ord="${garbageDisposal.ordinal()}"
+                                value="${garbageDisposal.name()}"
+                        ${garbageDisposal.name() == params.'filter.garbageDisposal' ? 'selected="true"'.raw() : '' }>
+                        ${garbageDisposal.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Toilet:
+                <select name="filter.toiletFacility">
+                    <option></option>
+                    #{list items:enums.ToiletFacility.values(), as:'toiletFacility'}
+                        <option name="${toiletFacility.name()}"
+                                ord="${toiletFacility.ordinal()}"
+                                value="${toiletFacility.name()}"
+                        ${toiletFacility.name() == params.'filter.toiletFacility' ? 'selected="true"'.raw() : '' }>
+                        ${toiletFacility.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Seggregation:
+                <select name="filter.hasTrashSegregation">
+                    <option></option>
+                    #{list items:enums.YesOrNo.values(), as:'hasTrashSegregation'}
+                        <option name="${hasTrashSegregation.name()}"
+                                ord="${hasTrashSegregation.ordinal()}"
+                                value="${hasTrashSegregation.name()}"
+                        ${hasTrashSegregation.name() == params.'filter.hasTrashSegregation' ? 'selected="true"'.raw() : '' }>
+                        ${hasTrashSegregation.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Cooking:
+                <select name="filter.cookingFuel">
+                    <option></option>
+                    #{list items:enums.CookingFuel.values(), as:'cookingFuel'}
+                        <option name="${cookingFuel.name()}"
+                                ord="${cookingFuel.ordinal()}"
+                                value="${cookingFuel.name()}"
+                        ${cookingFuel.name() == params.'filter.cookingFuel' ? 'selected="true"'.raw() : '' }>
+                        ${cookingFuel.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+        </div>
+    #{/form}
+    *{#{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}}*
     </div>
 
     <div id="crudListTable">

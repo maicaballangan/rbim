@@ -5,8 +5,254 @@
 
     <h2 id="crudListTitle">&{'crud.list.title', type.name}</h2>
 
-    <div id="crudListSearch">
-        #{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}
+    <div id="crudListSearch" >
+        #{form action:@list().remove('page'), method:'GET'}
+            *{#{if _fields}
+                <input type="hidden" name="searchFields" value="${_fields.toString().substring(1, _fields.toString().length()-1).replace(',', '')}" />
+            #{/if}}*
+            <div id="searchField">
+                <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
+                <input type="submit" value="&{'crud.search'}" />
+                <input type="submit" value="Export" />
+            </div>
+            <div id="searchFilters">
+                <label>Barangay:
+                    <select name="filter.barangay">
+                        <option></option>
+                        #{list items:enums.Barangay.values(), as:'barangay'}
+                            <option name="${barangay.name()}"
+                                    ord="${barangay.ordinal()}"
+                                    value="${barangay.name()}"
+                            ${barangay.name() == params.'filter.barangay' ? 'selected="true"'.raw() : '' }>
+                            ${barangay.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Civil Status:
+                    <select name="filter.civilStatus">
+                        <option></option>
+                        #{list items:enums.CivilStatus.values(), as:'civilStatus'}
+                            <option name="${civilStatus.name()}"
+                                    ord="${civilStatus.ordinal()}"
+                                    value="${civilStatus.name()}"
+                                    ${civilStatus.name() == params.'filter.civilStatus' ? 'selected="true"'.raw() : '' }>
+                                ${civilStatus.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                 </label>
+                <label>Sex:
+                    <select name="filter.sex">
+                        <option></option>
+                        #{list items:enums.Sex.values(), as:'sex'}
+                            <option name="${sex.name()}"
+                                    ord="${sex.ordinal()}"
+                                    value="${sex.name()}"
+                                    ${sex.name() == params.'filter.sex' ? 'selected="true"'.raw() : '' }>
+                                ${sex.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Min age:
+                    <input type="number" name="min.age" value="${params.'min.age'?.escape()?.raw()}" />
+                </label>
+                <label>Max age:
+                    <input type="number" name="max.age" value="${params.'max.age'?.escape()?.raw()}" />
+                </label>
+                <label>Nationality:
+                    <select name="filter.nationality">
+                        <option></option>
+                        #{list items:enums.Nationality.values(), as:'nationality'}
+                            <option name="${nationality.name()}"
+                                    ord="${nationality.ordinal()}"
+                                    value="${nationality.name()}"
+                            ${nationality.name() == params.'filter.nationality' ? 'selected="true"'.raw() : '' }>
+                            ${nationality.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Resident Type:
+                    <select name="filter.residentType">
+                        <option></option>
+                        #{list items:enums.ResidentType.values(), as:'residentType'}
+                            <option name="${residentType.name()}"
+                                    ord="${residentType.ordinal()}"
+                                    value="${residentType.name()}"
+                                    ${residentType.name() == params.'filter.residentType' ? 'selected="true"'.raw() : '' }>
+                                ${residentType.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>POB (Brgy):
+                    <select name="filter.placeOfBirthBrgy">
+                        <option></option>
+                        #{list items:enums.Barangay.values(), as:'placeOfBirthBrgy'}
+                            <option name="${placeOfBirthBrgy.name()}"
+                                    ord="${placeOfBirthBrgy.ordinal()}"
+                                    value="${placeOfBirthBrgy.name()}"
+                            ${placeOfBirthBrgy.name() == params.'filter.placeOfBirthBrgy' ? 'selected="true"'.raw() : '' }>
+                            ${placeOfBirthBrgy.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>POB (Municipality):
+                    <select name="filter.placeOfBirthMunicipality">
+                        <option></option>
+                        #{list items:enums.Municipality.values(), as:'placeOfBirthMunicipality'}
+                            <option name="${placeOfBirthMunicipality.name()}"
+                                    ord="${placeOfBirthMunicipality.ordinal()}"
+                                    value="${placeOfBirthMunicipality.name()}"
+                            ${placeOfBirthMunicipality.name() == params.'filter.placeOfBirthMunicipality' ? 'selected="true"'.raw() : '' }>
+                            ${placeOfBirthMunicipality.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Voting Area:
+                    <select name="filter.votingArea">
+                        <option></option>
+                        #{list items:enums.Barangay.values(), as:'votingArea'}
+                            <option name="${votingArea.name()}"
+                                    ord="${votingArea.ordinal()}"
+                                    value="${votingArea.name()}"
+                            ${votingArea.name() == params.'filter.votingArea' ? 'selected="true"'.raw() : '' }>
+                            ${votingArea.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Registered Senior:
+                    <select name="filter.registeredSeniorCitizen">
+                        <option></option>
+                        #{list items:enums.YesOrNo.values(), as:'registeredSeniorCitizen'}
+                            <option name="${registeredSeniorCitizen.name()}"
+                                    ord="${registeredSeniorCitizen.ordinal()}"
+                                    value="${registeredSeniorCitizen.name()}"
+                            ${registeredSeniorCitizen.name() == params.'filter.registeredSeniorCitizen' ? 'selected="true"'.raw() : '' }>
+                            ${registeredSeniorCitizen.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Enrollment Status:
+                    <select name="filter.enrollmentStatus">
+                        <option></option>
+                        #{list items:enums.Enrollment.values(), as:'enrollmentStatus'}
+                            <option name="${enrollmentStatus.name()}"
+                                    ord="${enrollmentStatus.ordinal()}"
+                                    value="${enrollmentStatus.name()}"
+                            ${enrollmentStatus.name() == params.'filter.enrollmentStatus' ? 'selected="true"'.raw() : '' }>
+                            ${enrollmentStatus.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Education:
+                    <select name="filter.educationalAttainment">
+                        <option></option>
+                        #{list items:enums.Education.values(), as:'educationalAttainment'}
+                            <option name="${educationalAttainment.name()}"
+                                    ord="${educationalAttainment.ordinal()}"
+                                    value="${educationalAttainment.name()}"
+                            ${educationalAttainment.name() == params.'filter.educationalAttainment' ? 'selected="true"'.raw() : '' }>
+                            ${educationalAttainment.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Income Source:
+                    <select name="filter.sourceOfIncome">
+                        <option></option>
+                        #{list items:enums.IncomeSource.values(), as:'sourceOfIncome'}
+                            <option name="${sourceOfIncome.name()}"
+                                    ord="${sourceOfIncome.ordinal()}"
+                                    value="${sourceOfIncome.name()}"
+                            ${sourceOfIncome.name() == params.'filter.sourceOfIncome' ? 'selected="true"'.raw() : '' }>
+                            ${sourceOfIncome.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Work Status:
+                    <select name="filter.workStatus">
+                        <option></option>
+                        #{list items:enums.WorkStatus.values(), as:'workStatus'}
+                            <option name="${workStatus.name()}"
+                                    ord="${workStatus.ordinal()}"
+                                    value="${workStatus.name()}"
+                            ${workStatus.name() == params.'filter.workStatus' ? 'selected="true"'.raw() : '' }>
+                            ${workStatus.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Parent:
+                    <select name="filter.parentalStatus">
+                        <option></option>
+                        #{list items:enums.ParentalStatus.values(), as:'parentalStatus'}
+                            <option name="${parentalStatus.name()}"
+                                    ord="${parentalStatus.ordinal()}"
+                                    value="${parentalStatus.name()}"
+                            ${parentalStatus.name() == params.'filter.parentalStatus' ? 'selected="true"'.raw() : '' }>
+                            ${parentalStatus.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Disability:
+                    <select name="filter.disability">
+                        <option></option>
+                        <option value="NONE" ${"NONE" == params.'filter.disability' ? 'selected="true"'.raw() : '' }>NONE</option>
+                        <option value="-NONE" ${"-NONE" == params.'filter.disability' ? 'selected="true"'.raw() : '' }>WITH DISABILITY</option>
+                    </select>
+                </label>
+                <label>FP Source:
+                    <select name="filter.sourceOfFP">
+                        <option></option>
+                        #{list items:enums.SourceOfFP.values(), as:'sourceOfFP'}
+                            <option name="${sourceOfFP.name()}"
+                                    ord="${sourceOfFP.ordinal()}"
+                                    value="${sourceOfFP.name()}"
+                            ${sourceOfFP.name() == params.'filter.sourceOfFP' ? 'selected="true"'.raw() : '' }>
+                            ${sourceOfFP.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>FP:
+                    <select name="filter.FPMethod">
+                        <option></option>
+                        #{list items:enums.FPMethod.values(), as:'FPMethod'}
+                            <option name="${FPMethod.name()}"
+                                    ord="${FPMethod.ordinal()}"
+                                    value="${FPMethod.name()}"
+                            ${FPMethod.name() == params.'filter.FPMethod' ? 'selected="true"'.raw() : '' }>
+                            ${FPMethod.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>FP Intent:
+                    <select name="filter.intentToUseFP">
+                        <option></option>
+                        #{list items:enums.YesOrNo.values(), as:'intentToUseFP'}
+                            <option name="${intentToUseFP.name()}"
+                                    ord="${intentToUseFP.ordinal()}"
+                                    value="${intentToUseFP.name()}"
+                            ${intentToUseFP.name() == params.'filter.intentToUseFP' ? 'selected="true"'.raw() : '' }>
+                            ${intentToUseFP.toString()}
+                            </option>
+                        #{/list}
+                    </select>
+                </label>
+            </div>
+        #{/form}
+        *{#{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}}*
     </div>
 
     <div id="crudListTable">
