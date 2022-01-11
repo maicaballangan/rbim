@@ -12,7 +12,11 @@
                 if(field.error?.message != 'validation.required') {
                     selected = it == _value;
                 }
-                label = it.toString()
+                try {
+                    label = it.getCode() + " - " + it.toString();
+                } catch(err) {
+                    label = it.toString();
+                }
 
         }%
         <option name="${it.name()}" ord="${it.ordinal()}" value="${it.name()}" ${selected ? 'selected="true"'.raw() : ''}>${label}</option>
