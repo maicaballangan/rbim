@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import enums.APIErrorCode;
 import enums.Relation;
@@ -19,6 +21,7 @@ import exceptions.HttpException;
 import models.Record;
 import play.Logger;
 import play.Play;
+import play.data.validation.Error;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Finally;
@@ -109,23 +112,55 @@ public class Application extends Controller {
         ok();
     }
 
+    public static void upload() {
+        render();
+    }
+
     /**
      * POST     /import
      */
     public static void importFile(final File file) throws IOException {
+        if (file == null) {
+            flash.error("Please select a file to import");
+            render(request.controller + "/upload.html");
+        }
+
         Logger.info("============Start Import process=============");
         Logger.info("File name: %s", file.getName());
+        try {
+            List<Record> records = ExcelUtils.importExcel(file, validation);
+            if (validation.hasErrors()) {
+                Logger.error("There has been errors on parsing the document, please make sure the fields are properly formatted");
+                flash.error(play.i18n.Messages.get("crud.hasErrors"));
+                //renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
+                Map<String, List<Error>> errors = validation.errorsMap();
+                render(request.controller + "/upload.html", errors);
+            }
 
-        List<Record> records = ExcelUtils.importExcel(file);
+            // Save head residents first
+            records.stream()
+                    .filter(r -> Relation.HEAD.equals(r.getResident().getRelationshipToHead()))
+                    .forEach(r -> r.create(validation));
 
-        // Save head residents first
-        records.stream()
-                .filter(r -> Relation.Head.equals(r.getResident().getRelationshipToHead()))
-                .forEach(Record::create);
+            records.stream()
+                    .filter(r -> !Relation.HEAD.equals(r.getResident().getRelationshipToHead()))
+                    .forEach(r -> r.create(validation));
+            Logger.info("============End Import process===============");
 
-        records.stream()
-                .filter(r -> !Relation.Head.equals(r.getResident().getRelationshipToHead()))
-                .forEach(Record::create);
-        Logger.info("============End Import process===============");
+        } catch (Exception e) {
+            Logger.fatal(e, "Import failed with file name %s", file.getName());
+            flash.error("Import failed. Please try again.");
+            render(request.controller + "/upload.html");
+        }
+
+        if (validation.hasErrors()) {
+            flash.success(play.i18n.Messages.get("Successfully imported file"));
+            flash.error(play.i18n.Messages.get("crud.hasErrors"));
+            Map<String, List<Error>> errors = validation.errorsMap();
+            render(request.controller + "/upload.html", errors);
+        }
+
+        flash.success(play.i18n.Messages.get("Successfully imported file"));
+        render("CRUD/index.html");
     }
 }

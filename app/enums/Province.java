@@ -10,5 +10,10 @@ package enums;
  * @since v1
  */
 public enum Province {
-    KALINGA
+    KALINGA;
+
+    @Override
+    public String toString() {
+        return name().replaceAll("_", " ");
+    }
 }

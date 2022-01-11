@@ -47,7 +47,7 @@ import play.db.jpa.GenericModel;
 public class Household extends GenericModel {
 
     public enum Status {
-        ACTIVE, INACTIVE, DELETED
+        ACTIVE, INACTIVE, DELETED;
     }
 
     @Id

@@ -44,6 +44,6 @@ public enum ReasonForTransfer {
 
     @Override
     public String toString() {
-        return code + " - " + name().replaceAll("_", " ");
+        return name().replaceAll("_", " ");
     }
 }

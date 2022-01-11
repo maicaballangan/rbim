@@ -50,6 +50,6 @@ public enum Barangay {
 
     @Override
     public String toString() {
-        return description;
+        return name().replaceAll("_", " ");
     }
 }

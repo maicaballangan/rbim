@@ -45,6 +45,6 @@ public enum Municipality {
 
     @Override
     public String toString() {
-        return description;
+        return name().replaceAll("_", " ");
     }
 }

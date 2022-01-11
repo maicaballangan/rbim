@@ -16,6 +16,7 @@ GET            /resources/{api}        Application.resource                    #
 # Home page
 GET            /                       Application.index
 GET            /login                  Application.login
+GET            /upload                 Application.upload
 POST           /import                 Application.importFile
 
 # Ignore favicon requests

@@ -9,6 +9,7 @@ import enums.Relation;
 import lombok.Builder;
 import lombok.Getter;
 import play.Logger;
+import play.data.validation.Validation;
 
 /**
  * @author Maica Ballangan
@@ -21,32 +22,34 @@ public class Record {
     private Resident resident;
     private Household household;
 
-    public void create() {
-        try {
-            // Fetch existing using resident details
-            if (resident.getExisting() != null) {
-                Logger.warn("Record on row %s with resident name %s, %s already exists",
-                        row, resident.getLastName(), resident.getFirstName());
-                return; // Don't save existing record
-            }
-
-            // Save household, and survey information
-            if (Relation.Head.equals(resident.getRelationshipToHead())) {
-                household.create();
-            } else {
-                String head = household.getHead();
-                household = household.getExisting();
-                if (household == null) {
-                    Logger.error("Can't find household for row %s with head name %s", row, head);
-                    return;
-                }
-            }
-
-            resident.setHousehold(household);
-            resident.create();
-            //Logger.info("Successfully saved record on row %s with name %s", row, health.getDescription());
-        } catch(Exception e) {
-            Logger.error("Failed to save record on row %s [Error: %s]", getRow(), e.getMessage());
+    public void create(Validation validation) {
+        // Fetch existing using resident details
+        if (resident.getExisting() != null) {
+            Logger.warn("Record on row %s with resident name %s, %s already exists",
+                    row, resident.getLastName(), resident.getFirstName());
+            validation.addError(
+                    ""+row,
+                    "Resident with name " + resident.getLastName()+ ", " + resident.getFirstName() + " already exists");
+            return; // Don't save existing record
         }
+
+        // Save household, and survey information
+        if (Relation.HEAD.equals(resident.getRelationshipToHead())) {
+            household.create();
+        } else {
+            String head = household.getHead();
+            household = household.getExisting();
+            if (household == null) {
+                Logger.error("Can't find household for row %s with head name %s", row, head);
+                validation.addError(
+                        ""+row,
+                        "ERROR: Can't find household with head name " + head);
+                return;
+            }
+        }
+
+        resident.setHousehold(household);
+        resident.create();
+        //Logger.info("Successfully saved record on row %s with name %s", row, health.getDescription());
     }
 }
