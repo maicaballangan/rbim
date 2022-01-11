@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import controllers.CRUD;
 import enums.Barangay;
@@ -32,6 +34,7 @@ import enums.FPMethod;
 import enums.Facility;
 import enums.HealthInsurance;
 import enums.IncomeSource;
+import enums.Municipality;
 import enums.Nationality;
 import enums.ParentalStatus;
 import enums.ReasonForLeaving;
@@ -56,6 +59,18 @@ import play.db.jpa.GenericModel;
  * @author Maica Ballangan
  * @since v1
  */
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={
+                "lastName",
+                "firstName",
+                "middleName",
+                "placeOfBirthBrgy",
+                "placeOfBirthMunicipality",
+                "yearOfBirth",
+                "monthOfBirth",
+                "sex"})
+)
 @Entity
 @Cacheable
 @SequenceGenerator(initialValue = 1000000, name = "resident", sequenceName = "residentSeq")
@@ -78,7 +93,6 @@ public class Resident extends GenericModel {
     @Required
     private String firstName;
 
-    @Required
     @MaxSize(1)
     private String middleName;
 
@@ -101,10 +115,12 @@ public class Resident extends GenericModel {
     private Month monthOfBirth;
 
     @Required
-    private String placeOfBirthBrgy;
+    @Enumerated(EnumType.STRING)
+    private Barangay placeOfBirthBrgy;
 
     @Required
-    private String placeOfBirthMunicipality;
+    @Enumerated(EnumType.STRING)
+    private Municipality placeOfBirthMunicipality;
 
     @Required
     @Enumerated(EnumType.STRING)
@@ -150,8 +166,6 @@ public class Resident extends GenericModel {
     private Integer livingChildren;
     private Integer livingChildrenSub; // What??
 
-    private boolean FPUsage;
-
     @Enumerated(EnumType.STRING)
     private SourceOfFP sourceOfFP;
 
@@ -186,27 +200,26 @@ public class Resident extends GenericModel {
     private Barangay votingArea;
 
     // Residency Info
-    //@Enumerated(EnumType.STRING)
-    private String previousBarangayFiveYr;
+    @Enumerated(EnumType.STRING)
+    private Barangay previousBarangayFiveYr;
 
-    //@Enumerated(EnumType.STRING)
-    private String previousMunicipalityFiveYr;
+    @Enumerated(EnumType.STRING)
+    private Municipality previousMunicipalityFiveYr;
 
-    //@Enumerated(EnumType.STRING)
-    private String previousBarangaySixMo;
+    @Enumerated(EnumType.STRING)
+    private Barangay previousBarangaySixMo;
 
-    //@Enumerated(EnumType.STRING)
-    private String previousMunicipalitySixMo;
+    @Enumerated(EnumType.STRING)
+    private Municipality previousMunicipalitySixMo;
 
     private Integer yearsOfStay;
 
     private Integer monthsOfStay;
 
-    @Required
     @Enumerated(EnumType.STRING)
     private ResidentType residentType;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     private Month monthOfTransfer;
 
     private Integer yearOfTransfer;
@@ -229,13 +242,15 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private ReasonForTransfer reasonForTransferC;
 
-    private boolean intentOfReturning;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo intentOfReturning;
     private Integer durationOfStay;
 
     @Enumerated(EnumType.STRING)
     private YesOrNo CTCIssued;
 
-    private String CTCIssuedBarangay;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo CTCIssuedInBarangay;
 
     @Enumerated(EnumType.STRING)
     private Skill skillA;
@@ -251,13 +266,12 @@ public class Resident extends GenericModel {
     @JoinColumn
     private Household household;
 
-    private Status status = Status.ALIVE;
+    @CRUD.Hidden
+    @Enumerated(EnumType.STRING)
+    private Barangay barangay;
 
-    public void setAge(Integer age) {
-        this.age = Period.between(
-                LocalDate.of(yearOfBirth, monthOfBirth, dateOfBirth != null ? dateOfBirth : 1),
-                LocalDate.now()).getYears();
-    }
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ALIVE;
 
     @Override
     public String toString() {
@@ -280,5 +294,17 @@ public class Resident extends GenericModel {
         if (placeOfBirthMunicipality != null) query.setParameter("placeOfBirthMunicipality", placeOfBirthMunicipality);
         if (yearOfBirth != null) query.setParameter("yearOfBirth", yearOfBirth);
         return query.first();
+    }
+
+    @Override
+    public void _save() {
+        this.barangay = household.getBarangay();
+        this.age = Period.between(
+                LocalDate.of(yearOfBirth, monthOfBirth, dateOfBirth != null ? dateOfBirth : 1),
+                LocalDate.now()).getYears();
+        if (status == null) {
+            this.status = Status.ALIVE;
+        }
+        super._save();
     }
 }

@@ -14,17 +14,17 @@ public enum Education {
     NONE(00),
     PRESCHOOL(1),
     ELEMENTARY(2),
-    ELEMENTARY_GRADUATE(3),
+    ELEMENTARY_GRAD(3),
     HIGHSCHOOL(4),
-    HIGHSCHOOL_GRADUATE(5),
+    HIGHSCHOOL_GRAD(5),
     JUNIOR_HS(6),
-    JUNIOR_HS_GRADUATE(7),
+    JUNIOR_HS_GRAD(7),
     SENIOR_HS(8),
-    SENIOR_HS_GRADUATE(9),
-    VOCATIONAL_OR_TECH(10),
+    SENIOR_HS_GRAD(9),
+    VOCATIONAL(10),
     COLLEGE(11),
-    COLLEGE_GRADUATE(12),
-    POST_GRADUATE(13);
+    COLLEGE_GRAD(12),
+    POST_GRAD(13);
 
     private static final Map<Integer, Education> map;
 

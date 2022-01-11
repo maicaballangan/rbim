@@ -303,6 +303,12 @@ form .removeAttachment {
 	font-size: 90%;
 }
 
+#searchFilters select {
+	font-family: 'Helvetica', 'Arial', 'Sans';
+	font-size: 80%;
+	color: #111;
+}
+
 #crudListPagination {
 	padding: 4px 5px;
 	border: 1px solid #ddd;
@@ -346,4 +352,45 @@ form .removeAttachment {
 
 .crudDelete input:hover {
 	opacity: .7;
+}
+
+#searchFilters {
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 110px;
+	padding-left: 5px;
+}
+
+#searchFilters label {
+	text-align: right;
+	display: block;
+	font-weight: bold;
+	width: 20%;
+	color: #666;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 14px;
+}
+
+#searchFiltersHousehold {
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 115px;
+	padding-left: 5px;
+}
+
+#searchFiltersHousehold label {
+	display: block;
+	font-weight: bold;
+	width: 25%;
+	color: #666;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 14px;
+}
+
+#searchField {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	padding-left: 80px;
 }

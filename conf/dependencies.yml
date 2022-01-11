@@ -4,7 +4,6 @@ require:
   - play [1.5,)
   - play -> secure
   - play -> crud
-  - io.github.bit-man -> javagit 0.2.0
   - com.google.guava -> guava 30.0-jre:
       exclude:
         - com.google.code.findbugs -> *
@@ -15,7 +14,6 @@ require:
       force: true
   - org.apache.ivy -> ivy 2.5.0:
       force: true
-  - com.google.guava -> guava 30.0-jre
   - com.microsoft.sqlserver -> mssql-jdbc 9.4.0.jre11
   - org.apache.poi -> poi 3.17
   - org.apache.poi -> poi-ooxml 3.17

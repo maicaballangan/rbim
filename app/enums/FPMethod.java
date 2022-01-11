@@ -11,16 +11,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum FPMethod {
-    NONE(00),
-    FEMALE_STERILIZATION_OR_LIGATION(1),
-    MALE_STERILIZATION_OR_VASECTOMY(2),
+    NONE(0),
+    LIGATION(1),
+    VASECTOMY(2),
     IUD(3),
     INJECTABLES(4),
     IMPLANTS(5),
     PILL(6),
     CONDOM(7),
     MODERN_NATURAL_FP(8),
-    LACTATIONAL_AMENORRHEA_METHOD(9),
+    LACTATIONAL_AMENORRHEA(9),
     TRADITIONAL(10),
     OTHERS(11);
 

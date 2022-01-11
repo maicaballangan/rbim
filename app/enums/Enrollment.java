@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public enum Enrollment {
     PUBLIC(1),
-    PRIVATE(2);
+    PRIVATE(2),
+    NONE(3);
 
     private static final Map<Integer, Enrollment> map;
 

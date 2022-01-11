@@ -19,6 +19,7 @@ import lombok.Setter;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import play.db.jpa.Model;
 import utils.EncryptionUtils;
 
 /**
@@ -30,7 +31,7 @@ import utils.EncryptionUtils;
 @Builder
 @Getter
 @Setter
-public class Staff extends GenericModel {
+public class Staff extends Model {
 
     public enum Status {
         Active,
@@ -40,14 +41,10 @@ public class Staff extends GenericModel {
     }
 
     private enum Role {
+        Admin,
         Encoder,
-        Supervisor,
-        Interviewer
+        Viewer
     }
-
-    @Id
-    @Required
-    private String id;
 
     @Required
     private String name;

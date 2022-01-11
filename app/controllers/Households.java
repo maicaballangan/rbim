@@ -9,6 +9,6 @@ package controllers;
  * @author Maica Ballangan
  * @since v1
  */
-public class Households extends CRUD {
+public class Households extends CustomCRUD {
 
 }
