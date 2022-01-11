@@ -14,8 +14,8 @@ public enum WorkStatus {
     PERMANENT(1),
     CASUAL(2),
     CONTRACTUAL(3),
-    INDIVIDUALLY_OWNED_BUSINESS(4),
-    SHARED_OR_PARTNERSHIP_BUSINESS(5),
+    OWNED_BUSINESS(4),
+    PARTNERSHIP_BUSINESS(5),
     CORPORATE_BUSINESS(6);
 
     private static final Map<Integer, WorkStatus> map;

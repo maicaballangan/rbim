@@ -148,11 +148,11 @@ public class ExcelUtils {
                 }
                 rb.relationshipToHead(relation);
                 rb.sex(Sex.getByCode(getIntCellValue(row, 31)));
-                rb.age(getIntCellValue(row, 32));
+                //rb.age(getIntCellValue(row, 32));
                 rb.yearOfBirth(getIntCellValue(row, 33)); //34
                 rb.monthOfBirth(getMonthCellValue(row, 34));
-                rb.placeOfBirthBrgy(getStringCellValue(row, 35));
-                rb.placeOfBirthMunicipality(getStringCellValue(row, 36));
+                rb.placeOfBirthBrgy(Barangay.getByDescription(getStringCellValue(row, 35)));
+                rb.placeOfBirthMunicipality(Municipality.getByDescription(getStringCellValue(row, 36)));
                 rb.nationality(Nationality.getByCode(getIntCellValue(row, 37)));
                 rb.civilStatus(CivilStatus.getByCode(getIntCellValue(row, 38))); //40
                 rb.religion(getStringCellValue(row, 39));
@@ -172,7 +172,7 @@ public class ExcelUtils {
                 rb.workStatus(WorkStatus.getByCode(getIntCellValue(row, 47)));
                 rb.placeOfWork(getStringCellValue(row, 48)); //50
                 rb.CTCIssued(YesOrNo.getByCode(getIntCellValue(row, 83))); //85
-                rb.CTCIssuedBarangay(getStringCellValue(row, 84));
+                rb.CTCIssuedInBarangay(YesOrNo.getByCode(getIntCellValue(row, 84)));
                 //row, ; // "Q43-skill development training
                 Cell skills = row.getCell(85, RETURN_BLANK_AS_NULL);
                 if (isUndefined(skills)) {
@@ -204,10 +204,10 @@ public class ExcelUtils {
                 rb.disability(getStringCellValue(row, 61));
 
                 // Residency Info
-                rb.previousBarangayFiveYr(getStringCellValue(row, 65));
-                rb.previousMunicipalityFiveYr(getStringCellValue(row, 66));
-                rb.previousBarangaySixMo(getStringCellValue(row, 67));
-                rb.previousMunicipalitySixMo(getStringCellValue(row, 68)); //70
+                rb.previousBarangayFiveYr(Barangay.getByDescription(getStringCellValue(row, 65)));
+                rb.previousMunicipalityFiveYr(Municipality.getByDescription(getStringCellValue(row, 66)));
+                rb.previousBarangaySixMo(Barangay.getByDescription(getStringCellValue(row, 67)));
+                rb.previousMunicipalitySixMo(Municipality.getByDescription(getStringCellValue(row, 68))); //70
                 rb.yearsOfStay(getIntCellValueRemoveString(row, 69));
                 rb.monthsOfStay(getIntCellValueRemoveString(row, 70));
                 rb.residentType(ResidentType.getByCode(getIntCellValue(row, 71)));

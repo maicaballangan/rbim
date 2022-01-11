@@ -22,7 +22,8 @@ public enum Municipality {
     RIZAL("RIZAL"),
     TABUK_CITY("TABUK CITY"),
     TANUDAN("TANUDAN"),
-    TINGLAYAN("TINGLAYAN");
+    TINGLAYAN("TINGLAYAN"),
+    OTHER("OTHER");
 
     private static final Map<String, Municipality> map;
 
@@ -33,8 +34,8 @@ public enum Municipality {
     }
 
     public static Municipality getByDescription(String description) {
-        if (description == null || "99".equals(description)) return null;
-        return Municipality.valueOf(description);
+        if (description == null || "99".equals(description) || "98".equals(description)) return null;
+        return map.containsKey(description) ? map.get(description) : OTHER;
     }
 
     private String description;
@@ -45,6 +46,6 @@ public enum Municipality {
 
     @Override
     public String toString() {
-        return name().replaceAll("_", " ");
+        return description;
     }
 }
