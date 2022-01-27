@@ -22,11 +22,11 @@ import play.Logger;
 import play.Play;
 import play.data.validation.Error;
 import play.modules.excel.RenderExcel;
-import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Finally;
 import play.mvc.Http;
 import play.mvc.Util;
+import play.mvc.With;
 import utils.ExcelUtils;
 
 /**
@@ -35,6 +35,7 @@ import utils.ExcelUtils;
  * @author Maica Ballangan
  * @since v1
  */
+@With(Secure.class)
 public class Application extends Controller {
 
     //default time zone
@@ -43,16 +44,9 @@ public class Application extends Controller {
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
     private static final String REALM = "Basic realm=\"Popcom\"";
 
-    @Before(unless = {"notFound", "ping", "heartbeat", "info"})
+    /*@Before(unless = {"notFound", "ping", "heartbeat", "info"})
     static void authenticate() {
-        /*if (!(Config.AUTH_ID.equals(request.user) && Config.AUTH_PASS.equals(request.password))) {
-            response.setHeader(WWW_AUTHENTICATE, REALM);
-            request.format = MediaType.JSON_UTF_8.toString();
-            HttpException e = new HttpException(APIErrorCode.BASIC_AUTHENTICATION_FAILED);
-            response.status = e.getHttpStatusCode();
-            render(ERROR_PAGE, e);
-        }*/
-    }
+    }*/
 
     @Finally
     protected static void removeCookies() {
@@ -81,15 +75,9 @@ public class Application extends Controller {
      * GET /
      */
     public static void index() {
-        render();
+        CRUD.index();
     }
 
-    /**
-     * GET /login
-     */
-    public static void login() {
-        render();
-    }
 
     /**
      * GET     /resources.json
@@ -115,10 +103,6 @@ public class Application extends Controller {
     }
 
     public static void upload() {
-        render();
-    }
-
-    public static void export() {
         render();
     }
 

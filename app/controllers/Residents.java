@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import models.Resident;
+import play.mvc.With;
 
 /**
  * @author Maica Ballangan
  * @since v1
  */
+@With(Secure.class)
 public class Residents extends CustomCRUD {
 
     /**

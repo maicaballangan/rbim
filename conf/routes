@@ -10,14 +10,13 @@ GET            /resources.json                Application.resources             
 GET            /resources/{api}               Application.resource                    # Anonymous - resource
 
 
-POST           /admin/residents/export        Residents.export
 
 ### START OF RESOURCES ###
-*               /admin                        module:crud
+*              /admin                         module:crud
+*              /                              module:secure
+POST           /admin/residents/export        Residents.export
 
 # Home page
-GET            /                              Application.index
-GET            /login                         Application.login
 GET            /upload                        Application.upload
 POST           /import                        Application.importFile
 
@@ -37,4 +36,4 @@ GET            /public/                       staticDir:public
 #OPTIONS        /*                            APIHelpers.options
 
 # Catch all
-*       /.*                                  Application.notFound
+*       /.*                                   Application.notFound

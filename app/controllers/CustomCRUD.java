@@ -11,11 +11,13 @@ import java.util.Map;
 import play.db.Model;
 import play.exceptions.TemplateNotFoundException;
 import play.mvc.Util;
+import play.mvc.With;
 
 /**
  * @author Maica Ballangan
  * @since v1
  */
+@With(Secure.class)
 public class CustomCRUD extends CRUD {
 
     public static void list(int page,
