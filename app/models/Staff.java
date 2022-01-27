@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.MinSize;
+import play.data.validation.Password;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.Model;
@@ -31,7 +32,7 @@ import utils.EncryptionUtils;
 @Builder
 @Getter
 @Setter
-public class Staff extends Model {
+public class Staff extends GenericModel {
 
     public enum Status {
         Active,
@@ -46,11 +47,15 @@ public class Staff extends Model {
         Viewer
     }
 
+    @Id
+    private String username;
+
     @Required
     private String name;
 
     @Required
     @MinSize(8)
+    @Password
     private String password;
 
     @Required
@@ -76,9 +81,5 @@ public class Staff extends Model {
 
     public final boolean checkPassword(final String compare) {
         return BCrypt.checkpw(EncryptionUtils.hash(compare), this.password);
-    }
-
-    public static Staff findByIdAndPassword(String id, String password) {
-        return Staff.find("byIdAndPassword", id, encrypt(password)).first();
     }
 }

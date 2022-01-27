@@ -12,6 +12,6 @@ import play.mvc.With;
  * @since v1
  */
 @With(Secure.class)
-public class Households extends CustomCRUD {
+public class Staffs extends CRUD {
 
 }
