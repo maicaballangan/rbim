@@ -5,10 +5,25 @@
  */
 package controllers;
 
+import java.util.List;
+import java.util.Map;
+
+import models.Resident;
+
 /**
  * @author Maica Ballangan
  * @since v1
  */
 public class Residents extends CustomCRUD {
 
+    /**
+     * POST     /export
+     */
+    public static void export(Map<String, String> filter,
+                              Map<String, Integer> min,
+                              Map<String, Integer> max,
+                              Map<String, String> match) {
+        List<Resident> records = Resident.find(createQuery(filter, min, max, match)).fetch();
+        Application.generateReport("residents", "report", records);
+    }
 }

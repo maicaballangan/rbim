@@ -4,11 +4,11 @@ require:
   - play [1.5,)
   - play -> secure
   - play -> crud
+  - play -> excel 1.2.3
   - com.google.guava -> guava 30.0-jre:
       exclude:
         - com.google.code.findbugs -> *
         - javax.inject -> javax.inject *
-  - net.andreinc -> mockneat 0.4.7
   - org.mindrot -> jbcrypt 0.4
   - org.codehaus.groovy -> groovy 2.4.21:
       force: true

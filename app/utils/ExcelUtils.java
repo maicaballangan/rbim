@@ -26,7 +26,7 @@ import enums.Barangay;
 import enums.BuildingMaterial;
 import enums.BuildingType;
 import enums.CivilStatus;
-import enums.CookingFuel;
+import enums.Cooking;
 import enums.DeliveryPlace;
 import enums.Education;
 import enums.Enrollment;
@@ -120,7 +120,7 @@ public class ExcelUtils {
                     hhb.houseOwnership(Ownership.getByCode(getIntCellValue(row, 87))); //89
                     hhb.lotOwnership(Ownership.getByCode(getIntCellValue(row, 88))); //90
                     hhb.lighting(Lighting.getByCode(getIntCellFirstValue(row, 89)));
-                    hhb.cookingFuel(CookingFuel.getByCode(getIntCellFirstValue(row, 90)));
+                    hhb.cooking(Cooking.getByCode(getIntCellFirstValue(row, 90)));
                     hhb.waterSource(WaterSource.getByCode(getIntCellFirstValue(row, 91)));
                     hhb.garbageDisposal(GarbageDisposal.getByCode(getIntCellFirstValue(row, 92)));
                     hhb.hasTrashSegregation(YesOrNo.getByCode(getIntCellFirstValue(row, 93))); //95

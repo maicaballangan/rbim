@@ -134,14 +134,14 @@
                 </select>
             </label>
             <label>Cooking:
-                <select name="filter.cookingFuel">
+                <select name="filter.cooking">
                     <option></option>
-                    #{list items:enums.CookingFuel.values(), as:'cookingFuel'}
-                        <option name="${cookingFuel.name()}"
-                                ord="${cookingFuel.ordinal()}"
-                                value="${cookingFuel.name()}"
-                        ${cookingFuel.name() == params.'filter.cookingFuel' ? 'selected="true"'.raw() : '' }>
-                        ${cookingFuel.toString()}
+                    #{list items:enums.Cooking.values(), as:'cooking'}
+                        <option name="${cooking.name()}"
+                                ord="${cooking.ordinal()}"
+                                value="${cooking.name()}"
+                        ${cooking.name() == params.'filter.cooking' ? 'selected="true"'.raw() : '' }>
+                        ${cooking.toString()}
                         </option>
                     #{/list}
                 </select>

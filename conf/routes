@@ -3,36 +3,38 @@
 # ~~~~
 
 # Application
-GET            /ping                   Application.ping                        # Anonymous - Used for availability checking
+GET            /ping                          Application.ping                        # Anonymous - Used for availability checking
 
 # API Docs
-GET            /resources.json         Application.resources                   # Anonymous - resources
-GET            /resources/{api}        Application.resource                    # Anonymous - resource
+GET            /resources.json                Application.resources                   # Anonymous - resources
+GET            /resources/{api}               Application.resource                    # Anonymous - resource
 
+
+POST           /admin/residents/export        Residents.export
 
 ### START OF RESOURCES ###
-*               /admin                 module:crud
+*               /admin                        module:crud
 
 # Home page
-GET            /                       Application.index
-GET            /login                  Application.login
-GET            /upload                 Application.upload
-POST           /import                 Application.importFile
+GET            /                              Application.index
+GET            /login                         Application.login
+GET            /upload                        Application.upload
+POST           /import                        Application.importFile
 
 # Ignore favicon requests
-GET            /favicon.ico                            404
+GET            /favicon.ico                    404
 
 ### END OF RESOURCES ###
 
 # Ignore favicon requests
-GET            /favicon.png            staticFile:/public/images/favicon-32        x32.png
-GET            /favicon.ico            staticFile:/public/images/favicon.ico
+GET            /favicon.png                   staticFile:/public/images/favicon-32        x32.png
+GET            /favicon.ico                   staticFile:/public/images/favicon.ico
 
 # Map static resources from the /app/public folder to the /public path
-GET            /public/                    staticDir:public
+GET            /public/                       staticDir:public
 
 # CORS
-#OPTIONS        /transactions           APIHelpers.options
+#OPTIONS        /*                            APIHelpers.options
 
 # Catch all
-*       /.*                            Application.notFound
+*       /.*                                  Application.notFound
