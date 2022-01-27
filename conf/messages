@@ -7,6 +7,7 @@ crud.title=Registry of Barangay Inhabitants and Migrants
 crud.index.title=Browse Records
 crud.index.objectType=Records
 crud.upload=Upload
+crud.export=Export
 
 # Resident
 id=ID
@@ -87,7 +88,7 @@ buildingMaterial=Building Material
 houseOwnership=House Ownership
 lotOwnership=Lot Ownership
 lighting=Lighting
-cookingFuel=Cooking Fuel
+cooking=Cooking
 waterSource=Water Source
 garbageDisposal=Garbage Disposal
 toiletFacility=Toilet Facility

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum CookingFuel {
+public enum Cooking {
     NONE(0),
     WOOD(1),
     CHARCOAL(2),
@@ -19,23 +19,23 @@ public enum CookingFuel {
     ELECTRICITY(5),
     OTHERS(6);
 
-    private static final Map<Integer, CookingFuel> map;
+    private static final Map<Integer, Cooking> map;
 
     static {
         map = Arrays
-                .stream(CookingFuel.values())
+                .stream(Cooking.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
         map.put(-1, OTHERS);
     }
 
-    public static CookingFuel getByCode(Integer code) {
+    public static Cooking getByCode(Integer code) {
         if (code == null || code == 99) return null;
         return map.get(code);
     }
 
     private final Integer code;
 
-    CookingFuel(Integer code) {
+    Cooking(Integer code) {
         this.code = code;
     }
 

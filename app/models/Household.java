@@ -19,7 +19,7 @@ import javax.persistence.SequenceGenerator;
 import enums.Barangay;
 import enums.BuildingMaterial;
 import enums.BuildingType;
-import enums.CookingFuel;
+import enums.Cooking;
 import enums.GarbageDisposal;
 import enums.Lighting;
 import enums.Municipality;
@@ -78,12 +78,6 @@ public class Household extends GenericModel {
     private String head;
 
     @Enumerated(EnumType.STRING)
-    private BuildingType buildingType;
-
-    @Enumerated(EnumType.STRING)
-    private BuildingMaterial buildingMaterial;
-
-    @Enumerated(EnumType.STRING)
     private Ownership houseOwnership;
 
     @Enumerated(EnumType.STRING)
@@ -93,7 +87,7 @@ public class Household extends GenericModel {
     private Lighting lighting;
 
     @Enumerated(EnumType.STRING)
-    private CookingFuel cookingFuel;
+    private Cooking cooking;
 
     @Enumerated(EnumType.STRING)
     private WaterSource waterSource;
@@ -102,10 +96,16 @@ public class Household extends GenericModel {
     private GarbageDisposal garbageDisposal;
 
     @Enumerated(EnumType.STRING)
+    private YesOrNo hasTrashSegregation;
+
+    @Enumerated(EnumType.STRING)
     private ToiletFacility toiletFacility;
 
     @Enumerated(EnumType.STRING)
-    private YesOrNo hasTrashSegregation;
+    private BuildingType buildingType;
+
+    @Enumerated(EnumType.STRING)
+    private BuildingMaterial buildingMaterial;
 
     private Integer totalNumber;
 

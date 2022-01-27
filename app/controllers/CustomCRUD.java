@@ -10,6 +10,7 @@ import java.util.Map;
 
 import play.db.Model;
 import play.exceptions.TemplateNotFoundException;
+import play.mvc.Util;
 
 /**
  * @author Maica Ballangan
@@ -32,6 +33,23 @@ public class CustomCRUD extends CRUD {
             page = 1;
         }
 
+        String query = createQuery(filter, min, max, match);
+        List<Model> objects = type.findPage(page, search, searchFields, orderBy, order, query.length() > 0 ? query : (String) request.args.get("where"));
+        Long count = type.count(search, searchFields, query.length() > 0 ? query : (String) request.args.get("where"));
+
+        try {
+            render(type, objects, count, page, orderBy, order);
+        } catch (TemplateNotFoundException e) {
+            render("CRUD/list.html", type, objects, count, page, orderBy, order);
+        }
+    }
+
+    @Util
+    static String createQuery(
+            Map<String, String> filter,
+            Map<String, Integer> min,
+            Map<String, Integer> max,
+            Map<String, String> match) {
         StringBuilder fb = new StringBuilder();
         if (filter != null) filter.keySet()
                 .stream()
@@ -43,51 +61,34 @@ public class CustomCRUD extends CRUD {
                         filter.put(k, filter.get(k).substring(1));
                     }
 
-                    if (fb.length() == 0) {
-                        fb.append(k + equality + "'" + filter.get(k) + "'");
-                    } else {
-                        fb.append(" and " + k + equality + "'" + filter.get(k) + "'");
-                    }
+                    if (fb.length() > 0) fb.append(" and ");
+                    fb.append(k + equality + "'" + filter.get(k) + "'");
                 });
 
         if (match != null) match.keySet()
                 .stream()
                 .filter(k -> match.get(k) != null && !match.get(k).isBlank())
                 .forEach(k -> {
-                    if (fb.length() == 0) {
-                        fb.append(k + " like '%" + match.get(k) + "%'");
-                    } else {
-                        fb.append(" and " + k + " like '%" + match.get(k) + "%'");
-                    }
+                    if (fb.length() > 0) fb.append(" and ");
+                    fb.append(k + " like '%" + match.get(k) + "%'");
                 });
 
         if (min != null) min.keySet()
                 .stream()
                 .filter(k -> min.get(k) != null)
                 .forEach(k -> {
-                    if (fb.length() == 0) {
-                        fb.append(k + " >= " + min.get(k));
-                    } else {
-                        fb.append(" and " + k + " >= " + min.get(k));
-                    }
+                    if (fb.length() > 0) fb.append(" and ");
+                    fb.append(k + " >= " + min.get(k));
                 });
+
         if (max != null) max.keySet()
                 .stream()
                 .filter(k -> max.get(k) != null)
                 .forEach(k -> {
-                    if (fb.length() == 0) {
-                        fb.append(k + " <= " + max.get(k));
-                    } else {
-                        fb.append(" and " + k + " <= " + max.get(k));
-                    }
+                    if (fb.length() > 0) fb.append(" and ");
+                    fb.append(k + " <= " + max.get(k));
                 });
-        List<Model> objects = type.findPage(page, search, searchFields, orderBy, order, fb.length() > 0 ? fb.toString() : (String) request.args.get("where"));
-        Long count = type.count(search, searchFields, fb.length() > 0 ? fb.toString() : (String) request.args.get("where"));
 
-        try {
-            render(type, objects, count, page, orderBy, order);
-        } catch (TemplateNotFoundException e) {
-            render("CRUD/list.html", type, objects, count, page, orderBy, order);
-        }
+        return fb.toString();
     }
 }

@@ -111,7 +111,6 @@ public class Resident extends GenericModel {
 
     private Integer yearOfBirth;
 
-    @Enumerated(EnumType.STRING)
     private Month monthOfBirth;
 
     @Required
@@ -167,10 +166,10 @@ public class Resident extends GenericModel {
     private Integer livingChildrenSub; // What??
 
     @Enumerated(EnumType.STRING)
-    private SourceOfFP sourceOfFP;
+    private enums.FPMethod FPMethod;
 
     @Enumerated(EnumType.STRING)
-    private enums.FPMethod FPMethod;
+    private SourceOfFP sourceOfFP;
 
     @Enumerated(EnumType.STRING)
     private YesOrNo intentToUseFP;
@@ -219,7 +218,7 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private ResidentType residentType;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Month monthOfTransfer;
 
     private Integer yearOfTransfer;
