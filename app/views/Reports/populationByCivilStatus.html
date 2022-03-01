@@ -1,0 +1,29 @@
+#{extends 'CRUD/layout.html' /}
+*{#{set title:messages.get('crud.list.title', type.name) /}}*
+
+<div id="crudList">
+
+    <h2 id="crudListTitle">&{'crud.list.title', 'Population By Civil Status'}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Civil Status</th>
+                <th>Female</th>
+                <th>Male</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            #{list items:records, as:'record'}
+                <tr>
+                    <td>${record.civilStatus}</td>
+                    <td>${record.female}</td>
+                    <td>${record.male}</td>
+                    <td>${record.getTotal()}</td>
+                </tr>
+            #{/list}
+        </tbody>
+    </table>
+
+</div>

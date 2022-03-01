@@ -1,0 +1,25 @@
+#{extends 'CRUD/layout.html' /}
+*{#{set title:messages.get('crud.list.title', type.name) /}}*
+
+<div id="crudList" >
+
+    <h2 id="crudListTitle">&{'crud.list.title', 'Population by Barangay'}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Barangay</th>
+                <th>No. of Individuals</th>
+            </tr>
+        </thead>
+        <tbody>
+            #{list items:records, as:'record'}
+                <tr>
+                    <td>${record.getBarangay()}</td>
+                    <td>${record.count}</td>
+                </tr>
+            #{/list}
+        </tbody>
+    </table>
+
+</div>

@@ -78,21 +78,11 @@ public class Application extends Controller {
         CRUD.index();
     }
 
-
     /**
      * GET     /resources.json
      */
     public static void resources() {
         render("Application/resources.json");
-    }
-
-    /**
-     * GET     /resources/{api}
-     *
-     * @param api path
-     */
-    public static void resource(final String api) {
-        render("Application/resources/" + api);
     }
 
     /**
@@ -103,6 +93,10 @@ public class Application extends Controller {
     }
 
     public static void upload() {
+        render();
+    }
+
+    public static void reports() {
         render();
     }
 

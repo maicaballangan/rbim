@@ -13,7 +13,7 @@
         <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
 
         <input type="submit" value="&{'crud.search'}" />
-        <input id="searchBtn" type="submit" value="Export" />
+        <input type="submit" formaction="@{Households.export()}" formmethod="POST" value="&{'crud.export'}" />
 
         <div id="searchFiltersHousehold">
             <label>Bldg Type:
