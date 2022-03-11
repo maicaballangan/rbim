@@ -100,7 +100,7 @@ public class ExcelUtils {
                 hhb.municipality(Municipality.TABUK_CITY);
                 hhb.province(Province.KALINGA);
 
-                if (Relation.HEAD.equals(relation)) {
+                //if (Relation.HEAD.equals(relation)) {
                     // Household info
                     //getIntCellValue(cellIterator.next()); //1 id No (ignored)
                     //cellIterator.next(); //2 popcomNo TODO
@@ -137,7 +137,7 @@ public class ExcelUtils {
                     //hhb.encodeDate(getDateCellValue(row, 24)); //25
                     //hhb.encoder(getStringCellValue(row, 25)); //26
                     //hhb.encoderSupervisor(getStringCellValue(row, 26)); //27
-                }
+                //}
 
                 // Resident info
                 rb.lastName(getStringCellValue(row, 27));

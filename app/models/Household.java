@@ -5,6 +5,9 @@
  */
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -14,7 +17,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 import enums.Barangay;
 import enums.BuildingMaterial;
@@ -33,6 +35,7 @@ import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import utils.StringSequenceIdGenerator;
 
 /**
  * @author Maica Ballangan
@@ -40,19 +43,25 @@ import play.db.jpa.GenericModel;
  */
 @Entity
 @Cacheable
-@SequenceGenerator(initialValue = 100000, name = "household", sequenceName = "houeholdSeq")
 @Builder
 @Getter
 @Setter
 public class Household extends GenericModel {
 
     public enum Status {
-        ACTIVE, INACTIVE, DELETED;
+        ACTIVE, INACTIVE;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "household")
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "household_seq")
+    @GenericGenerator(
+        name = "household_seq",
+        strategy = "utils.StringSequenceIdGenerator",
+        parameters = {
+            @Parameter(name = StringSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = StringSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "H"),
+            @Parameter(name = StringSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%06d") })
+    public String id;
 
     @Required
     @Enumerated(EnumType.STRING)
@@ -68,7 +77,6 @@ public class Household extends GenericModel {
 
     private Integer houseNo;
 
-    @Required
     private String address;
 
     @Required
@@ -109,7 +117,8 @@ public class Household extends GenericModel {
 
     private Integer totalNumber;
 
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    private Status status=Status.ACTIVE;
 
     private Date interviewDate;
 
@@ -134,5 +143,13 @@ public class Household extends GenericModel {
         if (street != null) query.setParameter("street", street);
         if (houseNo != null) query.setParameter("houseNo", houseNo);
         return query.first();
+    }
+
+    @Override
+    public void _save() {
+        if (status == null) {
+            this.status = Status.ACTIVE;
+        }
+        super._save();
     }
 }

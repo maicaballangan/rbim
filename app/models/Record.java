@@ -34,21 +34,14 @@ public class Record {
         }
 
         // Save household, and survey information
-        if (Relation.HEAD.equals(resident.getRelationshipToHead())) {
-            household.create();
+        Household householdExisting = household.getExisting();
+        if (householdExisting != null) {
+            resident.setHousehold(householdExisting);
         } else {
-            String head = household.getHead();
-            household = household.getExisting();
-            if (household == null) {
-                Logger.error("Can't find household for row %s with head name %s", row, head);
-                validation.addError(
-                        ""+row,
-                        "ERROR: Can't find household with head name " + head);
-                return;
-            }
+            household.create();
+            resident.setHousehold(household);
         }
 
-        resident.setHousehold(household);
         resident.create();
         //Logger.info("Successfully saved record on row %s with name %s", row, health.getDescription());
     }

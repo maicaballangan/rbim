@@ -128,13 +128,7 @@ public class Application extends Controller {
             }
 
             // Save head residents first
-            records.stream()
-                    .filter(r -> Relation.HEAD.equals(r.getResident().getRelationshipToHead()))
-                    .forEach(r -> r.create(validation));
-
-            records.stream()
-                    .filter(r -> !Relation.HEAD.equals(r.getResident().getRelationshipToHead()))
-                    .forEach(r -> r.create(validation));
+            records.stream().forEach(r -> r.create(validation));
             Logger.info("============End Import process===============");
 
         } catch (Exception e) {

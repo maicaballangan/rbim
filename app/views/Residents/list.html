@@ -10,7 +10,8 @@
             *{#{if _fields}
                 <input type="hidden" name="searchFields" value="${_fields.toString().substring(1, _fields.toString().length()-1).replace(',', '')}" />
             #{/if}}*
-            <div id="searchField">
+            <div id="searchField"
+                <input type="hidden" name="searchFields" value="id lastName firstName sex" />
                 <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
                 <input type="submit" value="&{'crud.search'}" />
                 <input type="submit" formaction="@{Residents.export()}" formmethod="POST" value="&{'crud.export'}" />
@@ -252,7 +253,6 @@
                 </label>
             </div>
         #{/form}
-        *{#{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}}*
     </div>
 
     <div id="crudListTable">

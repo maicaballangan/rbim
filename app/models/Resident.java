@@ -5,6 +5,9 @@
  */
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
@@ -20,7 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -54,6 +56,7 @@ import lombok.Setter;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import utils.StringSequenceIdGenerator;
 
 /**
  * @author Maica Ballangan
@@ -73,7 +76,6 @@ import play.db.jpa.GenericModel;
 )
 @Entity
 @Cacheable
-@SequenceGenerator(initialValue = 1000000, name = "resident", sequenceName = "residentSeq")
 @Builder
 @Getter
 @Setter
@@ -84,8 +86,15 @@ public class Resident extends GenericModel {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident")
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident_seq")
+    @GenericGenerator(
+        name = "resident_seq",
+        strategy = "utils.StringSequenceIdGenerator",
+        parameters = {
+            @Parameter(name = StringSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = StringSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "R"),
+            @Parameter(name = StringSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%07d") })
+    public String id;
 
     @Required
     private String lastName;
