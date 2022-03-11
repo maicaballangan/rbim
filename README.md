@@ -40,7 +40,6 @@ GETTING STARTED
 * Run application `play start`
 * Open app on browser `http://localhost:9009/v1`
 
-
 If you are asked for a Basic HTTP Authentication, enter:
 username: rbim  
 password: rbim@@1
@@ -78,6 +77,12 @@ You can run code coverage with `play autotest`
 DEPENDENCY CHECK 
 ----------------
 You can run a dependency check with `./bin/dependency-check.sh`
+
+DEPLOYMENT
+----------------
+You can run a dependency check with `./bin/dependency-check.sh`
+
+
 
 PLAY 1 FRAMEWORK DOCUMENTATION
 ----------------

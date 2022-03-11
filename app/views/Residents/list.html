@@ -238,15 +238,15 @@
                         #{/list}
                     </select>
                 </label>
-                <label>FP Intent:
-                    <select name="filter.intentToUseFP">
+                <label>Status:
+                    <select name="filter.status">
                         <option></option>
-                        #{list items:enums.YesOrNo.values(), as:'intentToUseFP'}
-                            <option name="${intentToUseFP.name()}"
-                                    ord="${intentToUseFP.ordinal()}"
-                                    value="${intentToUseFP.name()}"
-                            ${intentToUseFP.name() == params.'filter.intentToUseFP' ? 'selected="true"'.raw() : '' }>
-                            ${intentToUseFP.toString()}
+                        #{list items:models.Resident.Status.values(), as:'status'}
+                            <option name="${status.name()}"
+                                    ord="${status.ordinal()}"
+                                    value="${status.name()}"
+                            ${status.name() == params.'filter.status' ? 'selected="true"'.raw() : '' }>
+                            ${status.toString()}
                             </option>
                         #{/list}
                     </select>
@@ -257,7 +257,7 @@
 
     <div id="crudListTable">
         #{crud.table fields:['id', 'lastName', 'firstName', 'sex', 'age', 'household'],
-                     sort: ['id', 'lastName', 'household'] }
+                     sort: ['id', 'lastName', 'firstName', 'age', 'household'] }
 
             #{crud.custom 'household'}
                 <a href="@{Households.show(object.household.id)}">${object.household}</a>

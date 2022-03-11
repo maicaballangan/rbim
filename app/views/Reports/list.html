@@ -1,0 +1,63 @@
+#{extends 'CRUD/layout.html' /}
+*{#{set title:messages.get('crud.title') /}}*
+
+<div id="crudIndex">
+
+    <h2>Population Reports</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Reports</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationByAge()}">Population By Age</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationByBrgy()}">Population By Brgy</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationByCivilStatus()}">Population By Civil Status</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationByResidence()}">Population By Residence</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationBySeniorCitizen()}">Population By Senior Citizen</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationBySex()}">Population By Sex</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.populationByWorkStatus()}">Population By Work Status</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.employmentStatusByAge()}">Employment Status By Age</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@{Reports.educationalLevelByAge()}">Educational Level By Age</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

@@ -12,11 +12,25 @@ GET            /resources/{api}               Application.resource              
 
 
 ### START OF RESOURCES ###
+
+POST           /admin/residents/export                        Residents.export
+POST           /admin/households/export                       Households.export
+GET            /admin/reports                                 Reports.list
+GET            /admin/reports/populationByAge                 Reports.populationByAge
+GET            /admin/reports/populationByBrgy                Reports.populationByBrgy
+GET            /admin/reports/populationBySex                 Reports.populationBySex
+GET            /admin/reports/populationByCivilStatus         Reports.populationByCivilStatus
+GET            /admin/reports/populationBySeniorCitizen       Reports.populationBySeniorCitizen
+GET            /admin/reports/populationByResidence           Reports.populationByResidence
+GET            /admin/reports/populationByWorkStatus          Reports.populationByWorkStatus
+GET            /admin/reports/employmentStatusByAge           Reports.employmentStatusByAge
+GET            /admin/reports/educationalLevelByAge           Reports.educationalLevelByAge
+
+# Modules
 *              /admin                         module:crud
 *              /                              module:secure
-POST           /admin/residents/export        Residents.export
 
-# Home page
+POST           /admin/reports                 Application.reports
 GET            /upload                        Application.upload
 POST           /import                        Application.importFile
 

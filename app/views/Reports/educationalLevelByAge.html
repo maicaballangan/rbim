@@ -1,0 +1,43 @@
+#{extends 'CRUD/layout.html' /}
+*{#{set title:messages.get('crud.list.title', type.name) /}}*
+
+<div id="crudList">
+
+    <h2 id="crudListTitle">&{'crud.list.title', 'Educational Level By Age'}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Age</th>
+                <th>None</th>
+                <th>Pre School</th>
+                <th>Elementary</th>
+                <th>Highschool</th>
+                <th>Junior HS</th>
+                <th>Senior HS</th>
+                <th>Vocational</th>
+                <th>College</th>
+                <th>Post Grad</th>
+                <th>Undefined</th>
+            </tr>
+        </thead>
+        <tbody>
+            #{list items:records, as:'record'}
+                <tr>
+                    <td>${record.age}</td>
+                    <td>${record.none}</td>
+                    <td>${record.preschool}</td>
+                    <td>${record.elementary_grad}</td>
+                    <td>${record.highschool_grad}</td>
+                    <td>${record.junior_hs_grad}</td>
+                    <td>${record.senior_hs_grad}</td>
+                    <td>${record.vocational}</td>
+                    <td>${record.college_grad}</td>
+                    <td>${record.post_grad}</td>
+                    <td>${record.undefined}</td>
+                </tr>
+            #{/list}
+        </tbody>
+    </table>
+
+</div>
