@@ -2,7 +2,7 @@
 
 echo "Running dependency checker..."
 
-./bin/dependency-check/bin/dependency-check.sh --disableAssembly --project "academy-api" --scan "lib" --out "."
+./bin/dependency-check/bin/dependency-check.sh --disableAssembly --project "rbim-api" --scan "lib" --out "."
 
 echo "Opening browser to report..."
 if [ "$OSTYPE" == "linux-gnu" ]

@@ -10,6 +10,8 @@ crud.upload=Upload
 crud.export=Export
 
 # Resident
+username=Username
+name=Name
 id=ID
 lastName=Last Name
 firstName=First Name
@@ -50,6 +52,7 @@ reasonOfVisit=Reason of Visit
 disability=Disability
 parentalStatus=Parental Status
 registeredSeniorCitizen=Registered Senior Citizen
+registeredBirth=Registered Birth (PSA)
 votingArea=Voting Area
 previousBarangayFiveYr=Previous Barangay (Five Years)
 previousMunicipalityFiveYr=Previous Municipality (Five Years)

@@ -5,6 +5,10 @@
  */
 package controllers;
 
+import java.util.List;
+import java.util.Map;
+
+import models.Household;
 import play.mvc.With;
 
 /**
@@ -14,4 +18,14 @@ import play.mvc.With;
 @With(Secure.class)
 public class Households extends CustomCRUD {
 
+    /**
+     * POST     /export
+     */
+    public static void export(Map<String, String> filter,
+                              Map<String, Integer> min,
+                              Map<String, Integer> max,
+                              Map<String, String> match) {
+        List<Household> records = Household.find(createQuery(filter, min, max, match)).fetch();
+        Application.generateReport("households", "households", records);
+    }
 }

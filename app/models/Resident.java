@@ -196,6 +196,9 @@ public class Resident extends GenericModel {
     private YesOrNo registeredSeniorCitizen;
 
     @Enumerated(EnumType.STRING)
+    private YesOrNo registeredBirth;
+
+    @Enumerated(EnumType.STRING)
     private Barangay votingArea;
 
     // Residency Info
@@ -251,6 +254,8 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private YesOrNo CTCIssuedInBarangay;
 
+    private String skillTraining;
+
     @Enumerated(EnumType.STRING)
     private Skill skillA;
 
@@ -295,12 +300,28 @@ public class Resident extends GenericModel {
         return query.first();
     }
 
+    public Integer getAge() {
+        return yearOfBirth != null ?
+                Period.between(
+                    LocalDate.of(yearOfBirth,
+                            monthOfBirth != null ? monthOfBirth : Month.JANUARY,
+                            dateOfBirth != null ? dateOfBirth : 1),
+                    LocalDate.now()).getYears() :
+                null;
+    }
+
+    public String getSkillsString() {
+        return (skillA != null ? skillA : "") + (skillB != null ? ", " + skillB : "") + (skillC != null ? ", " + skillC : "");
+    }
+
+    public String getSkillsCode() {
+        return (skillA != null ? skillA.getCode() : "") + (skillB != null ? ", " + skillB.getCode() : "") + (skillC != null ? ", " + skillC.getCode() : "");
+    }
+
     @Override
     public void _save() {
         this.barangay = household.getBarangay();
-        this.age = Period.between(
-                LocalDate.of(yearOfBirth, monthOfBirth, dateOfBirth != null ? dateOfBirth : 1),
-                LocalDate.now()).getYears();
+        this.age = getAge();
         if (status == null) {
             this.status = Status.ALIVE;
         }
