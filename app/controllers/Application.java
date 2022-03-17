@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import enums.APIErrorCode;
-import enums.Relation;
 import exceptions.HttpException;
 import models.Record;
 import play.Logger;
@@ -116,7 +115,6 @@ public class Application extends Controller {
             if (validation.hasErrors()) {
                 Logger.error("There has been errors on parsing the document, please make sure the fields are properly formatted");
                 flash.error(play.i18n.Messages.get("crud.hasErrors"));
-                //renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
                 Map<String, List<Error>> errors = validation.errorsMap();
                 render(request.controller + "/upload.html", errors);
             }

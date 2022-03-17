@@ -3,6 +3,7 @@
 # ~~~~
 
 # Application
+GET            /                              Application.index                       # Anonymous - Used for availability checking
 GET            /ping                          Application.ping                        # Anonymous - Used for availability checking
 
 # API Docs

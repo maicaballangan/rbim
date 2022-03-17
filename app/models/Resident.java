@@ -11,6 +11,7 @@ import org.hibernate.annotations.Parameter;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -55,6 +56,7 @@ import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
+import play.db.Model;
 import play.db.jpa.GenericModel;
 import utils.StringSequenceIdGenerator;
 
@@ -195,7 +197,8 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private ReasonOfVisit reasonOfVisit;
 
-    private String disability;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo disability;
 
     // Economic Status
     @Enumerated(EnumType.STRING)
@@ -255,6 +258,7 @@ public class Resident extends GenericModel {
 
     @Enumerated(EnumType.STRING)
     private YesOrNo intentOfReturning;
+
     private Integer durationOfStay;
 
     @Enumerated(EnumType.STRING)
@@ -307,6 +311,11 @@ public class Resident extends GenericModel {
         if (placeOfBirthMunicipality != null) query.setParameter("placeOfBirthMunicipality", placeOfBirthMunicipality);
         if (yearOfBirth != null) query.setParameter("yearOfBirth", yearOfBirth);
         return query.first();
+    }
+
+    public static List<Model> findByHouseholdId(String household_id) {
+        JPAQuery query = Resident.find("household_id = :household_id").setParameter("household_id", household_id);
+        return query.fetch();
     }
 
     public Integer getAge() {
