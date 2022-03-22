@@ -1,19 +1,17 @@
 # Application dependencies
 
 require:
-  - play [1.5,)
+  - play [1.6,)
   - play -> secure
   - play -> crud
   - play -> excel 1.2.3
+  - org.apache.ivy -> ivy 2.5.0:
+      force: true
   - com.google.guava -> guava 30.0-jre:
       exclude:
         - com.google.code.findbugs -> *
         - javax.inject -> javax.inject *
   - org.mindrot -> jbcrypt 0.4
-  - org.codehaus.groovy -> groovy 2.4.21:
-      force: true
-  - org.apache.ivy -> ivy 2.5.0:
-      force: true
   - com.microsoft.sqlserver -> mssql-jdbc 9.4.0.jre11
   - org.apache.poi -> poi 3.17
   - org.apache.poi -> poi-ooxml 3.17

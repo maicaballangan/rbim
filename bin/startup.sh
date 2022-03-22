@@ -15,7 +15,7 @@ if [[ "$_java" ]]; then
     echo version "$version"
     if [[ "$version" > "11" ]]; then
         echo version is more than 1.8
-        _commercial="-XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+        _commercial="-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC"
     else         
         echo version is 8
         _commercial="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UseG1GC"
@@ -60,9 +60,8 @@ test -f server.pid && kill -15 $(cat "server.pid")
 echo "Stopping existing play server..."
 sleep 5
 rm -rf server*.pid
-play clean
-play start -Xms512M -Xmx768M -XX:+UnlockDiagnosticVMOptions $_commercial -XX:+UseAES -XX:+UseAESIntrinsics -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="gcore %p" -XX:MaxMetaspaceSize=1g -XX:+AlwaysPreTouch
-echo "Starting play server..."
+play start -Xms512M -Xmx1024M -XX:+UnlockDiagnosticVMOptions $_commercial -XX:+UseAES -XX:+UseAESIntrinsics -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="gcore %p" -XX:MaxMetaspaceSize=1g -XX:+AlwaysPreTouch -javaagent:bin/lombok.jar
+echo "Starting play server..."Option -XX:+UseZGC not supported
 sleep 5
 if [ "$OSTYPE" == "linux-gnu" ] 
 then

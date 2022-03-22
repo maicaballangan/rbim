@@ -7,10 +7,8 @@
 
     <div id="crudListSearch" >
         #{form action:@list().remove('page'), method:'GET'}
-            *{#{if _fields}
-                <input type="hidden" name="searchFields" value="${_fields.toString().substring(1, _fields.toString().length()-1).replace(',', '')}" />
-            #{/if}}*
             <div id="searchField">
+                <input type="hidden" name="searchFields" value="id lastName firstName sex" />
                 <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
                 <input type="submit" value="&{'crud.search'}" />
                 <input type="submit" formaction="@{Residents.export()}" formmethod="POST" value="&{'crud.export'}" />
@@ -207,8 +205,14 @@
                 <label>Disability:
                     <select name="filter.disability">
                         <option></option>
-                        <option value="NONE" ${"NONE" == params.'filter.disability' ? 'selected="true"'.raw() : '' }>NONE</option>
-                        <option value="-NONE" ${"-NONE" == params.'filter.disability' ? 'selected="true"'.raw() : '' }>WITH DISABILITY</option>
+                        #{list items:enums.YesOrNo.values(), as:'disability'}
+                            <option name="${disability.name()}"
+                                    ord="${disability.ordinal()}"
+                                    value="${disability.name()}"
+                            ${disability.name() == params.'filter.disability' ? 'selected="true"'.raw() : '' }>
+                            ${disability.toString()}
+                            </option>
+                        #{/list}
                     </select>
                 </label>
                 <label>FP Source:
@@ -252,13 +256,11 @@
                 </label>
             </div>
         #{/form}
-        *{#{crud.search fields:['id', 'lastName', 'firstName', 'sex']/}}*
     </div>
 
     <div id="crudListTable">
-        #{crud.table fields:['id', 'lastName', 'firstName', 'sex', 'age', 'household'],
-                     sort: ['id', 'lastName', 'firstName', 'age', 'household'] }
-
+        #{crud.table fields:['id', 'lastName', 'firstName', 'sex', 'age', 'barangay', 'household'],
+                     sort: ['id', 'lastName', 'firstName', 'age', 'barangay', 'household'] }
             #{crud.custom 'household'}
                 <a href="@{Households.show(object.household.id)}">${object.household}</a>
             #{/crud.custom}

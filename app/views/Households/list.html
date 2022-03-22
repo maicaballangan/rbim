@@ -16,6 +16,58 @@
         <input type="submit" formaction="@{Households.export()}" formmethod="POST" value="&{'crud.export'}" />
 
         <div id="searchFiltersHousehold">
+            <label>Barangay:
+                <select name="filter.barangay">
+                    <option></option>
+                    #{list items:enums.Barangay.values(), as:'barangay'}
+                        <option name="${barangay.name()}"
+                                ord="${barangay.ordinal()}"
+                                value="${barangay.name()}"
+                        ${barangay.name() == params.'filter.barangay' ? 'selected="true"'.raw() : '' }>
+                        ${barangay.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Status:
+                <select name="filter.status">
+                    <option></option>
+                    #{list items:models.Household.Status.values(), as:'status'}
+                        <option name="${status.name()}"
+                                ord="${status.ordinal()}"
+                                value="${status.name()}"
+                        ${status.name() == params.'filter.status' ? 'selected="true"'.raw() : '' }>
+                        ${status.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Seggregation:
+                <select name="filter.hasTrashSegregation">
+                    <option></option>
+                    #{list items:enums.YesOrNo.values(), as:'hasTrashSegregation'}
+                        <option name="${hasTrashSegregation.name()}"
+                                ord="${hasTrashSegregation.ordinal()}"
+                                value="${hasTrashSegregation.name()}"
+                        ${hasTrashSegregation.name() == params.'filter.hasTrashSegregation' ? 'selected="true"'.raw() : '' }>
+                        ${hasTrashSegregation.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
+            <label>Cooking:
+                <select name="filter.cooking">
+                    <option></option>
+                    #{list items:enums.Cooking.values(), as:'cooking'}
+                        <option name="${cooking.name()}"
+                                ord="${cooking.ordinal()}"
+                                value="${cooking.name()}"
+                        ${cooking.name() == params.'filter.cooking' ? 'selected="true"'.raw() : '' }>
+                        ${cooking.toString()}
+                        </option>
+                    #{/list}
+                </select>
+            </label>
             <label>Bldg Type:
                 <select name="filter.buildingType">
                     <option></option>
@@ -116,32 +168,6 @@
                                 value="${toiletFacility.name()}"
                         ${toiletFacility.name() == params.'filter.toiletFacility' ? 'selected="true"'.raw() : '' }>
                         ${toiletFacility.toString()}
-                        </option>
-                    #{/list}
-                </select>
-            </label>
-            <label>Seggregation:
-                <select name="filter.hasTrashSegregation">
-                    <option></option>
-                    #{list items:enums.YesOrNo.values(), as:'hasTrashSegregation'}
-                        <option name="${hasTrashSegregation.name()}"
-                                ord="${hasTrashSegregation.ordinal()}"
-                                value="${hasTrashSegregation.name()}"
-                        ${hasTrashSegregation.name() == params.'filter.hasTrashSegregation' ? 'selected="true"'.raw() : '' }>
-                        ${hasTrashSegregation.toString()}
-                        </option>
-                    #{/list}
-                </select>
-            </label>
-            <label>Cooking:
-                <select name="filter.cooking">
-                    <option></option>
-                    #{list items:enums.Cooking.values(), as:'cooking'}
-                        <option name="${cooking.name()}"
-                                ord="${cooking.ordinal()}"
-                                value="${cooking.name()}"
-                        ${cooking.name() == params.'filter.cooking' ? 'selected="true"'.raw() : '' }>
-                        ${cooking.toString()}
                         </option>
                     #{/list}
                 </select>

@@ -5,9 +5,13 @@
  */
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -20,7 +24,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -53,7 +56,9 @@ import lombok.Getter;
 import lombok.Setter;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
+import play.db.Model;
 import play.db.jpa.GenericModel;
+import utils.StringSequenceIdGenerator;
 
 /**
  * @author Maica Ballangan
@@ -73,7 +78,6 @@ import play.db.jpa.GenericModel;
 )
 @Entity
 @Cacheable
-@SequenceGenerator(initialValue = 1000000, name = "resident", sequenceName = "residentSeq")
 @Builder
 @Getter
 @Setter
@@ -84,8 +88,15 @@ public class Resident extends GenericModel {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident")
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resident_seq")
+    @GenericGenerator(
+        name = "resident_seq",
+        strategy = "utils.StringSequenceIdGenerator",
+        parameters = {
+            @Parameter(name = StringSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = StringSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "R"),
+            @Parameter(name = StringSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%07d") })
+    public String id;
 
     @Required
     private String lastName;
@@ -186,7 +197,8 @@ public class Resident extends GenericModel {
     @Enumerated(EnumType.STRING)
     private ReasonOfVisit reasonOfVisit;
 
-    private String disability;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo disability;
 
     // Economic Status
     @Enumerated(EnumType.STRING)
@@ -246,6 +258,7 @@ public class Resident extends GenericModel {
 
     @Enumerated(EnumType.STRING)
     private YesOrNo intentOfReturning;
+
     private Integer durationOfStay;
 
     @Enumerated(EnumType.STRING)
@@ -298,6 +311,11 @@ public class Resident extends GenericModel {
         if (placeOfBirthMunicipality != null) query.setParameter("placeOfBirthMunicipality", placeOfBirthMunicipality);
         if (yearOfBirth != null) query.setParameter("yearOfBirth", yearOfBirth);
         return query.first();
+    }
+
+    public static List<Model> findByHouseholdId(String household_id) {
+        JPAQuery query = Resident.find("household_id = :household_id").setParameter("household_id", household_id);
+        return query.fetch();
     }
 
     public Integer getAge() {

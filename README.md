@@ -66,7 +66,8 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=popcom@123" \
 IDE INSTALLATION
 ----------------
 * Run `play idea` on project dir
-* Choose 'Open' and open the generated `rbim.ipr` file. 
+* Install IntelliJ
+* Choose 'Open' and open the generated `rbim.ipr` file in the project directory. 
 * Make sure JDK 11 has been added. Select JDK 11 as the project JDK.
 
 TESTING

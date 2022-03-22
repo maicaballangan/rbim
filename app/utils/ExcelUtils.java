@@ -73,6 +73,7 @@ public class ExcelUtils {
 
         // Make sure to sort using Relation field so that head will be processed first
         FileInputStream fis = new FileInputStream(file);
+        String fileName = file.getName().replace(".xlsx", "");
         XSSFWorkbook wb = new XSSFWorkbook(fis);
         XSSFSheet sheet = wb.getSheetAt(0);
         Iterator<Row> itr = sheet.iterator();
@@ -83,8 +84,6 @@ public class ExcelUtils {
 
             try {
                 if (row.getCell(27, RETURN_BLANK_AS_NULL) == null && row.getCell(28, RETURN_BLANK_AS_NULL) == null) {
-                    Logger.error("Failed to parse row %s [Error: First name and last name can't be empty].", row.getRowNum()+1);
-                    validation.addError(row.getRowNum()+1+"", "ERROR: First name and last name can't be empty");
                     continue;
                 }
 
@@ -92,7 +91,11 @@ public class ExcelUtils {
                 Resident.ResidentBuilder rb = Resident.builder();
 
                 Relation relation = Relation.getByCode(getIntCellValue(row, 30));
-                hhb.barangay(Barangay.getByDescription(getStringCellValue(row, 6))); //7
+                Barangay barangay = Barangay.getByDescription(getStringCellValue(row, 6));
+                if (barangay == null || Barangay.OTHER.equals(barangay)) {
+                    barangay = Barangay.getByDescription(fileName.toUpperCase());
+                }
+                hhb.barangay(barangay);
                 hhb.address(getStringCellValue(row, 8));// 9 rmflrblockno 99#
                 hhb.houseNo(getIntCellValue(row, 11)); //10 houseno 99#
                 hhb.street(getStringCellValue(row, 12)); //13
@@ -100,7 +103,7 @@ public class ExcelUtils {
                 hhb.municipality(Municipality.TABUK_CITY);
                 hhb.province(Province.KALINGA);
 
-                if (Relation.HEAD.equals(relation)) {
+                //if (Relation.HEAD.equals(relation)) {
                     // Household info
                     //getIntCellValue(cellIterator.next()); //1 id No (ignored)
                     //cellIterator.next(); //2 popcomNo TODO
@@ -137,7 +140,7 @@ public class ExcelUtils {
                     //hhb.encodeDate(getDateCellValue(row, 24)); //25
                     //hhb.encoder(getStringCellValue(row, 25)); //26
                     //hhb.encoderSupervisor(getStringCellValue(row, 26)); //27
-                }
+                //}
 
                 // Resident info
                 rb.lastName(getStringCellValue(row, 27));
@@ -201,7 +204,17 @@ public class ExcelUtils {
                 rb.healthInsurance(HealthInsurance.getByCode(getIntCellFirstValue(row, 58))); //60
                 rb.facility(Facility.getByCode(getIntCellFirstValue(row, 59)));
                 rb.reasonOfVisit(ReasonOfVisit.getByCode(getIntCellFirstValue(row, 60))); // If non-numeric catch exception and set 99
-                rb.disability(getStringCellValue(row, 61));
+
+                if ("NONE".equals(getStringCellValue(row, 61))) {
+                    rb.disability(YesOrNo.NO);
+                } else {
+                    Integer disability = getIntCellValue(row, 61);
+                    if (disability != null && disability == -1) {
+                        rb.disability(YesOrNo.YES);
+                    } else {
+                        rb.disability(YesOrNo.getByCode(disability));
+                    }
+                }
 
                 // Residency Info
                 rb.previousBarangayFiveYr(Barangay.getByDescription(getStringCellValue(row, 65)));
@@ -246,7 +259,7 @@ public class ExcelUtils {
                 records.add(builder.build());
             } catch(Exception e) {
                 Logger.fatal("Failed to parse row %s [Error: %s]", row.getRowNum()+1, e.getMessage());
-                validation.addError(row.getRowNum()+1+"", "FATAL: Failed to parse row. " + e.getMessage());
+                validation.addError(row.getRowNum()+1+"", "FATAL: Failed to parse row" + e.getMessage());
             }
         }
 
@@ -310,6 +323,7 @@ public class ExcelUtils {
             try {
                 return Month.of(Integer.parseInt(value));
             } catch (NumberFormatException nfe) {
+                if (Arrays.stream(Month.values()).anyMatch(m -> m.toString().equals(value.toUpperCase())))
                 return Month.valueOf(value.toUpperCase());
             }
         } else if (CellType.NUMERIC.equals(cell.getCellTypeEnum())) {
