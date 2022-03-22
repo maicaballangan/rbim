@@ -5,9 +5,9 @@
     <h2>Import Excel</h2>
 
     <div class="objectForm">
-    #{form action:@Application.importFile(file), enctype:'multipart/form-data'}
-        <label for="file">Choose excel to import:</label>
-        <input type="file" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    #{form action:@Application.importFile(files), enctype:'multipart/form-data'}
+        <label for="files">Choose excel to import:</label>
+        <input type="file" id="files" name="files" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
         <p class="crudButtons">
             <input type="submit" name="_save" value="&{'crud.upload'}" />
         </p>

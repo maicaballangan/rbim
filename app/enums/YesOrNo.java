@@ -10,17 +10,24 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import utils.ExcelUtils;
+
 public enum YesOrNo {
     YES(1),
     NO(2);
 
     private static final Map<Integer, YesOrNo> map;
+    private static final Map<String, YesOrNo> mapDesc;
 
     static {
         map = Arrays
                 .stream(YesOrNo.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
         map.put(-1, null);
+
+        mapDesc = Arrays
+                .stream(YesOrNo.values())
+                .collect(Collectors.toMap(e -> e.toString(), Function.identity()));
     }
 
     public static YesOrNo getByCode(Integer code) {
@@ -36,6 +43,15 @@ public enum YesOrNo {
 
     public Integer getCode() {
         return code;
+    }
+
+    public static YesOrNo getByCodeOrDescription(String value) {
+        if (value == null || "99".equals(value) || "98".equals(value)) return null;
+        if (mapDesc.containsKey(value)) {
+            return YesOrNo.valueOf(value);
+        } else {
+            return getByCode(ExcelUtils.parseInt(value));
+        }
     }
 
     @Override

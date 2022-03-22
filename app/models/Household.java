@@ -75,15 +75,21 @@ public class Household extends GenericModel {
     @Enumerated(EnumType.STRING)
     private Barangay barangay;
 
-    private Integer houseNo;
+    private String houseNo;
 
-    private String address;
+    private String blockNo;
 
     @Required
     private String street;
 
+    private String respondent;
+
     @Required
     private String head;
+
+    private Integer totalNo;
+
+    private Date interviewDate;
 
     @Enumerated(EnumType.STRING)
     private Ownership houseOwnership;
@@ -115,14 +121,17 @@ public class Household extends GenericModel {
     @Enumerated(EnumType.STRING)
     private BuildingMaterial buildingMaterial;
 
-    private Integer totalNumber;
-
     @Enumerated(EnumType.STRING)
     private Status status=Status.ACTIVE;
 
-    private Date interviewDate;
+    @Enumerated(EnumType.STRING)
+    private Barangay intentToStayFiveYrsBrgy;
 
-    private String respondent;
+    @Enumerated(EnumType.STRING)
+    private Municipality intentToStayFiveYrsMunicipality;
+
+    @Enumerated(EnumType.STRING)
+    private Province intentToStayFiveYrsProvince;
 
     @Override
     public String toString() {
@@ -131,16 +140,16 @@ public class Household extends GenericModel {
 
     public Household getExisting() {
         StringBuilder sb = new StringBuilder("head = :head and barangay = :barangay");
-        if (address != null) sb.append(" and address = :address");
-        if (street != null) sb.append(" and street = :street");
         if (houseNo != null) sb.append(" and houseNo = :houseNo");
+        if (blockNo != null) sb.append(" and blockNo = :blockNo");
+        if (street != null) sb.append(" and street = :street");
 
         JPAQuery query = Household.find(sb.toString())
                 .setParameter("head", head)
                 .setParameter("barangay", barangay);
 
-        if (address != null) query.setParameter("address", address);
         if (street != null) query.setParameter("street", street);
+        if (blockNo != null) query.setParameter("blockNo", blockNo);
         if (houseNo != null) query.setParameter("houseNo", houseNo);
         return query.first();
     }

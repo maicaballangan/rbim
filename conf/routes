@@ -32,7 +32,7 @@ GET            /admin/reports/educationalLevelByAge           Reports.educationa
 *              /                              module:secure
 
 POST           /admin/reports                 Application.reports
-GET            /upload                        Application.upload
+GET            /import                        Application.upload
 POST           /import                        Application.importFile
 
 # Ignore favicon requests

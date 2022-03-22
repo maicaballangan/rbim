@@ -16,7 +16,6 @@ import java.util.Map;
 
 import enums.APIErrorCode;
 import exceptions.HttpException;
-import models.Record;
 import play.Logger;
 import play.Play;
 import play.data.validation.Error;
@@ -102,31 +101,30 @@ public class Application extends Controller {
     /**
      * POST     /import
      */
-    public static void importFile(final File file) throws IOException {
-        if (file == null) {
-            flash.error("Please select a file to import");
-            render(request.controller + "/upload.html");
-        }
-
-        Logger.info("============Start Import process=============");
-        Logger.info("File name: %s", file.getName());
-        try {
-            List<Record> records = ExcelUtils.importExcel(file, validation);
-            if (validation.hasErrors()) {
-                Logger.error("There has been errors on parsing the document, please make sure the fields are properly formatted");
-                flash.error(play.i18n.Messages.get("crud.hasErrors"));
-                Map<String, List<Error>> errors = validation.errorsMap();
-                render(request.controller + "/upload.html", errors);
+    public static void importFile(final File[] files) throws IOException {
+        for (File file : files) {
+            if (file == null) {
+                flash.error("Please select a file to import");
+                render(request.controller + "/upload.html");
             }
 
-            // Save head residents first
-            records.stream().forEach(r -> r.create(validation));
-            Logger.info("============End Import process===============");
-
-        } catch (Exception e) {
-            Logger.fatal(e, "Import failed with file name %s", file.getName());
-            flash.error("Import failed. Please try again.");
-            render(request.controller + "/upload.html");
+            Logger.info("============Start Import process=============");
+            Logger.info("File name: %s", file.getName());
+            try {
+                // Save household heads first
+                ExcelUtils.importExcel(file, validation, true);
+                // Save nonhousehold heads
+                ExcelUtils.importExcel(file, validation, false);
+                Logger.info("============End Import process===============");
+            } catch (Exception e) {
+                Logger.fatal(e, "Import failed with file name %s", file.getName());
+                flash.error("Import failed. Please try again");
+                render(request.controller + "/upload.html");
+            } catch (OutOfMemoryError e) {
+                Logger.fatal(e, "Make sure that each file contains less that 10,000 records. [File: %s]", file.getName());
+                flash.error("Make sure that each file contains less that 10,000 records. [File: %s]", file.getName());
+                render(request.controller + "/upload.html");
+            }
         }
 
         if (validation.hasErrors()) {

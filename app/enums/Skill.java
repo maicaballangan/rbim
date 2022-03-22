@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import utils.ExcelUtils;
+
 public enum Skill {
     REFRIGERATION_AND_AIRCONDITIONING(1),
     AUTOMOTIVE_OR_HEAVY_EQUIPMENT_SERVICING(2),
@@ -31,12 +33,17 @@ public enum Skill {
     OTHERS(18);
 
     private static final Map<Integer, Skill> map;
+    private static final Map<String, Skill> mapDesc;
 
     static {
         map = Arrays
                 .stream(Skill.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
         map.put(-1, OTHERS);
+
+        mapDesc = Arrays
+                .stream(Skill.values())
+                .collect(Collectors.toMap(e -> e.toString(), Function.identity()));
     }
 
     public static Skill getByCode(Integer code) {
@@ -53,6 +60,17 @@ public enum Skill {
     public Integer getCode() {
             return code;
         }
+
+    public static Skill getByCodeOrDescription(String value) {
+        if (value == null || "99".equals(value) || "98".equals(value)) return null;
+        if (mapDesc.containsKey(value)) {
+            return mapDesc.get(value);
+        } else if ("COMP. GRAPHICS".equals(value)) {
+            return COMPUTER_GRAPHICS;
+        } else {
+            return getByCode(ExcelUtils.parseInt(value));
+        }
+    }
 
     @Override
     public String toString() {

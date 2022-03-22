@@ -39,10 +39,10 @@ import enums.HealthInsurance;
 import enums.IncomeSource;
 import enums.Municipality;
 import enums.Nationality;
-import enums.ParentalStatus;
 import enums.ReasonForLeaving;
 import enums.ReasonForTransfer;
 import enums.ReasonOfVisit;
+import enums.RegisteredSoloParent;
 import enums.Relation;
 import enums.ResidentType;
 import enums.SchoolLevel;
@@ -118,11 +118,9 @@ public class Resident extends GenericModel {
     @CRUD.Hidden
     private Integer age;
 
-    private Integer dateOfBirth;
+    private Month monthOfBirth;
 
     private Integer yearOfBirth;
-
-    private Month monthOfBirth;
 
     @Required
     @Enumerated(EnumType.STRING)
@@ -202,13 +200,13 @@ public class Resident extends GenericModel {
 
     // Economic Status
     @Enumerated(EnumType.STRING)
-    private ParentalStatus parentalStatus;
+    private YesOrNo registeredBirth;
+
+    @Enumerated(EnumType.STRING)
+    private RegisteredSoloParent registeredSoloParent;
 
     @Enumerated(EnumType.STRING)
     private YesOrNo registeredSeniorCitizen;
-
-    @Enumerated(EnumType.STRING)
-    private YesOrNo registeredBirth;
 
     @Enumerated(EnumType.STRING)
     private Barangay votingArea;
@@ -248,6 +246,9 @@ public class Resident extends GenericModel {
     private ReasonForLeaving reasonForLeavingC;
 
     @Enumerated(EnumType.STRING)
+    private YesOrNo intentOfReturning;
+
+    @Enumerated(EnumType.STRING)
     private ReasonForTransfer reasonForTransferA;
 
     @Enumerated(EnumType.STRING)
@@ -255,9 +256,6 @@ public class Resident extends GenericModel {
 
     @Enumerated(EnumType.STRING)
     private ReasonForTransfer reasonForTransferC;
-
-    @Enumerated(EnumType.STRING)
-    private YesOrNo intentOfReturning;
 
     private Integer durationOfStay;
 
@@ -321,9 +319,7 @@ public class Resident extends GenericModel {
     public Integer getAge() {
         return yearOfBirth != null ?
                 Period.between(
-                    LocalDate.of(yearOfBirth,
-                            monthOfBirth != null ? monthOfBirth : Month.JANUARY,
-                            dateOfBirth != null ? dateOfBirth : 1),
+                    LocalDate.of(yearOfBirth, monthOfBirth != null ? monthOfBirth : Month.JANUARY, 1),
                     LocalDate.now()).getYears() :
                 null;
     }

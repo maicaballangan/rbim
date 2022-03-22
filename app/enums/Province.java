@@ -5,15 +5,40 @@
  */
 package enums;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /**
  * @author Maica Ballangan
  * @since v1
  */
 public enum Province {
-    KALINGA;
+    KALINGA("KALINGA"),
+    OTHERS("OTHERS");
+
+    private static final Map<String, Province> map;
+
+    static {
+        map = Arrays.stream(Province
+                        .values())
+                .collect(Collectors.toMap(e -> e.description, Function.identity()));
+    }
+
+    public static Province getByDescription(String description) {
+        if (description == null || "99".equals(description) || "98".equals(description)) return null;
+        return map.containsKey(description) ? map.get(description) : OTHERS;
+    }
+
+    private String description;
+
+    Province(String description) {
+        this.description = description;
+    }
 
     @Override
     public String toString() {
-        return name().replaceAll("_", " ");
+        return description;
     }
 }
