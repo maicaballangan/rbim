@@ -33,6 +33,7 @@ public enum Barangay {
     CASIGAYAN("CASIGAYAN"),
     CUDAL("CUDAL"),
     DAGUPAN_CENTRO("DAGUPAN CENTRO"),
+    DAGUPAN_WESTE("DAGUPAN WESTE"),
     DILAG("DILAG"),
     DUPAG("DUPAG"),
     GOBGOB("GOBGOB"),
@@ -57,7 +58,7 @@ public enum Barangay {
     SAN_JULIAN("SAN JULIAN"),
     SUYANG("SUYANG"),
     TUGA("TUGA"),
-    OTHER("OTHER");
+    OTHERS("OTHERS");
 
     private static final Map<String, Barangay> map;
 
@@ -70,7 +71,7 @@ public enum Barangay {
 
     public static Barangay getByDescription(String description) {
         if (description == null || "99".equals(description) || "98".equals(description)) return null;
-        return map.containsKey(description) ? map.get(description) : OTHER;
+        return map.containsKey(description) ? map.get(description) : OTHERS;
     }
 
     private String description;

@@ -10,28 +10,28 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum ParentalStatus {
+public enum RegisteredSoloParent {
     REGISTERED_SOLO_PARENT(1),
     NON_SOLO_PARENT(2),
     UNREGISTERED_SOLO_PARENT(3);
 
-    private static final Map<Integer, ParentalStatus> map;
+    private static final Map<Integer, RegisteredSoloParent> map;
 
     static {
         map = Arrays
-                .stream(ParentalStatus.values())
+                .stream(RegisteredSoloParent.values())
                 .collect(Collectors.toMap(e -> e.code, Function.identity()));
         map.put(-1, null);
     }
 
-    public static ParentalStatus getByCode(Integer code) {
+    public static RegisteredSoloParent getByCode(Integer code) {
         if (code == null || code == 99) return null;
         return map.get(code);
     }
 
     private final Integer code;
 
-    ParentalStatus(Integer code) {
+    RegisteredSoloParent(Integer code) {
         this.code = code;
     }
 

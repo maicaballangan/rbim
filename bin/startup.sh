@@ -60,7 +60,7 @@ test -f server.pid && kill -15 $(cat "server.pid")
 echo "Stopping existing play server..."
 sleep 5
 rm -rf server*.pid
-play start -Xms512M -Xmx1024M -XX:+UnlockDiagnosticVMOptions $_commercial -XX:+UseAES -XX:+UseAESIntrinsics -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="gcore %p" -XX:MaxMetaspaceSize=1g -XX:+AlwaysPreTouch -javaagent:bin/lombok.jar
+play start -Xms512M -Xmx6144M -XX:+UnlockDiagnosticVMOptions $_commercial -XX:+UseAES -XX:+UseAESIntrinsics -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="gcore %p" -XX:MaxMetaspaceSize=1g -XX:+AlwaysPreTouch -javaagent:bin/lombok.jar
 echo "Starting play server..."Option -XX:+UseZGC not supported
 sleep 5
 if [ "$OSTYPE" == "linux-gnu" ] 

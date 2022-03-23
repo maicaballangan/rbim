@@ -8,7 +8,7 @@
     <div id="crudListSearch" >
         #{form action:@list().remove('page'), method:'GET'}
             <div id="searchField">
-                <input type="hidden" name="searchFields" value="id lastName firstName sex" />
+                <input type="hidden" name="searchFields" value="id lastName firstName skillA skillB skillC" />
                 <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
                 <input type="submit" value="&{'crud.search'}" />
                 <input type="submit" formaction="@{Residents.export()}" formmethod="POST" value="&{'crud.export'}" />
@@ -192,7 +192,7 @@
                 <label>Parent:
                     <select name="filter.parentalStatus">
                         <option></option>
-                        #{list items:enums.ParentalStatus.values(), as:'parentalStatus'}
+                        #{list items:enums.RegisteredSoloParent.values(), as:'parentalStatus'}
                             <option name="${parentalStatus.name()}"
                                     ord="${parentalStatus.ordinal()}"
                                     value="${parentalStatus.name()}"

@@ -43,7 +43,7 @@ public enum Relation {
     }
 
     public static Relation getByCode(Integer code) {
-        if (code == null || code == 99) return null;
+        if (code == null || code == 99 || !map.containsKey(code)) return null;
         return map.get(code);
     }
 
