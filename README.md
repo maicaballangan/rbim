@@ -51,7 +51,7 @@ ENJOY :-)
 DOCKER INSTALLATION FOR LOCAL DB SETUP 
 ----------------
 * Install Docker
-* Pull mssql image
+* Pull postgre image
 ``
 sudo docker pull mcr.microsoft.com/mssql/server:2019-latest
 ``
