@@ -20,7 +20,6 @@ import play.data.validation.MinSize;
 import play.data.validation.Password;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.Model;
 import utils.EncryptionUtils;
 
 /**
