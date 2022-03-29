@@ -5,12 +5,12 @@
  */
 package enums;
 
+import utils.ExcelUtils;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import utils.ExcelUtils;
 
 public enum YesOrNo {
     YES(1),
