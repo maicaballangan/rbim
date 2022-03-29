@@ -5,21 +5,13 @@
  */
 package controllers;
 
+import models.*;
+import play.mvc.Controller;
+import play.mvc.With;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-
-import models.EducationalLevelByAge;
-import models.EmploymentStatusByAge;
-import models.PopulationByAge;
-import models.PopulationByBrgy;
-import models.PopulationByCivilStatus;
-import models.PopulationByResidence;
-import models.PopulationBySeniorCitizen;
-import models.PopulationBySex;
-import models.PopulationByWorkStatus;
-import play.mvc.Controller;
-import play.mvc.With;
 
 /**
  * @author Maica Ballangan

@@ -5,14 +5,14 @@
  */
 package controllers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import models.Resident;
 import play.db.Model;
 import play.exceptions.TemplateNotFoundException;
 import play.mvc.With;
+
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author Maica Ballangan

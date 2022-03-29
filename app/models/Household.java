@@ -5,37 +5,17 @@
  */
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import java.util.Date;
-
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import enums.Barangay;
-import enums.BuildingMaterial;
-import enums.BuildingType;
-import enums.Cooking;
-import enums.GarbageDisposal;
-import enums.Lighting;
-import enums.Municipality;
-import enums.Ownership;
-import enums.Province;
-import enums.ToiletFacility;
-import enums.WaterSource;
-import enums.YesOrNo;
+import enums.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import play.data.validation.Required;
-import play.db.jpa.GenericModel;
 import utils.StringSequenceIdGenerator;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author Maica Ballangan
@@ -46,7 +26,7 @@ import utils.StringSequenceIdGenerator;
 @Builder
 @Getter
 @Setter
-public class Household extends GenericModel {
+public class Household extends AbstractModel {
 
     public enum Status {
         ACTIVE, INACTIVE;

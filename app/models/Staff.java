@@ -5,22 +5,16 @@
  */
 package models;
 
-import org.mindrot.jbcrypt.BCrypt;
-
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.MinSize;
 import play.data.validation.Password;
 import play.data.validation.Required;
-import play.db.jpa.GenericModel;
 import utils.EncryptionUtils;
+
+import javax.persistence.*;
 
 /**
  * @author Maica Ballangan
@@ -31,7 +25,7 @@ import utils.EncryptionUtils;
 @Builder
 @Getter
 @Setter
-public class Staff extends GenericModel {
+public class Staff extends AbstractModel {
 
     public enum Status {
         Active,

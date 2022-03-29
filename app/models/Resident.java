@@ -5,60 +5,23 @@
  */
 package models;
 
+import controllers.CRUD;
+import enums.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import play.data.validation.MaxSize;
+import play.data.validation.Required;
+import play.db.Model;
+import utils.StringSequenceIdGenerator;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.List;
-
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import controllers.CRUD;
-import enums.Barangay;
-import enums.CivilStatus;
-import enums.DeliveryPlace;
-import enums.Education;
-import enums.Enrollment;
-import enums.FPMethod;
-import enums.Facility;
-import enums.HealthInsurance;
-import enums.IncomeSource;
-import enums.Municipality;
-import enums.Nationality;
-import enums.ReasonForLeaving;
-import enums.ReasonForTransfer;
-import enums.ReasonOfVisit;
-import enums.RegisteredSoloParent;
-import enums.Relation;
-import enums.ResidentType;
-import enums.SchoolLevel;
-import enums.Sex;
-import enums.Skill;
-import enums.SourceOfFP;
-import enums.WorkStatus;
-import enums.YesOrNo;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import play.data.validation.MaxSize;
-import play.data.validation.Required;
-import play.db.Model;
-import play.db.jpa.GenericModel;
-import utils.StringSequenceIdGenerator;
 
 /**
  * @author Maica Ballangan
@@ -81,7 +44,7 @@ import utils.StringSequenceIdGenerator;
 @Builder
 @Getter
 @Setter
-public class Resident extends GenericModel {
+public class Resident extends AbstractModel {
 
     public enum Status {
         ALIVE, DECEASED;
