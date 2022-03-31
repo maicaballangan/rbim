@@ -111,7 +111,7 @@ public class ExcelUtils {
                 hhb.cooking(Cooking.getByCode(getIntCellMaxValue(row, 90)));
                 WaterSource waterSource = WaterSource.getByCode(getIntCellMaxValue(row, 91));
                 if (WaterSource.OTHERS == waterSource) {
-                    String waterSourceS = getStringCellValue(row, 90);
+                    String waterSourceS = getStringCellValue(row, 91);
                     if ("MINERAL".equals(waterSourceS) || "MINIRAL".equals(waterSourceS)
                             || "REFFILED".equals(waterSourceS) || "REFILLED".equals(waterSourceS)) waterSource = WaterSource.BOTTLED_WATER;
                     if ("PUMPWELL".equals(waterSourceS)) waterSource = WaterSource.OWN_USE_TUBED_OR_PIPED_DEEP_WELL;
@@ -124,8 +124,8 @@ public class ExcelUtils {
                 hhb.buildingMaterial(BuildingMaterial.getByCode(getIntCellMaxValue(row, 96)));
 
                 hhb.intentToStayFiveYrsBrgy(Barangay.getByDescription(getStringCellValue(row, 108)));
-                hhb.intentToStayFiveYrsMunicipality(Municipality.getByDescription(getStringCellValue(row, 108)));
-                hhb.intentToStayFiveYrsProvince(Province.getByDescription(getStringCellValue(row, 108)));
+                hhb.intentToStayFiveYrsMunicipality(Municipality.getByDescription(getStringCellValue(row, 109)));
+                hhb.intentToStayFiveYrsProvince(Province.getByDescription(getStringCellValue(row, 110)));
 
                 // Resident info
                 rb.lastName(getStringCellValue(row, 27));
@@ -207,7 +207,7 @@ public class ExcelUtils {
                 //row, ; // "Q43-skill development training
                 String skills = getStringCellValue(row, 85);
                 if (!isUndefined(skills)) {
-                    String[] values = skills.split("&|,|\\*");
+                    String[] values = skills.split("&|,|\\.|\\*|/");
                     if (values.length > 0) rb.skillA(Skill.getByCodeOrDescription(values[0]));
                     if (values.length > 1) rb.skillB(Skill.getByCodeOrDescription(values[1]));
                     if (values.length > 2) rb.skillC(Skill.getByCodeOrDescription(values[2]));
