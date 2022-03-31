@@ -28,16 +28,15 @@ import javax.persistence.*;
 public class Staff extends AbstractModel {
 
     public enum Status {
-        Active,
-        Inactive,
-        Suspended,
-        Removed
+        ACTIVE,
+        SUSPENDED,
+        REMOVED
     }
 
     private enum Role {
-        Admin,
-        Encoder,
-        Viewer
+        ADMIN,
+        ENCODER,
+        VIEWER
     }
 
     @Id

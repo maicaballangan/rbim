@@ -29,7 +29,7 @@ import java.util.Date;
 public class Household extends AbstractModel {
 
     public enum Status {
-        ACTIVE, INACTIVE;
+        ACTIVE, INACTIVE
     }
 
     @Id
