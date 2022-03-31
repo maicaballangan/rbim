@@ -47,7 +47,7 @@ import java.util.List;
 public class Resident extends AbstractModel {
 
     public enum Status {
-        ALIVE, DECEASED;
+        ALIVE, DECEASED
     }
 
     @Id
