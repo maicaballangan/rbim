@@ -58,7 +58,7 @@ public class Reports extends Controller {
     public static void populationBySeniorCitizen() {
         List<PopulationBySeniorCitizen> records = PopulationBySeniorCitizen.getReport();
         int femaleTotal = records.stream().mapToInt(PopulationBySeniorCitizen::getFemale).sum();
-        int maleTotal = records.stream().mapToInt(PopulationBySeniorCitizen::getFemale).sum();
+        int maleTotal = records.stream().mapToInt(PopulationBySeniorCitizen::getMale).sum();
         records.add(new PopulationBySeniorCitizen("TOTAL", femaleTotal, maleTotal));
         render(records);
     }

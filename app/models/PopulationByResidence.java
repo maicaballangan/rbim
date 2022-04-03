@@ -26,13 +26,18 @@ public class PopulationByResidence {
     private String residentType;
     private int count;
     private double percent;
+    private static final String QUERY = "select case " +
+            "    when residentType is null then 'OTHER/UNDEFINED'" +
+            "    else residentType" +
+            " end as residentType, " +
+            " count(*) as count" +
+            " from Resident " +
+            "   group by residentType " +
+            "   order by residentType";
 
     public static List<PopulationByResidence> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery("select case \n" +
-                        "    when residentType is null then 'OTHER/UNDEFINED' \n" +
-                        "    else residentType \n" +
-                        "  end as residentType, count(id) as count from Resident GROUP by residentType order by residentType")
+                .createNativeQuery(QUERY)
                 .unwrap(SQLQuery.class)
                 .addScalar("residentType", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)

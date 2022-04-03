@@ -26,17 +26,24 @@ public class PopulationByCivilStatus {
     private String civilStatus;
     private int female;
     private int male;
+    private static final String QUERY = "select a.civilStatus, " +
+            " case when a.female is not null then a.female else 0 end as female, " +
+            " case when a.male is not null then a.male else 0 end as male" +
+            " from crosstab(" +
+            " $$select case " +
+            "   when civilStatus is null then 'OTHER/UNDEFINED' else civilStatus" +
+            " end as civilStatus," +
+            "   sex, count(*) " +
+            " from Resident" +
+            " group by civilStatus, sex" +
+            " order by civilStatus$$," +
+            " $$select 'FEMALE' union all" +
+            " select 'MALE'$$" +
+            " ) as a(civilStatus varchar, FEMALE numeric, MALE numeric)";
 
     public static List<PopulationByCivilStatus> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery("select * from" +
-                        " (select id, sex, case " +
-                        " when civilStatus is null then 'OTHER/UNDEFINED' else civilStatus" +
-                        " end as civilStatus" +
-                        " from Resident" +
-                        " ) as a" +
-                        " pivot (count(id) for sex in (FEMALE,MALE)) as b" +
-                        " order by civilStatus")
+                .createNativeQuery(QUERY)
                 .unwrap(SQLQuery.class)
                 .addScalar("civilStatus", StringType.INSTANCE)
                 .addScalar("female", IntegerType.INSTANCE)

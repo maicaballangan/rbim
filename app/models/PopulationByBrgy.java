@@ -25,10 +25,11 @@ import java.util.List;
 public class PopulationByBrgy {
     private String barangay;
     private int count;
+    private static final String QUERY = "select barangay, count(*) as count from Resident GROUP by barangay order by barangay";
 
     public static List<PopulationByBrgy> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery("select barangay, count(id) as count from Resident GROUP by barangay order by barangay")
+                .createNativeQuery(QUERY)
                 .unwrap(SQLQuery.class)
                 .addScalar("barangay", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
