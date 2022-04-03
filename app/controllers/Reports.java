@@ -64,12 +64,12 @@ public class Reports extends Controller {
     }
 
     public static void populationByResidence() {
-        List<PopulationByResidence> records = PopulationByResidence.getReport();
-        int total = records.stream().mapToInt(PopulationByResidence::getCount).sum();
-        for (PopulationByResidence record: records) {
+        List<PopulationByResidency> records = PopulationByResidency.getReport();
+        int total = records.stream().mapToInt(PopulationByResidency::getCount).sum();
+        for (PopulationByResidency record: records) {
             record.setPercent(BigDecimal.valueOf(((double)record.getCount()/total)*100d).setScale(2, RoundingMode.HALF_EVEN).doubleValue());
         }
-        records.add(new PopulationByResidence("TOTAL", total, 100.0d));
+        records.add(new PopulationByResidency("TOTAL", total, 100.0d));
         render(records);
     }
 

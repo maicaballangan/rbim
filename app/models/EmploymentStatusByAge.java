@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -31,6 +29,7 @@ public class EmploymentStatusByAge {
     private int partnership_business;
     private int corporate_business;
     private int other;
+
     private static final String QUERY = "select a.age, " +
             " case when a.PERMANENT is not null then a.PERMANENT else 0 end as PERMANENT, " +
             " case when a.CASUAL is not null then a.CASUAL else 0 end as CASUAL," +
@@ -64,19 +63,12 @@ public class EmploymentStatusByAge {
             "   select 'PARTNERSHIP_BUSINESS' union all" +
             "   select 'CORPORATE_BUSINESS' union all" +
             "   select 'OTHER'$$" +
-            " ) as a (age varchar, PERMANENT numeric, CASUAL numeric, CONTRACTUAL numeric, OWNED_BUSINESS numeric, PARTNERSHIP_BUSINESS numeric, CORPORATE_BUSINESS numeric, OTHER numeric)";
+            " ) as a (age varchar, PERMANENT integer, CASUAL integer, CONTRACTUAL integer, OWNED_BUSINESS integer, PARTNERSHIP_BUSINESS integer, CORPORATE_BUSINESS integer, OTHER integer)";
 
     public static List<EmploymentStatusByAge> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery(QUERY).unwrap(SQLQuery.class)
-                .addScalar("age", StringType.INSTANCE)
-                .addScalar("permanent", IntegerType.INSTANCE)
-                .addScalar("casual", IntegerType.INSTANCE)
-                .addScalar("contractual", IntegerType.INSTANCE)
-                .addScalar("owned_business", IntegerType.INSTANCE)
-                .addScalar("partnership_business", IntegerType.INSTANCE)
-                .addScalar("corporate_business", IntegerType.INSTANCE)
-                .addScalar("other", IntegerType.INSTANCE)
+                .createNativeQuery(QUERY)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(EmploymentStatusByAge.class))
                 .getResultList();
     }

@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -80,23 +78,12 @@ public class EducationalLevelByAge {
             "   select 'COLLEGE_GRAD' union all" +
             "   select 'POST_GRAD' union all" +
             "   select 'UNDEFINED'$$" +
-            " ) as a(age varchar, NONE numeric, PRESCHOOL numeric, ELEMENTARY_GRAD numeric, HIGHSCHOOL_GRAD numeric, JUNIOR_HS_GRAD numeric, SENIOR_HS_GRAD numeric, VOCATIONAL numeric, COLLEGE_GRAD numeric, POST_GRAD numeric, UNDEFINED numeric)";
+            " ) as a(age varchar, NONE int, PRESCHOOL int, ELEMENTARY_GRAD int, HIGHSCHOOL_GRAD int, JUNIOR_HS_GRAD int, SENIOR_HS_GRAD int, VOCATIONAL int, COLLEGE_GRAD int, POST_GRAD int, UNDEFINED int)";
 
     public static List<EducationalLevelByAge> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("age", StringType.INSTANCE)
-                .addScalar("none", IntegerType.INSTANCE)
-                .addScalar("preschool", IntegerType.INSTANCE)
-                .addScalar("elementary_grad", IntegerType.INSTANCE)
-                .addScalar("highschool_grad", IntegerType.INSTANCE)
-                .addScalar("junior_hs_grad", IntegerType.INSTANCE)
-                .addScalar("senior_hs_grad", IntegerType.INSTANCE)
-                .addScalar("vocational", IntegerType.INSTANCE)
-                .addScalar("college_grad", IntegerType.INSTANCE)
-                .addScalar("post_grad", IntegerType.INSTANCE)
-                .addScalar("undefined", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(EducationalLevelByAge.class))
                 .getResultList();
     }

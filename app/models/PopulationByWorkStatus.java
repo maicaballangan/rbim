@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -23,13 +21,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class PopulationByWorkStatus {
-    private String workStatus;
+    private String status;
     private int female;
     private double femalePercent;
     private int male;
     private double malePercent;
+
     private static final String QUERY = "select " +
-            " a.workStatus, " +
+            " a.workStatus as status, " +
             " case when a.female is not null then a.female else 0 end as female, " +
             " case when a.male is not null then a.male else 0 end as male" +
             " from crosstab(" +
@@ -42,15 +41,12 @@ public class PopulationByWorkStatus {
             "   order by workStatus$$," +
             " $$select 'FEMALE' union all" +
             "   select 'MALE'$$"  +
-            " ) as a(workStatus varchar, FEMALE numeric, MALE numeric)";
+            " ) as a(workStatus varchar, FEMALE int, MALE int)";
 
     public static List<PopulationByWorkStatus> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("workStatus", StringType.INSTANCE)
-                .addScalar("female", IntegerType.INSTANCE)
-                .addScalar("male", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(PopulationByWorkStatus.class))
                 .getResultList();
     }
