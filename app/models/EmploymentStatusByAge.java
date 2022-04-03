@@ -31,13 +31,13 @@ public class EmploymentStatusByAge {
     private int other;
 
     private static final String QUERY = "select a.age, " +
-            " case when a.PERMANENT is not null then a.PERMANENT else 0 end as PERMANENT, " +
-            " case when a.CASUAL is not null then a.CASUAL else 0 end as CASUAL," +
-            " case when a.CONTRACTUAL is not null then a.CONTRACTUAL else 0 end as CONTRACTUAL, " +
-            " case when a.OWNED_BUSINESS is not null then a.OWNED_BUSINESS else 0 end as OWNED_BUSINESS," +
-            " case when a.PARTNERSHIP_BUSINESS is not null then a.PARTNERSHIP_BUSINESS else 0 end as PARTNERSHIP_BUSINESS, " +
-            " case when a.CORPORATE_BUSINESS is not null then a.CORPORATE_BUSINESS else 0 end as CORPORATE_BUSINESS, " +
-            " case when a.OTHER is not null then a.OTHER else 0 end as OTHER" +
+            " coalesce(a.PERMANENT, 0) as PERMANENT, " +
+            " coalesce(a.CASUAL, 0) as CASUAL," +
+            " coalesce(a.CONTRACTUAL, 0) as CONTRACTUAL, " +
+            " coalesce(a.OWNED_BUSINESS, 0) as OWNED_BUSINESS," +
+            " coalesce(a.PARTNERSHIP_BUSINESS, 0) as PARTNERSHIP_BUSINESS, " +
+            " coalesce(a.CORPORATE_BUSINESS, 0) as CORPORATE_BUSINESS, " +
+            " coalesce(a.OTHER, 0) as OTHER" +
             " from crosstab(" +
             " $$select case" +
             " when age < 20 then '20-'" +

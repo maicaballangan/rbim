@@ -12,13 +12,13 @@ import exceptions.HttpException;
 import play.Logger;
 import play.Play;
 import play.data.validation.Error;
+import play.data.validation.Validation;
 import play.modules.excel.RenderExcel;
 import play.mvc.*;
 import utils.ExcelUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -32,13 +32,10 @@ import java.util.Map;
 public class Application extends Controller {
 
     //default time zone
-    public static final ZoneId zoneId = ZoneId.systemDefault();
     public static final String ERROR_PAGE = "Application/error.json";
-    private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-    private static final String REALM = "Basic realm=\"Popcom\"";
 
     /*@Before(unless = {"notFound", "ping", "heartbeat", "info"})
-    static void authenticate() {
+        static void authenticate() {
     }*/
 
     @Finally
@@ -107,9 +104,9 @@ public class Application extends Controller {
             Logger.info("File name: %s", file.getName());
             try {
                 // Save household heads first
-                ExcelUtils.importExcel(file, validation, true);
-                // Save nonhousehold heads
-                ExcelUtils.importExcel(file, validation, false);
+                ExcelUtils.importExcel(file, true);
+                // Save non-household heads
+                ExcelUtils.importExcel(file, false);
                 Logger.info("============End Import process===============");
             } catch (Exception e) {
                 Logger.fatal(e, "Import failed with file name %s", file.getName());
@@ -122,7 +119,7 @@ public class Application extends Controller {
             }
         }
 
-        if (validation.hasErrors()) {
+        if (Validation.hasErrors()) {
             flash.success(play.i18n.Messages.get("Successfully imported file"));
             flash.error(play.i18n.Messages.get("crud.hasErrors"));
             Map<String, List<Error>> errors = validation.errorsMap();

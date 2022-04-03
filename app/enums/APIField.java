@@ -10,15 +10,8 @@ import java.util.Optional;
 public enum APIField implements Field {
 
     ID,
-    CLIENT_SECRET,
-    CCY,
-    AMOUNT,
     EMAIL,
-    ORDER,
-    CUSTOMER,
     NAME,
-    MESSAGE,
-    TRANSACTION,
     USERNAME,
     PASSWORD;
 

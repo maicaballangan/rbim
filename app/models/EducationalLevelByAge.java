@@ -34,16 +34,16 @@ public class EducationalLevelByAge {
     private int undefined;
 
     private static final String QUERY = "select a.age, " +
-            " case when a.NONE is not null then a.NONE else 0 end as NONE, " +
-            " case when a.PRESCHOOL is not null then a.PRESCHOOL else 0 end as PRESCHOOL," +
-            " case when a.ELEMENTARY_GRAD is not null then a.ELEMENTARY_GRAD else 0 end as ELEMENTARY_GRAD, " +
-            " case when a.HIGHSCHOOL_GRAD is not null then a.HIGHSCHOOL_GRAD else 0 end as HIGHSCHOOL_GRAD," +
-            " case when a.JUNIOR_HS_GRAD is not null then a.JUNIOR_HS_GRAD else 0 end as JUNIOR_HS_GRAD, " +
-            " case when a.SENIOR_HS_GRAD is not null then a.SENIOR_HS_GRAD else 0 end as SENIOR_HS_GRAD, " +
-            " case when a.VOCATIONAL is not null then a.VOCATIONAL else 0 end as VOCATIONAL," +
-            " case when a.COLLEGE_GRAD is not null then a.COLLEGE_GRAD else 0 end as COLLEGE_GRAD, " +
-            " case when a.POST_GRAD is not null then a.POST_GRAD else 0 end as POST_GRAD," +
-            " case when a.UNDEFINED is not null then a.UNDEFINED else 0 end as UNDEFINED" +
+            " coalesce(a.NONE, 0) as NONE, " +
+            " coalesce(a.PRESCHOOL, 0) as PRESCHOOL," +
+            " coalesce(a.ELEMENTARY_GRAD, 0) as ELEMENTARY_GRAD, " +
+            " coalesce(a.HIGHSCHOOL_GRAD, 0) as HIGHSCHOOL_GRAD," +
+            " coalesce(a.JUNIOR_HS_GRAD, 0) as JUNIOR_HS_GRAD, " +
+            " coalesce(a.SENIOR_HS_GRAD, 0) as SENIOR_HS_GRAD, " +
+            " coalesce(a.VOCATIONAL, 0) as VOCATIONAL," +
+            " coalesce(a.COLLEGE_GRAD, 0) as COLLEGE_GRAD, " +
+            " coalesce(a.POST_GRAD, 0) as POST_GRAD," +
+            " coalesce(a.UNDEFINED, 0) as UNDEFINED" +
             " from crosstab(" +
             " $$select case" +
             "   when age between 15 and 19 then '15-19'" +

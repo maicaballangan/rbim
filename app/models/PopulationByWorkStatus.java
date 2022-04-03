@@ -29,8 +29,8 @@ public class PopulationByWorkStatus {
 
     private static final String QUERY = "select " +
             " a.workStatus as status, " +
-            " case when a.female is not null then a.female else 0 end as female, " +
-            " case when a.male is not null then a.male else 0 end as male" +
+            " coalesce(a.female, 0) as female, " +
+            " coalesce(a.male, 0) as male" +
             " from crosstab(" +
             " $$select case" +
             "   when workStatus is null then 'OTHER/UNDEFINED' else workStatus" +
