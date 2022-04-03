@@ -6,6 +6,7 @@
 package controllers;
 
 import models.*;
+import play.cache.CacheFor;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -24,6 +25,7 @@ public class Reports extends Controller {
         render();
     }
 
+    @CacheFor("12h")
     public static void populationByAge() {
         List<PopulationByAge> records = PopulationByAge.getReport();
         int total = records.stream().mapToInt(PopulationByAge::getCount).sum();
@@ -34,12 +36,14 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationByBrgy() {
         List<PopulationByBrgy> records = PopulationByBrgy.getReport();
         records.add(new PopulationByBrgy("TOTAL", records.stream().mapToInt(PopulationByBrgy::getCount).sum()));
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationBySex() {
         List<PopulationBySex> records = PopulationBySex.getReport();
         int total = records.stream().mapToInt(PopulationBySex::getCount).sum();
@@ -50,11 +54,13 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationByCivilStatus() {
         List<PopulationByCivilStatus> records = PopulationByCivilStatus.getReport();
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationBySeniorCitizen() {
         List<PopulationBySeniorCitizen> records = PopulationBySeniorCitizen.getReport();
         int femaleTotal = records.stream().mapToInt(PopulationBySeniorCitizen::getFemale).sum();
@@ -63,6 +69,7 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationByResidence() {
         List<PopulationByResidency> records = PopulationByResidency.getReport();
         int total = records.stream().mapToInt(PopulationByResidency::getCount).sum();
@@ -73,6 +80,7 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void populationByWorkStatus() {
         List<PopulationByWorkStatus> records = PopulationByWorkStatus.getReport();
         int femaleTotal = records.stream().mapToInt(PopulationByWorkStatus::getFemale).sum();
@@ -85,6 +93,7 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void employmentStatusByAge() {
         List<EmploymentStatusByAge> records = EmploymentStatusByAge.getReport();
         int permanent = records.stream().mapToInt(EmploymentStatusByAge::getPermanent).sum();
@@ -98,6 +107,7 @@ public class Reports extends Controller {
         render(records);
     }
 
+    @CacheFor("12h")
     public static void educationalLevelByAge() {
         List<EducationalLevelByAge> records = EducationalLevelByAge.getReport();
         int none = records.stream().mapToInt(EducationalLevelByAge::getNone).sum();
