@@ -67,7 +67,7 @@ public class Staff extends AbstractModel {
         return name;
     }
 
-    public static final String encrypt(String password) {
+    public static String encrypt(String password) {
         return BCrypt.hashpw(EncryptionUtils.hash(password), BCrypt.gensalt());
     }
 

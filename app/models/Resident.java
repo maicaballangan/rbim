@@ -248,7 +248,7 @@ public class Resident extends AbstractModel {
     private String barangay;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.ALIVE;
+    private Status status;
 
     @Override
     public String toString() {

@@ -64,7 +64,7 @@ import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_
  */
 public class ExcelUtils {
 
-    public static void importExcel(File file, Validation validation, boolean saveHead) throws IOException {
+    public static void importExcel(File file, boolean saveHead) throws IOException {
         // Make sure to sort using Relation field so that head will be processed first
         FileInputStream fis = new FileInputStream(file);
         String fileName = file.getName().replace(".xlsx", "");
@@ -224,7 +224,7 @@ public class ExcelUtils {
                 if (resident.getExisting() != null) {
                     Logger.warn("Record on row %s with resident name %s, %s already exists",
                             row.getRowNum()+1, resident.getLastName(), resident.getFirstName());
-                    validation.addError(
+                    Validation.addError(
                             row.getRowNum()+1 + "",
                             "Resident with name " + resident.getLastName()+ ", " + resident.getFirstName() + " already exists");
                     continue; // Don't save existing record
@@ -242,7 +242,7 @@ public class ExcelUtils {
                 resident.create();
             } catch(Exception e) {
                 Logger.fatal("Failed to parse row %s [Error: %s]", row.getRowNum()+1, e.getMessage());
-                validation.addError(row.getRowNum()+1+"", "FATAL: Failed to parse row" + e.getMessage());
+                Validation.addError(row.getRowNum()+1+"", "FATAL: Failed to parse row" + e.getMessage());
             }
         }
         //return records;
@@ -328,11 +328,11 @@ public class ExcelUtils {
     }
 
     private static boolean isUndefined(String value) {
-        return (value == null || value.isBlank() || "99".equals(value) || "98".equals(value)) ? true : false;
+        return value == null || value.isBlank() || "99" .equals(value) || "98" .equals(value);
     }
 
     private static boolean isUndefined(Double value) {
-        return (value == null || value == 99.0D || value == 98.0D) ? true : false;
+        return value == null || value == 99.0D || value == 98.0D;
     }
 
     private static boolean isUndefined(Cell cell) {

@@ -26,8 +26,8 @@ public class PopulationByCivilStatus {
     private int male;
 
     private static final String QUERY = "select a.civilStatus as cs, " +
-            " case when a.female is not null then a.female else 0 end as female, " +
-            " case when a.male is not null then a.male else 0 end as male" +
+            " coalesce(a.female, 0) as female, " +
+            " coalesce(a.male, 0) as male" +
             " from crosstab(" +
             " $$select case " +
             "   when civilStatus is null then 'OTHER/UNDEFINED' else civilStatus" +
