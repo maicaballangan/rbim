@@ -26,10 +26,11 @@ public class PopulationBySex {
     private String sex;
     private int count;
     private double percent;
+    private static final String QUERY = "select sex, count(id) as count from Resident GROUP by sex order by sex";
 
     public static List<PopulationBySex> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery("select sex, count(id) as count from Resident GROUP by sex order by sex")
+                .createNativeQuery(QUERY)
                 .unwrap(SQLQuery.class)
                 .addScalar("sex", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)

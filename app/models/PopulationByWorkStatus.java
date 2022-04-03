@@ -28,17 +28,25 @@ public class PopulationByWorkStatus {
     private double femalePercent;
     private int male;
     private double malePercent;
+    private static final String QUERY = "select " +
+            " a.workStatus, " +
+            " case when a.female is not null then a.female else 0 end as female, " +
+            " case when a.male is not null then a.male else 0 end as male" +
+            " from crosstab(" +
+            " $$select case" +
+            "   when workStatus is null then 'OTHER/UNDEFINED' else workStatus" +
+            " end as workStatus," +
+            " sex, count(*) " +
+            " from Resident" +
+            "   group by workStatus, sex" +
+            "   order by workStatus$$," +
+            " $$select 'FEMALE' union all" +
+            "   select 'MALE'$$"  +
+            " ) as a(workStatus varchar, FEMALE numeric, MALE numeric)";
 
     public static List<PopulationByWorkStatus> getReport() {
         return play.db.jpa.JPA.em()
-                .createNativeQuery("select * from" +
-                        " (select id, sex, case " +
-                        " when workStatus is null then 'OTHER/UNDEFINED' else workStatus" +
-                        " end as workStatus" +
-                        " from Resident" +
-                        " ) as a" +
-                        " pivot (count(id) for sex in (FEMALE,MALE)) as b" +
-                        " order by workStatus")
+                .createNativeQuery(QUERY)
                 .unwrap(SQLQuery.class)
                 .addScalar("workStatus", StringType.INSTANCE)
                 .addScalar("female", IntegerType.INSTANCE)
