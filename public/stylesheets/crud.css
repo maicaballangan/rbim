@@ -294,10 +294,6 @@ form .removeAttachment {
 	background: #efefef;
 }
 
-#crudListSearch input[type=text] {
-	width: 40%;
-}
-
 #crudListSearch a {
 	color: #111 !important;
 	font-size: 90%;
@@ -393,4 +389,8 @@ form .removeAttachment {
 	padding-top: 10px;
 	padding-bottom: 5px;
 	padding-left: 80px;
+}
+
+#crudListSearch input[name=search]  {
+	width: 40%;
 }

@@ -10,10 +10,12 @@
             <div id="searchField">
                 <input type="hidden" name="searchFields" value="id lastName firstName skillA skillB skillC" />
                 <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
+                <input class="reference" type="text" name="filter.household" value="${params.'filter.household'?.escape()?.raw()}" />
                 <input type="submit" value="&{'crud.search'}" />
                 <input type="submit" formaction="@{Residents.export()}" formmethod="POST" value="&{'crud.export'}" />
             </div>
             <div id="searchFilters">
+            </label>
                 <label>Barangay:
                     <select name="filter.barangay">
                         <option></option>
@@ -98,19 +100,6 @@
                         #{/list}
                     </select>
                 </label>
-                <label>POB (Municipality):
-                    <select name="filter.placeOfBirthMunicipality">
-                        <option></option>
-                        #{list items:enums.Municipality.values(), as:'placeOfBirthMunicipality'}
-                            <option name="${placeOfBirthMunicipality.name()}"
-                                    ord="${placeOfBirthMunicipality.ordinal()}"
-                                    value="${placeOfBirthMunicipality.name()}"
-                            ${placeOfBirthMunicipality.name() == params.'filter.placeOfBirthMunicipality' ? 'selected="true"'.raw() : '' }>
-                            ${placeOfBirthMunicipality.toString()}
-                            </option>
-                        #{/list}
-                    </select>
-                </label>
                 <label>Voting Area:
                     <select name="filter.votingArea">
                         <option></option>
@@ -124,16 +113,29 @@
                         #{/list}
                     </select>
                 </label>
-                <label>Registered Senior:
-                    <select name="filter.registeredSeniorCitizen">
+                <label>Registered Birth:
+                    <select name="filter.registeredBirth">
                         <option></option>
-                        #{list items:enums.YesOrNo.values(), as:'registeredSeniorCitizen'}
-                            <option name="${registeredSeniorCitizen.name()}"
-                                    ord="${registeredSeniorCitizen.ordinal()}"
-                                    value="${registeredSeniorCitizen.name()}"
-                            ${registeredSeniorCitizen.name() == params.'filter.registeredSeniorCitizen' ? 'selected="true"'.raw() : '' }>
-                            ${registeredSeniorCitizen.toString()}
-                            </option>
+                        #{list items:enums.YesOrNo.values(), as:'registeredBirth'}
+                        <option name="${registeredBirth.name()}"
+                                ord="${registeredBirth.ordinal()}"
+                                value="${registeredBirth.name()}"
+                                ${registeredBirth.name() == params.'filter.registeredBirth' ? 'selected="true"'.raw() : '' }>
+                        ${registeredBirth.toString()}
+                        </option>
+                        #{/list}
+                    </select>
+                </label>
+                <label>Education:
+                    <select name="filter.educationalAttainment">
+                        <option></option>
+                        #{list items:enums.Education.values(), as:'educationalAttainment'}
+                        <option name="${educationalAttainment.name()}"
+                                ord="${educationalAttainment.ordinal()}"
+                                value="${educationalAttainment.name()}"
+                                ${educationalAttainment.name() == params.'filter.educationalAttainment' ? 'selected="true"'.raw() : '' }>
+                        ${educationalAttainment.toString()}
+                        </option>
                         #{/list}
                     </select>
                 </label>
@@ -150,16 +152,16 @@
                         #{/list}
                     </select>
                 </label>
-                <label>Education:
-                    <select name="filter.educationalAttainment">
+                <label>Work Status:
+                    <select name="filter.workStatus">
                         <option></option>
-                        #{list items:enums.Education.values(), as:'educationalAttainment'}
-                            <option name="${educationalAttainment.name()}"
-                                    ord="${educationalAttainment.ordinal()}"
-                                    value="${educationalAttainment.name()}"
-                            ${educationalAttainment.name() == params.'filter.educationalAttainment' ? 'selected="true"'.raw() : '' }>
-                            ${educationalAttainment.toString()}
-                            </option>
+                        #{list items:enums.WorkStatus.values(), as:'workStatus'}
+                        <option name="${workStatus.name()}"
+                                ord="${workStatus.ordinal()}"
+                                value="${workStatus.name()}"
+                                ${workStatus.name() == params.'filter.workStatus' ? 'selected="true"'.raw() : '' }>
+                        ${workStatus.toString()}
+                        </option>
                         #{/list}
                     </select>
                 </label>
@@ -176,16 +178,16 @@
                         #{/list}
                     </select>
                 </label>
-                <label>Work Status:
-                    <select name="filter.workStatus">
+                <label>Registered Senior:
+                    <select name="filter.registeredSeniorCitizen">
                         <option></option>
-                        #{list items:enums.WorkStatus.values(), as:'workStatus'}
-                            <option name="${workStatus.name()}"
-                                    ord="${workStatus.ordinal()}"
-                                    value="${workStatus.name()}"
-                            ${workStatus.name() == params.'filter.workStatus' ? 'selected="true"'.raw() : '' }>
-                            ${workStatus.toString()}
-                            </option>
+                        #{list items:enums.YesOrNo.values(), as:'registeredSeniorCitizen'}
+                        <option name="${registeredSeniorCitizen.name()}"
+                                ord="${registeredSeniorCitizen.ordinal()}"
+                                value="${registeredSeniorCitizen.name()}"
+                                ${registeredSeniorCitizen.name() == params.'filter.registeredSeniorCitizen' ? 'selected="true"'.raw() : '' }>
+                        ${registeredSeniorCitizen.toString()}
+                        </option>
                         #{/list}
                     </select>
                 </label>
