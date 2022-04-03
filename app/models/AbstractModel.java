@@ -20,7 +20,7 @@ import java.util.Date;
  * @since v1
  */
 @MappedSuperclass
-public class AbstractModel extends GenericModel {
+public abstract class AbstractModel extends GenericModel {
 
     @CRUD.Hidden
     @CreationTimestamp

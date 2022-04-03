@@ -18,7 +18,7 @@ import java.util.Map;
  * @since v1
  */
 @With(Secure.class)
-public class CustomCRUD extends CRUD {
+public abstract class CustomCRUD extends CRUD {
 
     public static void list(int page,
                             String search,
@@ -35,14 +35,20 @@ public class CustomCRUD extends CRUD {
             page = 1;
         }
 
-        String query = createQuery(filter, min, max, match);
+        final StringBuilder urlBuilder = new StringBuilder("/v1/admin/" + type.toString().toLowerCase() + "s?");
+        urlBuilder
+                .append("search=" + (search != null ? search.replaceAll(" ", "&nbsp") : ""))
+                .append("&searchFields=" + (searchFields != null ? searchFields.replaceAll(" ", "+") : ""));
+
+        String query = createQuery(filter, min, max, match, urlBuilder);
         List<Model> objects = type.findPage(page, search, searchFields, orderBy, order, query.length() > 0 ? query : (String) request.args.get("where"));
         Long count = type.count(search, searchFields, query.length() > 0 ? query : (String) request.args.get("where"));
+        String url = urlBuilder.toString();
 
         try {
-            render(type, objects, count, page, orderBy, order);
+            render(type, objects, count, page, orderBy, order, url);
         } catch (TemplateNotFoundException e) {
-            render("CRUD/list.html", type, objects, count, page, orderBy, order);
+            render("CRUD/list.html", type, objects, count, page, orderBy, order, url);
         }
     }
 
@@ -51,7 +57,8 @@ public class CustomCRUD extends CRUD {
             Map<String, String> filter,
             Map<String, Integer> min,
             Map<String, Integer> max,
-            Map<String, String> match) {
+            Map<String, String> match,
+            StringBuilder urlBuilder) {
         StringBuilder fb = new StringBuilder();
         if (filter != null) filter.keySet()
                 .stream()
@@ -65,6 +72,7 @@ public class CustomCRUD extends CRUD {
 
                     if (fb.length() > 0) fb.append(" and ");
                     fb.append(k + equality + "'" + filter.get(k) + "'");
+                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
                 });
 
         if (match != null) match.keySet()
@@ -73,6 +81,7 @@ public class CustomCRUD extends CRUD {
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
                     fb.append(k + " like '%" + match.get(k) + "%'");
+                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
                 });
 
         if (min != null) min.keySet()
@@ -81,6 +90,7 @@ public class CustomCRUD extends CRUD {
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
                     fb.append(k + " >= " + min.get(k));
+                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
                 });
 
         if (max != null) max.keySet()
@@ -89,6 +99,7 @@ public class CustomCRUD extends CRUD {
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
                     fb.append(k + " <= " + max.get(k));
+                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
                 });
 
         return fb.toString();
