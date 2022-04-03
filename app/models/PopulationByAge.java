@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class PopulationByAge {
     private String age;
     private int count;
     private double percent;
-    private static final String QUERY = "select count(*) as count, * from (select case" +
+    private static final String QUERY = "select cast(count(*) as int) as count, * from (select case" +
             " when age between 0 and 4 then '00-04'" +
             " when age between 5 and 9 then '05-09'" +
             " when age between 10 and 14 then '10-14'" +
@@ -44,7 +42,8 @@ public class PopulationByAge {
             " when age between 70 and 74 then '70-74'" +
             " when age between 75 and 79 then '75-79'" +
             " when age > 79 then '80 Above'" +
-            " end as age from Resident" +
+            " end as age " +
+            "from Resident" +
             " ) as a" +
             " group by age" +
             " order by age";
@@ -52,9 +51,7 @@ public class PopulationByAge {
     public static List<PopulationByAge> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("age", StringType.INSTANCE)
-                .addScalar("count", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(PopulationByAge.class))
                 .getResultList();
     }

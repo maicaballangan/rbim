@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -23,10 +21,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class PopulationBySeniorCitizen {
-    private String registeredSeniorCitizen;
+    private String rsc;
     private int female;
     private int male;
-    private static final String QUERY = "select a.registeredSeniorCitizen, " +
+    private static final String QUERY = "select a.registeredSeniorCitizen as rsc, " +
             " case when a.female is not null then a.female else 0 end as female, " +
             " case when a.male is not null then a.male else 0 end as male" +
             " from crosstab(" +
@@ -39,15 +37,12 @@ public class PopulationBySeniorCitizen {
             "   order by registeredSeniorCitizen$$," +
             " $$select 'FEMALE' union all" +
             "   select 'MALE'$$" +
-            " ) as a(registeredSeniorCitizen varchar, FEMALE numeric, MALE numeric)";
+            " ) as a(registeredSeniorCitizen varchar, FEMALE int, MALE int)";
 
     public static List<PopulationBySeniorCitizen> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("registeredSeniorCitizen", StringType.INSTANCE)
-                .addScalar("female", IntegerType.INSTANCE)
-                .addScalar("male", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(PopulationBySeniorCitizen.class))
                 .getResultList();
     }

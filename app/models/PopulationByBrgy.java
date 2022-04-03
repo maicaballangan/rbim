@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -25,14 +23,12 @@ import java.util.List;
 public class PopulationByBrgy {
     private String barangay;
     private int count;
-    private static final String QUERY = "select barangay, count(*) as count from Resident GROUP by barangay order by barangay";
+    private static final String QUERY = "select barangay, cast(count(*) as int) as count from Resident GROUP by barangay order by barangay";
 
     public static List<PopulationByBrgy> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("barangay", StringType.INSTANCE)
-                .addScalar("count", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(PopulationByBrgy.class))
                 .getResultList();
     }

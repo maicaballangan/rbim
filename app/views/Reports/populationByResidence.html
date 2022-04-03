@@ -3,7 +3,7 @@
 
 <div id="crudList">
 
-    <h2 id="crudListTitle">&{'crud.list.title', 'Population By Residence'}</h2>
+    <h2 id="crudListTitle">&{'crud.list.title', 'Population By Residency'}</h2>
 
     <table>
         <thead>
@@ -16,7 +16,7 @@
         <tbody>
             #{list items:records, as:'record'}
                 <tr>
-                    <td>${record.residentType}</td>
+                    <td>${record.residency}</td>
                     <td>${record.count}</td>
                     <td>${record.percent}</td>
                 </tr>

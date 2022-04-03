@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -26,14 +24,12 @@ public class PopulationBySex {
     private String sex;
     private int count;
     private double percent;
-    private static final String QUERY = "select sex, count(id) as count from Resident GROUP by sex order by sex";
+    private static final String QUERY = "select sex, cast(count(id) as int) as count from Resident GROUP by sex order by sex";
 
     public static List<PopulationBySex> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("sex", StringType.INSTANCE)
-                .addScalar("count", IntegerType.INSTANCE)
+                .unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.aliasToBean(PopulationBySex.class))
                 .getResultList();
     }

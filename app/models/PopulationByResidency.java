@@ -8,10 +8,8 @@ package models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 
 import java.util.List;
 
@@ -22,26 +20,24 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PopulationByResidence {
-    private String residentType;
+public class PopulationByResidency {
+    private String residency;
     private int count;
     private double percent;
     private static final String QUERY = "select case " +
             "    when residentType is null then 'OTHER/UNDEFINED'" +
             "    else residentType" +
-            " end as residentType, " +
-            " count(*) as count" +
+            " end as residency, " +
+            " cast(count(*) as int) as count" +
             " from Resident " +
-            "   group by residentType " +
-            "   order by residentType";
+            "   group by residency " +
+            "   order by residency";
 
-    public static List<PopulationByResidence> getReport() {
+    public static List<PopulationByResidency> getReport() {
         return play.db.jpa.JPA.em()
                 .createNativeQuery(QUERY)
-                .unwrap(SQLQuery.class)
-                .addScalar("residentType", StringType.INSTANCE)
-                .addScalar("count", IntegerType.INSTANCE)
-                .setResultTransformer(Transformers.aliasToBean(PopulationByResidence.class))
+                .unwrap(NativeQueryImpl.class)
+                .setResultTransformer(Transformers.aliasToBean(PopulationByResidency.class))
                 .getResultList();
     }
 }
