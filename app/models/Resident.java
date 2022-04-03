@@ -10,6 +10,7 @@ import enums.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import play.data.validation.MaxSize;
@@ -240,6 +241,10 @@ public class Resident extends AbstractModel {
     private Skill skillC;
 
     @Required
+    @Column(insertable = false, updatable = false)
+    private String householdId;
+
+    @CRUD.Hidden
     @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn
     private Household household;
@@ -294,9 +299,23 @@ public class Resident extends AbstractModel {
         return (skillA != null ? skillA.getCode() : "") + (skillB != null ? ", " + skillB.getCode() : "") + (skillC != null ? ", " + skillC.getCode() : "");
     }
 
+    public String getHouseholdId() {
+        return householdId == null && household != null ? household.getId() : householdId;
+    }
+
+    public Household getHousehold() {
+        if ((household == null && StringUtils.isNotBlank(householdId))
+                ||  (StringUtils.isNotBlank(householdId) && household != null && !household.getId().equals(householdId))) {
+            this.household = Household.findById(householdId);
+            this.householdId = null;
+        }
+
+        return household;
+    }
+
     @Override
     public void _save() {
-        this.barangay = household.getBarangay().name();
+        this.barangay = getHousehold().getBarangay().name();
         this.age = getAge();
         if (status == null) {
             this.status = Status.ALIVE;
