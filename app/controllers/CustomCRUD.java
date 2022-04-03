@@ -5,11 +5,13 @@
  */
 package controllers;
 
+import play.data.binding.Binder;
 import play.db.Model;
 import play.exceptions.TemplateNotFoundException;
 import play.mvc.Util;
 import play.mvc.With;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +37,11 @@ public abstract class CustomCRUD extends CRUD {
             page = 1;
         }
 
-        final StringBuilder urlBuilder = new StringBuilder("/v1/admin/" + type.toString().toLowerCase() + "s?");
-        urlBuilder
-                .append("search=" + (search != null ? search.replaceAll(" ", "&nbsp") : ""))
-                .append("&searchFields=" + (searchFields != null ? searchFields.replaceAll(" ", "+") : ""));
+        final StringBuilder urlBuilder = new StringBuilder("/v1/admin/" + type.toString().toLowerCase() + "s?")
+                .append("search=")
+                .append(search != null ? search.replaceAll(" ", "&nbsp") : "")
+                .append("&searchFields=")
+                .append(searchFields != null ? searchFields.replaceAll(" ", "+") : "");
 
         String query = createQuery(filter, min, max, match, urlBuilder);
         List<Model> objects = type.findPage(page, search, searchFields, orderBy, order, query.length() > 0 ? query : (String) request.args.get("where"));
@@ -103,5 +106,74 @@ public abstract class CustomCRUD extends CRUD {
                 });
 
         return fb.toString();
+    }
+
+    public static void save(String id) throws Exception {
+        ObjectType type = ObjectType.get(getControllerClass());
+        notFoundIfNull(type);
+        Model object = type.findById(id);
+        notFoundIfNull(object);
+        Binder.bindBean(params.getRootParamNode(), "object", object);
+        validation.valid(object);
+        if (validation.hasErrors()) {
+            renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
+            try {
+                render(request.controller.replace(".", "/") + "/show.html", type, object);
+            } catch (TemplateNotFoundException e) {
+                render("CRUD/show.html", type, object);
+            }
+        }
+        try {
+            object._save();
+            flash.success(play.i18n.Messages.get("crud.saved", type.modelName));
+            if (params.get("_save") != null) {
+                redirect(request.controller + ".list");
+            }
+            redirect(request.controller + ".show", object._key());
+        }  catch (Exception e) {
+            flash.error(play.i18n.Messages.get("crud.save.error", type.modelName));
+            try {
+                render(request.controller.replace(".", "/") + "/show.html", type, object);
+            } catch (TemplateNotFoundException ex) {
+                render("CRUD/show.html", type, object);
+            }
+        }
+    }
+
+    public static void create() throws Exception {
+        ObjectType type = ObjectType.get(getControllerClass());
+        notFoundIfNull(type);
+        Constructor<?> constructor = type.entityClass.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        Model object = (Model) constructor.newInstance();
+        Binder.bindBean(params.getRootParamNode(), "object", object);
+        validation.valid(object);
+        if (validation.hasErrors()) {
+            renderArgs.put("error", play.i18n.Messages.get("crud.hasErrors"));
+            try {
+                render(request.controller.replace(".", "/") + "/blank.html", type, object);
+            } catch (TemplateNotFoundException e) {
+                render("CRUD/blank.html", type, object);
+            }
+        }
+
+        try {
+            object._save();
+            flash.success(play.i18n.Messages.get("crud.created", type.modelName));
+            if (params.get("_save") != null) {
+                redirect(request.controller + ".list");
+            }
+            if (params.get("_saveAndAddAnother") != null) {
+                redirect(request.controller + ".blank");
+            }
+            redirect(request.controller + ".show", object._key());
+        }  catch (Exception e) {
+            flash.error(play.i18n.Messages.get("crud.save.error", type.modelName));
+            try {
+                render(request.controller.replace(".", "/") + "/blank.html", type, object);
+            } catch (TemplateNotFoundException ex) {
+                render("CRUD/blank.html", type, object);
+            }
+        }
     }
 }
