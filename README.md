@@ -24,6 +24,7 @@ You should now have the following non-empty files and folders:
           attachments/      attachments
           keys/             keystore file
           postman/          Postman fixtures
+        docker/             Docker Configuration
         docs/               document files
           data model/       data model
           uml/              UML diagrams
@@ -51,16 +52,14 @@ ENJOY :-)
 DOCKER INSTALLATION FOR LOCAL DB SETUP 
 ----------------
 * Install Docker
-* Pull postgre image
+* Go to docker directory and run
 ``
-sudo docker pull mcr.microsoft.com/mssql/server:2019-latest
+docker-compose up
 ``
 
-* Run mssql docker image
+To kill server run:
 ``
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=popcom@123" \
--p 1433:1433 --name rbim -h rbim \
--d mcr.microsoft.com/mssql/server:2019-latest
+docker-compose down
 ``
 
 IDE INSTALLATION
@@ -81,7 +80,6 @@ You can run a dependency check with `./bin/dependency-check.sh`
 DEPLOYMENT
 ----------------
 You can run a dependency check with `./bin/dependency-check.sh`
-
 
 
 PLAY 1 FRAMEWORK DOCUMENTATION
