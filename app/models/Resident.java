@@ -245,8 +245,7 @@ public class Resident extends AbstractModel {
     private Household household;
 
     @CRUD.Hidden
-    @Enumerated(EnumType.STRING)
-    private Barangay barangay;
+    private String barangay;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.ALIVE;
@@ -297,7 +296,7 @@ public class Resident extends AbstractModel {
 
     @Override
     public void _save() {
-        this.barangay = household.getBarangay();
+        this.barangay = household.getBarangay().name();
         this.age = getAge();
         if (status == null) {
             this.status = Status.ALIVE;
