@@ -59,7 +59,6 @@ public class Household extends AbstractModel {
 
     private String blockNo;
 
-    @Required
     private String street;
 
     private String respondent;
@@ -101,6 +100,7 @@ public class Household extends AbstractModel {
     @Enumerated(EnumType.STRING)
     private BuildingMaterial buildingMaterial;
 
+    @Required
     @Enumerated(EnumType.STRING)
     private Status status=Status.ACTIVE;
 
@@ -140,5 +140,10 @@ public class Household extends AbstractModel {
             this.status = Status.ACTIVE;
         }
         super._save();
+    }
+
+    @Override
+    public boolean create() {
+        return super.create();
     }
 }
