@@ -102,7 +102,7 @@ public class Reports extends Controller {
         int owned = records.stream().mapToInt(EmploymentStatusByAge::getOwned_business).sum();
         int partnership = records.stream().mapToInt(EmploymentStatusByAge::getPartnership_business).sum();
         int corporate = records.stream().mapToInt(EmploymentStatusByAge::getCorporate_business).sum();
-        int other = records.stream().mapToInt(EmploymentStatusByAge::getOther).sum();
+        int other = records.stream().mapToInt(EmploymentStatusByAge::getUndefined).sum();
         records.add(new EmploymentStatusByAge("TOTAL", permanent, casual, contractual, owned, partnership, corporate, other));
         render(records);
     }

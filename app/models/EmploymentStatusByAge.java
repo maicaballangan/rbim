@@ -28,7 +28,7 @@ public class EmploymentStatusByAge {
     private int owned_business;
     private int partnership_business;
     private int corporate_business;
-    private int other;
+    private int undefined;
 
     private static final String QUERY = "select a.age, " +
             " coalesce(a.PERMANENT, 0) as PERMANENT, " +
@@ -37,7 +37,7 @@ public class EmploymentStatusByAge {
             " coalesce(a.OWNED_BUSINESS, 0) as OWNED_BUSINESS," +
             " coalesce(a.PARTNERSHIP_BUSINESS, 0) as PARTNERSHIP_BUSINESS, " +
             " coalesce(a.CORPORATE_BUSINESS, 0) as CORPORATE_BUSINESS, " +
-            " coalesce(a.OTHER, 0) as OTHER" +
+            " coalesce(a.UNDEFINED, 0) as UNDEFINED" +
             " from crosstab(" +
             " $$select case" +
             " when age < 20 then '20-'" +
@@ -50,8 +50,9 @@ public class EmploymentStatusByAge {
             " when age between 50 and 54 then '50-54'" +
             " when age between 55 and 59 then '55-59'" +
             " when age between 60 and 64 then '60-64'" +
-            " when age > 64 then '65+' end as age," +
-            " case when workStatus is null then 'OTHER' else workStatus end as workStatus, " +
+            " when age > 64 then '65+'" +
+            " when age is null then 'UNDEFINED' end as age," +
+            " case when workStatus is null then 'UNDEFINED' else workStatus end as workStatus, " +
             " count(*) " +
             " from Resident" +
             " group by age, workStatus" +
@@ -63,7 +64,7 @@ public class EmploymentStatusByAge {
             "   select 'PARTNERSHIP_BUSINESS' union all" +
             "   select 'CORPORATE_BUSINESS' union all" +
             "   select 'OTHER'$$" +
-            " ) as a (age varchar, PERMANENT integer, CASUAL integer, CONTRACTUAL integer, OWNED_BUSINESS integer, PARTNERSHIP_BUSINESS integer, CORPORATE_BUSINESS integer, OTHER integer)";
+            " ) as a (age varchar, PERMANENT integer, CASUAL integer, CONTRACTUAL integer, OWNED_BUSINESS integer, PARTNERSHIP_BUSINESS integer, CORPORATE_BUSINESS integer, UNDEFINED integer)";
 
     public static List<EmploymentStatusByAge> getReport() {
         return play.db.jpa.JPA.em()
@@ -74,6 +75,6 @@ public class EmploymentStatusByAge {
     }
 
     public int getTotal() {
-        return permanent + casual + contractual + owned_business + partnership_business + corporate_business + other;
+        return permanent + casual + contractual + owned_business + partnership_business + corporate_business + undefined;
     }
 }
