@@ -242,7 +242,7 @@ public class Resident extends AbstractModel {
 
     @Required
     @Column(insertable = false, updatable = false)
-    private String householdId;
+    private String household_id;
 
     @CRUD.Hidden
     @ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -300,14 +300,14 @@ public class Resident extends AbstractModel {
     }
 
     public String getHouseholdId() {
-        return householdId == null && household != null ? household.getId() : householdId;
+        return household_id == null && household != null ? household.getId() : household_id;
     }
 
     public Household getHousehold() {
-        if ((household == null && StringUtils.isNotBlank(householdId))
-                ||  (StringUtils.isNotBlank(householdId) && household != null && !household.getId().equals(householdId))) {
-            this.household = Household.findById(householdId);
-            this.householdId = null;
+        if ((household == null && StringUtils.isNotBlank(household_id))
+                ||  (StringUtils.isNotBlank(household_id) && household != null && !household.getId().equals(household_id))) {
+            this.household = Household.findById(household_id);
+            this.household_id = null;
         }
 
         return household;
