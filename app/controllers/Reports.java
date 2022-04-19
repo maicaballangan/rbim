@@ -5,14 +5,20 @@
  */
 package controllers;
 
+import com.google.common.net.MediaType;
 import models.*;
 import play.cache.CacheFor;
+import play.modules.excel.RenderExcel;
 import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Util;
 import play.mvc.With;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+
+import static org.apache.poi.xssf.usermodel.XSSFWorkbookType.XLSX;
 
 /**
  * @author Maica Ballangan
@@ -123,5 +129,16 @@ public class Reports extends Controller {
         records.add(new EducationalLevelByAge("TOTAL", none, preSchool, elementary, highschool, juniorHS,
                 seniorHS, vocational, college, postGrad, undefined));
         render(records);
+    }
+
+    @Util
+    public static void generateReport(final String fileName, final List<?> records) {
+        final var total = records.size();
+        request.format = XLSX.getExtension();
+        response.contentType = MediaType.OOXML_SHEET.toString();
+        response.headers.put("Content-Disposition", new Http.Header("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\""));
+        renderArgs.put(RenderExcel.RA_ASYNC, false);
+        renderArgs.put(RenderExcel.RA_FILENAME, fileName + "." + request.format);
+        render("Reports/" + fileName + "." + request.format, total, records);
     }
 }

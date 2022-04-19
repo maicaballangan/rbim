@@ -8,7 +8,7 @@
     <div id="crudListSearch" >
         #{form action:@list().remove('page'), method:'GET'}
             <div id="searchField">
-                <input type="hidden" name="searchFields" value="id lastName firstName skillA skillB skillC" />
+                <input type="hidden" name="searchFields" value="id lastName firstName ethnicity religion skillA skillB skillC" />
                 <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
                 <input class="reference" type="text" name="filter.household" value="${params.'filter.household'?.escape()?.raw()}" />
                 <input type="submit" value="&{'crud.search'}" />
@@ -192,19 +192,19 @@
                     </select>
                 </label>
                 <label>Parent:
-                    <select name="filter.parentalStatus">
+                    <select name="filter.registeredSoloParent">
                         <option></option>
-                        #{list items:enums.RegisteredSoloParent.values(), as:'parentalStatus'}
-                            <option name="${parentalStatus.name()}"
-                                    ord="${parentalStatus.ordinal()}"
-                                    value="${parentalStatus.name()}"
-                            ${parentalStatus.name() == params.'filter.parentalStatus' ? 'selected="true"'.raw() : '' }>
-                            ${parentalStatus.toString()}
+                        #{list items:enums.RegisteredSoloParent.values(), as:'registeredSoloParent'}
+                            <option name="${registeredSoloParent.name()}"
+                                    ord="${registeredSoloParent.ordinal()}"
+                                    value="${registeredSoloParent.name()}"
+                            ${registeredSoloParent.name() == params.'filter.registeredSoloParent' ? 'selected="true"'.raw() : '' }>
+                            ${registeredSoloParent.toString()}
                             </option>
                         #{/list}
                     </select>
                 </label>
-                <label>Disability:
+                <label>Diff. Abled:
                     <select name="filter.disability">
                         <option></option>
                         #{list items:enums.YesOrNo.values(), as:'disability'}

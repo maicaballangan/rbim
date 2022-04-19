@@ -26,6 +26,6 @@ public class Households extends CustomCRUD {
                               Map<String, Integer> max,
                               Map<String, String> match) {
         List<Household> records = Household.find(createQuery(filter, min, max, match, new StringBuilder())).fetch();
-        Application.generateReport("households", "households", records);
+        Reports.generateReport("households", records);
     }
 }
