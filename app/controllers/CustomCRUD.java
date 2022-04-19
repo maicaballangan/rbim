@@ -74,6 +74,7 @@ public abstract class CustomCRUD extends CRUD {
                     }
 
                     if (fb.length() > 0) fb.append(" and ");
+
                     fb.append(k + equality + "'" + filter.get(k) + "'");
                     urlBuilder.append("&filter." + k + "=" + filter.get(k));
                 });
@@ -83,8 +84,9 @@ public abstract class CustomCRUD extends CRUD {
                 .filter(k -> match.get(k) != null && !match.get(k).isBlank())
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
+
                     fb.append(k + " like '%" + match.get(k) + "%'");
-                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
+                    urlBuilder.append("&match." + k + "=" + match.get(k));
                 });
 
         if (min != null) min.keySet()
@@ -92,8 +94,9 @@ public abstract class CustomCRUD extends CRUD {
                 .filter(k -> min.get(k) != null)
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
+
                     fb.append(k + " >= " + min.get(k));
-                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
+                    urlBuilder.append("&min." + k + "=" + min.get(k));
                 });
 
         if (max != null) max.keySet()
@@ -102,7 +105,7 @@ public abstract class CustomCRUD extends CRUD {
                 .forEach(k -> {
                     if (fb.length() > 0) fb.append(" and ");
                     fb.append(k + " <= " + max.get(k));
-                    urlBuilder.append("&filter." + k + "=" + filter.get(k));
+                    urlBuilder.append("&max." + k + "=" + max.get(k));
                 });
 
         return fb.toString();

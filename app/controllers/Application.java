@@ -129,15 +129,4 @@ public class Application extends Controller {
         flash.success(play.i18n.Messages.get("Successfully imported file"));
         render("CRUD/index.html");
     }
-
-    @Util
-    public static void generateReport(String table, final String fileName, final List<?> records) {
-        final var total = records.size();
-        request.format = "xlsx";
-        response.contentType = MediaType.OOXML_SHEET.toString();
-        response.headers.put("Content-Disposition", new Http.Header("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\""));
-        renderArgs.put(RenderExcel.RA_ASYNC, false);
-        renderArgs.put(RenderExcel.RA_FILENAME, fileName + ".xslxs");
-        render("Reports/" + table + ".xlsx", total, records);
-    }
 }

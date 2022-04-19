@@ -7,7 +7,7 @@
 
     <div id="crudListSearch">
     #{form action:@list().remove('page'), method:'GET'}
-        <input type="hidden" name="searchFields" value="address street head" />
+        <input type="hidden" name="searchFields" value="id address street head" />
         <input type="text" name="search" value="${params.search?.escape()?.raw()}" />
 
         <input type="submit" value="&{'crud.search'}" />
@@ -175,7 +175,12 @@
     </div>
 
     <div id="crudListTable">
-        #{crud.table fields:['id', 'head', 'street', 'barangay'] /}
+        #{crud.table fields:['id', 'head', 'street', 'barangay', 'household'],
+         sort: ['id', 'head', 'street']  }
+            #{crud.custom 'household'}
+                <a href="residents?filter.household=${object.id}">see members</a>
+            #{/crud.custom}
+        #{/crud.table}
     </div>
 
     <div id="crudListPagination">
