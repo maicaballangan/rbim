@@ -273,8 +273,10 @@
         #{crud.pagination /}
     </div>
 
+    #{secure.check "ENCODER"}
     <p id="crudListAdd">
         <a href="@{blank()}">&{'crud.add', type.modelName}</a>
     </p>
+    #{/secure.check}
 
 </div>
