@@ -33,7 +33,7 @@ public class Staff extends AbstractModel {
         REMOVED
     }
 
-    private enum Role {
+    public enum Role {
         ADMIN,
         ENCODER,
         VIEWER
@@ -59,7 +59,11 @@ public class Staff extends AbstractModel {
     private Role role;
 
     public void setPassword(String password) {
-        this.password = encrypt(password);
+        if (password != null && password.length() > 50) {
+            this.password = password;
+        } else {
+            this.password = encrypt(password);
+        }
     }
 
     @Override

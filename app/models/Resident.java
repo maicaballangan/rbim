@@ -80,7 +80,8 @@ public class Resident extends AbstractModel {
     private Sex sex;
 
     @CRUD.Hidden
-    private Integer age;
+	@Column(insertable = false, updatable = false)
+	private Integer age;
 
     private Month monthOfBirth;
 
@@ -316,7 +317,7 @@ public class Resident extends AbstractModel {
     @Override
     public void _save() {
         this.barangay = getHousehold().getBarangay().name();
-        this.age = getAge();
+        //this.age = getAge();
         if (status == null) {
             this.status = Status.ALIVE;
         }

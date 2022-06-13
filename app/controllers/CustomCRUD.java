@@ -42,9 +42,9 @@ public abstract class CustomCRUD extends CRUD {
                 .append(search != null ? search.replaceAll(" ", "&nbsp") : "")
                 .append("&searchFields=")
                 .append(searchFields != null ? searchFields.replaceAll(" ", "+") : "");
-
+			
         String query = createQuery(filter, min, max, match, urlBuilder);
-        List<Model> objects = type.findPage(page, search, searchFields, orderBy, order, query.length() > 0 ? query : (String) request.args.get("where"));
+        List<Model> objects = type.findPage(page, search, searchFields, "age".equals(orderBy) ? "monthofbirth,yearofBirth" : orderBy, order, query.length() > 0 ? query : (String) request.args.get("where"));
         Long count = type.count(search, searchFields, query.length() > 0 ? query : (String) request.args.get("where"));
         String url = urlBuilder.toString();
 
@@ -88,6 +88,28 @@ public abstract class CustomCRUD extends CRUD {
                     fb.append(k + " like '%" + match.get(k) + "%'");
                     urlBuilder.append("&match." + k + "=" + match.get(k));
                 });
+		
+		// Custom age query
+		if ((min != null && min.get("age") != null) || (max != null && max.get("age") != null)) {
+			if (fb.length() > 0) fb.append(" and ");
+			
+			fb.append("date_part('year', age(current_date, cast(concat(yearofbirth, '-', case when monthofbirth between 1 and 12 then monthofbirth ELSE '01' end, '-01') as timestamp))) BETWEEN ");
+			if (min != null && min.get("age") != null) {
+				fb.append(min.get("age") + " and ");
+				urlBuilder.append("&min.age=" + min.get("age"));
+				min.remove("age");
+			} else { 	
+				fb.append("0 and ");
+			}
+			
+			if (max != null && max.get("age") != null) {
+				fb.append(max.get("age"));
+				urlBuilder.append("&max.age=" + max.get("age"));
+				max.remove("age");
+			} else { 
+				fb.append("999");
+			}
+		}
 
         if (min != null) min.keySet()
                 .stream()

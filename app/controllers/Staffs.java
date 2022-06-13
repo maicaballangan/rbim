@@ -12,6 +12,7 @@ import play.mvc.With;
  * @since v1
  */
 @With(Secure.class)
+@Check("ADMIN")
 public class Staffs extends CRUD {
 
 }
